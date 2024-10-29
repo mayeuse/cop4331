@@ -14,6 +14,9 @@ app.get("/api/v1/health", (req, res) => {
   res.send({ status: "ok" });
 });
 
+
+app.get("/api/v1/yourendpoint", handle_yourendpoint)
+
 app.get(`/api/v1/version`, (req: Request, res: Response) => {
   const respObj: RespExampleType = {
     id: 1,
@@ -26,3 +29,10 @@ app.get(`/api/v1/version`, (req: Request, res: Response) => {
 app.use(express.static("./.local/vite/dist"));
 
 export default app;
+
+
+function handle_yourendpoint(req: Request, res: Response) {
+  res.send({
+    "cool": "thanks"
+  })
+}
