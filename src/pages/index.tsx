@@ -21,6 +21,7 @@ const HomePage = (): JSX.Element => {
         Access server using proxy
       </button>
       <p>data : {data?.version}</p>
+      
     </div>
   );
 };

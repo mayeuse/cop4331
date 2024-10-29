@@ -3,3 +3,8 @@ type RespExampleType = {
   version: string;
   envVal: string;
 };
+
+interface UserPacket {
+  username: string,
+  password: string
+}

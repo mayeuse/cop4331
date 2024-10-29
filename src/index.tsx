@@ -1,3 +1,5 @@
+// don't worry about this
+
 import React from "react";
 import ReactDOM from "react-dom";
 import "@/styles/global.css";
