@@ -24226,6 +24226,7 @@ app.use(import_express.default.urlencoded({ extended: true }));
 app.get("/api/v1/health", (req, res) => {
   res.send({ status: "ok" });
 });
+app.get("/api/v1/yourendpoint", handle_yourendpoint);
 app.get(`/api/v1/version`, (req, res) => {
   const respObj = {
     id: 1,
@@ -24235,8 +24236,29 @@ app.get(`/api/v1/version`, (req, res) => {
   };
   res.send(respObj);
 });
+app.get("/api/v1/login", async (req, res, next) => {
+  var error = "";
+  const { login, password } = req.body;
+  var id = -1;
+  var fn = "";
+  var ln = "";
+  if (login.toLowerCase() == "rickl" && password == "COP4331") {
+    id = 1;
+    fn = "Rick";
+    ln = "Leinecker";
+  } else {
+    error = "Invalid user name/password";
+  }
+  var ret = { id, firstName: fn, lastName: ln, error };
+  res.status(200).json(ret);
+});
 app.use(import_express.default.static("./.local/vite/dist"));
 var restApi_default = app;
+function handle_yourendpoint(req, res) {
+  res.send({
+    "cool": "thanks"
+  });
+}
 
 // src/utils/utils.ts
 function commonExample() {
