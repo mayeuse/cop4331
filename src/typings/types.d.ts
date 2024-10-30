@@ -17,7 +17,8 @@ enum BadgeTypes {
   NUTRITIONSTREAK
 }
 
-interface BadgeSchema {
+interface BadgeSchema extends Document {
+  _id?: ObjectId,
   badge_type: BadgeTypes,
   requirement: number
 }
@@ -43,8 +44,8 @@ interface Goals extends Record<GoalType, GoalData> {
 
 }
 
-interface UserDataSchema {
-  _id: ObjectId,
+interface UserDataSchema extends Document {
+  _id?: ObjectId,
   name: string,
   email: string,
   username: string,
