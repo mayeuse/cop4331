@@ -2,6 +2,7 @@ import packageJSON from "../../../package.json";
 import express, { Application } from "express";
 import cors from "cors";
 import { Request, Response } from "express";
+import { DATABASE } from "./mongo";
 
 const app: Application = express();
 
@@ -23,26 +24,25 @@ app.get(`/api/v1/version`, (req: Request, res: Response) => {
   res.send(respObj);
 });
 
-app.get('/api/v1/login', async (req, res, next) =>
+app.post('/api/login', async (req, res, next) =>
   {
     // incoming: login, password
     // outgoing: id, firstName, lastName, error
     var error = '';
     const { login, password } = req.body;
+    const db = DATABASE;
+    const results = await
+    db.collection('Users').find({Login:login,Password:password}).toArray();
     var id = -1;
     var fn = '';
     var ln = '';
-    if( login.toLowerCase() == 'rickl' && password == 'COP4331' )
+    if( results.length > 0 )
     {
-      id = 1;
-      fn = 'Rick';
-      ln = 'Leinecker';
+      id = results[0].UserId;
+      fn = results[0].FirstName;
+      ln = results[0].LastName;
     }
-    else
-    {
-      error = 'Invalid user name/password';
-    }
-    var ret = { id:id, firstName:fn, lastName:ln, error:error};
+    var ret = { id:id, firstName:fn, lastName:ln, error:''};
     res.status(200).json(ret);
   });
   
