@@ -55328,14 +55328,21 @@ app.get("/api/v1/health", (req, res) => {
 app.post("/api/v1/login", async (req, res, next) => {
   let error = "";
   const { login, password } = req.body;
-  const results = await (await Collections.UserData.find({ Login: login, Password: password })).toArray();
+  const results = await (await Collections.UserData.find({ username: login, password })).toArray();
   let id = "";
   let name = "";
   if (results.length > 0) {
     id = results[0]._id.toHexString();
     name = results[0].name;
   }
-  var ret = { id, firstName: name, error: "" };
+  var ret = { id, name, error: "" };
+  res.status(200).json(ret);
+});
+app.post("/api/v1/register", async (req, res, next) => {
+  let error = "";
+  const { name, email, login, password } = req.body;
+  const results = await await Collections.UserData.insert({ name, email, username: login, password, badges: [], exerciseLog: [], goals: {} });
+  var ret = { id: results.insertedId.toHexString() };
   res.status(200).json(ret);
 });
 app.use(import_express.default.static("./.local/vite/dist"));

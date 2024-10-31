@@ -18,11 +18,10 @@ app.get("/api/v1/health", (req, res) => {
 app.post('/api/v1/login', async (req, res, next) =>
   {
     // incoming: login, password
-    // outgoing: id, firstName, lastName, error
+    // outgoing: id, name, error
     let error = '';
     const { login, password } = req.body;
-    const results = await
-    (await Collections.UserData.find({ username: login, password: password })).toArray();
+    const results = await (await Collections.UserData.find({ username: login, password: password })).toArray();
     let id = '';
     let name = '';
     if( results.length > 0 )
@@ -36,21 +35,13 @@ app.post('/api/v1/login', async (req, res, next) =>
   
 app.post('/api/v1/register', async (req, res, next) =>
   {
-    // incoming: login, password
-    // outgoing: id, firstName, lastName, error
-    // let error = '';
-    // const { login, password } = req.body;
-    // const results = await
-    // (await Collections.UserData.find({ Login: login, Password: password })).toArray();
-    // let id = '';
-    // let name = '';
-    // if( results.length > 0 )
-    // {
-    //   id = results[0]._id.toHexString();
-    //   name = results[0].name;
-    // }
-    // var ret = { id:id, firstName:name, error:''};
-    // res.status(200).json(ret);
+    // incoming: name, email, login, password
+    // outgoing: id
+    let error = '';
+    const { name, email, login, password } = req.body;
+    const results = await (await Collections.UserData.insert({ name: name, email: email, username: login, password: password, badges: [], exerciseLog: [], goals: {}}));
+    var ret = {id:results.insertedId.toHexString()};
+    res.status(200).json(ret);
   });
 
 

@@ -1,4 +1,4 @@
-import { Collection, DropCollectionOptions, InsertOneResult, MongoClient, ServerApiVersion } from "mongodb";
+import { Collection, DropCollectionOptions, InsertOneResult, MongoClient, ServerApiVersion, Document } from "mongodb";
 import dotenv from "dotenv";
 import { UserDataSchema, BadgeSchema } from "@/typings/types";
 import { TODO } from "@xdc/todo";
