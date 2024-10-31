@@ -48,6 +48,10 @@ export namespace Collections {
       return TODO(query)
     }
     
+    export async function find(query: any) {
+      return COLLECTION.find(query)
+    }
+
     export async function drop(query: DropCollectionOptions): Promise<boolean> {
       return COLLECTION.drop(query)
     }
