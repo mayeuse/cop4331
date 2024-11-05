@@ -24226,7 +24226,6 @@ app.use(import_express.default.urlencoded({ extended: true }));
 app.get("/api/v1/health", (req, res) => {
   res.send({ status: "ok" });
 });
-app.get("/api/v1/yourendpoint", handle_yourendpoint);
 app.get(`/api/v1/version`, (req, res) => {
   const respObj = {
     id: 1,
@@ -24238,11 +24237,6 @@ app.get(`/api/v1/version`, (req, res) => {
 });
 app.use(import_express.default.static("./.local/vite/dist"));
 var restApi_default = app;
-function handle_yourendpoint(req, res) {
-  res.send({
-    "cool": "thanks"
-  });
-}
 
 // src/utils/utils.ts
 function commonExample() {
