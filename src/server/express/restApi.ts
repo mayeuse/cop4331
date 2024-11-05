@@ -2,12 +2,16 @@ import packageJSON from "../../../package.json";
 import express, { Application } from "express";
 import cors from "cors";
 import { Request, Response } from "express";
+import { Collections } from "./mongo";
+
 
 const app: Application = express();
+
 
 app.use(express.json({ limit: "20mb" }));
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+
 
 // Serve a successful response. For use with wait-on
 app.get("/api/v1/health", (req, res) => {
@@ -15,24 +19,62 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 
-app.get("/api/v1/yourendpoint", handle_yourendpoint)
-
-app.get(`/api/v1/version`, (req: Request, res: Response) => {
-  const respObj: RespExampleType = {
-    id: 1,
-    version: packageJSON.version,
-    envVal: process.env.ENV_VALUE as string, // sample server-side env value
-  };
-  res.send(respObj);
+app.post('/api/v1/login', async (req, res, next) =>
+{
+  // incoming: login, password
+  // outgoing: id, name, error
+  const { login, password } = req.body;
+  const results = await (await Collections.UserData.find({ username: login, password: password })).toArray();
+  let id = '';
+  let name = '';
+  if( results.length > 0 )
+  {
+    id = results[0]._id.toHexString();
+    name = results[0].name;
+    const ret = {id:id, name:name, error:''};
+    res.status(200).json(ret);
+  }
+  else
+  {
+    const ret = { id: "", name: "", error: "User not found." };
+    res.status(400).json(ret);
+  }
+  res.send();
 });
+
+app.post('/api/v1/register', async (req, res, next) =>
+{
+  // incoming: name, email, login, password
+  // outgoing: id, error
+  const { name, email, login, password } = req.body;
+  const results = await (await Collections.UserData.insert({ name: name, email: email, username: login, password: password, badges: [], exerciseLog: [], goals: {}}));
+  if( results != null )
+  {
+    const ret = {id:results.insertedId.toHexString(), error:''};
+    res.status(200).json(ret);
+  }
+  else
+  {
+    var ret = {id:'', error:'User not appended.'};
+    res.status(400).json(ret);
+  }
+  res.send();
+});
+
+
+app.post('/api/v1/newForm', async (req, res, next) =>
+{
+  // incoming: type, units, userid
+  // outgoing: id, error
+  let error = '';
+  const { name, email, login, password } = req.body;
+  const results = await (await Collections.UserData.insert({ name: name, email: email, username: login, password: password, badges: [], exerciseLog: [], goals: {}}));
+  var ret = {id:results.insertedId.toHexString()};
+  res.status(200).json(ret);
+});
+
 
 app.use(express.static("./.local/vite/dist"));
 
+
 export default app;
-
-
-function handle_yourendpoint(req: Request, res: Response) {
-  res.send({
-    "cool": "thanks"
-  })
-}
