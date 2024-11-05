@@ -1,20 +1,10 @@
 <component name="InspectionProjectProfileManager">
   <profile version="1.0">
     <option name="myName" value="Project Default" />
-    <inspection_tool class="DataFlowIssue" enabled="false" level="WARNING" enabled_by_default="false">
-      <option name="SUGGEST_NULLABLE_ANNOTATIONS" value="false" />
-      <option name="DONT_REPORT_TRUE_ASSERT_STATEMENTS" value="false" />
-    </inspection_tool>
-    <inspection_tool class="DefaultAnnotationParam" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="DuplicatedCode" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <Languages>
         <language minSize="123" name="Python" />
       </Languages>
-    </inspection_tool>
-    <inspection_tool class="FieldMayBeFinal" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="ForCanBeForeach" enabled="false" level="WARNING" enabled_by_default="false">
-      <option name="REPORT_INDEXED_LOOP" value="true" />
-      <option name="ignoreUntypedCollections" value="false" />
     </inspection_tool>
     <inspection_tool class="GradlePackageUpdate" enabled="true" level="WEAK WARNING" enabled_by_default="true">
       <option name="excludeList">
@@ -30,7 +20,6 @@
       <option name="REPORT_INACCESSIBLE" value="false" />
     </inspection_tool>
     <inspection_tool class="LanguageDetectionInspection" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="LocalVariableName" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="NullableProblems" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="REPORT_NULLABLE_METHOD_OVERRIDES_NOTNULL" value="true" />
       <option name="REPORT_NOT_ANNOTATED_METHOD_OVERRIDES_NOTNULL" value="false" />
@@ -41,16 +30,11 @@
       <option name="REPORT_ANNOTATION_NOT_PROPAGATED_TO_OVERRIDERS" value="false" />
       <option name="REPORT_NULLS_PASSED_TO_NON_ANNOTATED_METHOD" value="true" />
     </inspection_tool>
-    <inspection_tool class="PointlessBooleanExpression" enabled="false" level="WARNING" enabled_by_default="false">
-      <option name="m_ignoreExpressionsContainingConstants" value="true" />
-    </inspection_tool>
-    <inspection_tool class="PropertyName" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
     <inspection_tool class="PyPep8Inspection" enabled="true" level="INFORMATION" enabled_by_default="true">
       <option name="ignoredErrors">
         <list>
           <option value="E501" />
           <option value="E302" />
-          <option value="E303" />
         </list>
       </option>
     </inspection_tool>
@@ -63,27 +47,6 @@
     </inspection_tool>
     <inspection_tool class="UnusedReturnValue" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="IGNORE_BUILDER_PATTERN" value="true" />
-    </inspection_tool>
-    <inspection_tool class="VulnerableLibrariesLocal" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="isIgnoringEnabled" value="true" />
-      <option name="ignoredModules">
-        <list>
-          <option value="dj2addons.mod" />
-          <option value="dj2addons.mod" />
-        </list>
-      </option>
-      <option name="ignoredPackages">
-        <list>
-          <option value="com.google.code.gson:gson:2.8.0" />
-          <option value="com.google.code.gson:gson:2.7" />
-        </list>
-      </option>
-      <option name="ignoredReasons">
-        <list>
-          <option value="Not exploitable" />
-          <option value="Not exploitable" />
-        </list>
-      </option>
     </inspection_tool>
   </profile>
 </component>
