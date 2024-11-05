@@ -5,3 +5,60 @@
 .button {
   font-size: calc(10px + 2vmin);
 }
+
+.wrapper
+{
+    font-family: Tahoma;
+    font-size: 14px;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    height: 30%;
+    width: 30%;
+    background: #dadaff99;
+    margin: auto;
+    padding-bottom: 20px;
+}
+
+.wrapper h2
+{
+    padding-top: 10px;
+    font-size: 36px;
+    text-align: center;
+    color: rgb(150, 112, 48);
+    text-shadow: 1px 1px 2px rgb(0, 183, 255);
+}
+
+.inputcombo
+{
+    width: auto;
+    text-align: center;
+}
+
+.submitbox
+{
+    border-radius: 20px;
+    border: 2px solid black;
+    width: 100px;
+    height: 30px;
+    margin-bottom: 2.5%;
+    background: #01ced1;
+    font-family: Tahoma;
+    cursor: pointer;
+}
+
+.submitwrap
+{
+    text-align: center;
+}
+
+.inputbox
+{
+    border-radius: 20px;
+    border: 2px solid black;
+    width: 60%;
+    height: 30px;
+    margin-bottom: 2.5%;
+    font-family: Tahoma;
+}
