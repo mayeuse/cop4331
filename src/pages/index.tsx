@@ -51,7 +51,7 @@ const HomePage = (): JSX.Element => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    const [isRegistered, setIsRegistered] = useState(false);
+    // const [isRegistered, setIsRegistered] = useState(false);
 
     const handleRegisterSubmit = async (event: React.FormEvent) => {
       event.preventDefault();
@@ -73,23 +73,24 @@ const HomePage = (): JSX.Element => {
         const data = await response.json();
   
         if (response.ok) {
-          setIsRegistered(true);
-          setSuccessMessage(`Registration successful! Your ID: ${data.id}`);
-          setError(''); // Clear any previous error messages
-        } else {
-          setSuccessMessage(''); // Clear any previous success messages
+          // setIsRegistered(true);
+          setSuccessMessage(`Registration successful! Please return to the login menu.`);
+          setError('');
+        } 
+        else {
+          setSuccessMessage('');
           setError(data.error || 'An error occurred during registration.');
         }
       } catch (error) {
         console.error('Registration error:', error);
-        setSuccessMessage(''); // Clear any previous success messages
+        setSuccessMessage('');
         setError('An error occurred. Please try again later.');
       }
     };
 
-    if (isRegistered) {
-      return <Test />;
-    }
+    // if (isRegistered) {
+    //   return <Test />;
+    // }
 
     return (
       <div className={styles.wrapper}>
@@ -134,23 +135,70 @@ const HomePage = (): JSX.Element => {
 
   function LoginBody()
   {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const handleLoginSubmit = async (event: React.FormEvent) => {
+      event.preventDefault();
+  
+      try {
+        const response = await fetch('/api/v1/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            login: username,
+            password: password,
+          }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok && !data.error) {
+          setIsLoggedIn(true); 
+          setSuccessMessage(`Login successful! Welcome, ${data.name}`);
+          setError('');
+        } 
+        else {
+          setSuccessMessage('');
+          setError(data.error || 'Invalid credentials. Please try again.');
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        setSuccessMessage('');
+        setError('An error occurred. Please try again later.');
+      }
+    };
+  
+    if (isLoggedIn) {
+      return <Test />;
+    }
+
     return (
       <div className={styles.wrapper}>
       <h2>Login</h2>
-      <form name="login">
+      <form name="login" onSubmit={handleLoginSubmit}>
           <div className={styles.inputcombo}>
-              <input className={styles.inputbox} type="text" id="loginName" name="username" placeholder="Username"/>
+              <input className={styles.inputbox} type="text" name="username"  value={username}
+              onChange={(e) => setUsername(e.target.value)} placeholder="Username"/>
           </div>
 
           <div className={styles.inputcombo}>
-              <input className={styles.inputbox} type="password" id="loginPassword" name="password" placeholder="Password"/>
+              <input className={styles.inputbox} type="password" name="password" value={password}
+              onChange={(e) => setPassword(e.target.value)} placeholder="Password"/>
           </div>
           
           <div className={styles.submitwrap}>
-              <button className={styles.submitbox} type="button" id="loginButton">Submit</button>
+              <button className={styles.submitbox} type="submit">Submit</button>
           </div>
 
-          <span id="loginResult"></span>
+          {/* Display success or error message */}
+          {successMessage && <span className={styles.success}>{successMessage}</span>}
+          {error && <span className={styles.error}>{error}</span>}
       </form>
     </div>
     )
