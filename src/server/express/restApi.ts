@@ -1,7 +1,7 @@
-import packageJSON from "../../../package.json";
+// import packageJSON from "../../../package.json";
 import express, { Application } from "express";
 import cors from "cors";
-import { Request, Response } from "express";
+// import { Request, Response } from "express";
 import { Collections } from "./mongo";
 
 
@@ -64,13 +64,40 @@ app.post('/api/v1/register', async (req, res, next) =>
 
 app.post('/api/v1/newForm', async (req, res, next) =>
 {
-  // incoming: type, units, userid
+  // incoming: type, units, source
   // outgoing: id, error
   let error = '';
-  const { name, email, login, password } = req.body;
-  const results = await (await Collections.UserData.insert({ name: name, email: email, username: login, password: password, badges: [], exerciseLog: [], goals: {}}));
-  var ret = {id:results.insertedId.toHexString()};
-  res.status(200).json(ret);
+  const { type, units, source } = req.body;
+
+  // get the userId (might be a better way to do this)
+  const userId = req.headers['userid'];
+
+  try 
+  {
+    if (!type || !units || !source) {
+      throw new Error('Missing required fields');
+    }
+
+    let updateResult;
+    // if log exercise button is clicked
+    if (source === 'logExercise') 
+    {
+      // we can change the units field to calories or just add another field for calories
+      updateResult = await Collections.UserData.updateOne({ userId: userId }, { $push: { exerciseLog: { type: type, units: units, date: new Date() } } });
+    } 
+    // if set goal button is clicked
+    else if (source === 'setGoal') 
+    {
+      // the actual input into the goals field needs to be changed
+      updateResult = await Collections.UserData.updateOne({ userId: userId }, { $push: { goals: { type: type, units: units, date: new Date() } } });
+    }
+    res.status(200).json({ id: userId, error: error });
+  }
+  catch (err) {
+    var ret = {id:'', error: 'Error inserting data.'};
+    res.status(400).json(ret);
+  }
+  res.send();
 });
 
 

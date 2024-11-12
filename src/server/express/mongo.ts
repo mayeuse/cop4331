@@ -1,4 +1,4 @@
-import { Collection, DropCollectionOptions, InsertOneResult, MongoClient, ServerApiVersion, Document } from "mongodb";
+import { Collection, DropCollectionOptions, InsertOneResult, MongoClient, ServerApiVersion, Document, UpdateResult } from "mongodb";
 import dotenv from "dotenv";
 import { UserDataSchema, BadgeSchema } from "@/typings/types";
 import { TODO } from "@xdc/todo";
@@ -54,6 +54,10 @@ export namespace Collections {
 
     export async function drop(query: DropCollectionOptions): Promise<boolean> {
       return COLLECTION.drop(query)
+    }
+
+    export async function updateOne(filter: any, update: any): Promise<UpdateResult> {
+      return COLLECTION.updateOne(filter, update);
     }
   }
 }
