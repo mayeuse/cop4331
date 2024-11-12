@@ -3,16 +3,7 @@ import styles from "./index.module.css";
 import { commonExample } from "@/utils/utils.ts";
 
 const HomePage = (): JSX.Element => {
-  // const urlWithProxy = `api/v1/version`;
-  // const [data, setData] = useState<RespExampleType | null>(null);
-
   commonExample();
-
-  // async function getDataFromServer(): Promise<void> {
-  //   const res = await fetch(urlWithProxy);
-  //   const data: RespExampleType = await res.json();
-  //   setData(data);
-  // }
 
   function Tabs()
   {
@@ -28,6 +19,11 @@ const HomePage = (): JSX.Element => {
       setContent(<LoginBody />)
     }
 
+    function TeamOn()
+    {
+      setContent(<Team />)
+    }
+
     return (
       <div>
         <button className={styles.button} onClick={RegisterOn}>
@@ -35,6 +31,9 @@ const HomePage = (): JSX.Element => {
         </button>
         <button className={styles.button} onClick={LoginOn}>
           Login
+        </button>
+        <button className={styles.button} onClick={TeamOn}>
+          Our Team
         </button>
 
         {content}
@@ -175,7 +174,11 @@ const HomePage = (): JSX.Element => {
     };
   
     if (isLoggedIn) {
-      return <Test />;
+      return (
+        <div className="text-center">
+          <Test />
+        </div>
+      );
     }
 
     return (
@@ -213,9 +216,50 @@ const HomePage = (): JSX.Element => {
       </div>
     )
   }
+  
+  function Team() {
+    const people = [
+      {
+        name: 'Billy Bob Joe',
+        role: 'Person',
+        imageUrl:
+          'https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280',
+      },
+    ]
+
+    return (
+      <div className="bg-white py-24 sm:py-32">
+        <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
+          <div className="max-w-xl">
+            <h2 className="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+              Meet our leadership
+            </h2>
+            <p className="mt-6 text-lg/8 text-gray-600">
+              We’re a dynamic group of individuals who are passionate about what we do and dedicated to delivering the
+              best results for our clients.
+            </p>
+          </div>
+          <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
+            {people.map((person) => (
+              <li key={person.name}>
+                <div className="flex items-center gap-x-6">
+                  <img alt="" src={person.imageUrl} className="h-16 w-16 rounded-full" />
+                  <div>
+                    <h3 className="text-base/7 font-semibold tracking-tight text-gray-900">{person.name}</h3>
+                    <p className="text-sm/6 font-semibold text-indigo-600">{person.role}</p>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    )
+  }
+  
 
   return (
-    <div className={styles.app}>
+    <div className={"text-center"}>
       <img src="/images/nasa-logo.svg" alt="nasa logo" />
       <Tabs />
     </div>
