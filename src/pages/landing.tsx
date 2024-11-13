@@ -7,7 +7,8 @@ interface LandingPageProps {
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>; // Accept setter as a prop
 }
 
-const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element => {
+const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element => 
+{
     function Tabs()
     {
         const [content, setContent] = useState(<LandingBody />);
@@ -56,7 +57,7 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element => 
     {
         return (
         <div className="flex items-center justify-center h-screen">
-            <h1 className="bg-blue-500 text-white">Hello Please Work</h1>
+            <h1 className="bg-blue-500 text-white">Landing Page in Progress Ello</h1>
         </div>
         )
     }
@@ -103,8 +104,8 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element => 
 
     return (
         <div className={"text-center"}>
-        <img src="/images/nasa-logo.svg" alt="nasa logo" />
-        <Tabs />
+            <img src="/images/nasa-logo.svg" alt="nasa logo" />
+            <Tabs />
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styles from "./index.module.css";
 
-function RegisterBody(): React.JSX.Element 
+const RegisterBody = (): React.JSX.Element =>
 {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');

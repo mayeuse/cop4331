@@ -5,7 +5,7 @@ interface LoginBodyProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>; // Accept setter as a prop
 }
 
-function LoginBody({ setIsLoggedIn }: LoginBodyProps): React.JSX.Element
+const LoginBody = ({ setIsLoggedIn }: LoginBodyProps): React.JSX.Element =>
 {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

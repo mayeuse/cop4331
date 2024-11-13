@@ -1,17 +1,23 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styles from "./index.module.css";
 import LandingPage from "./landing.tsx";
 import Dashboard from "./dashboard.tsx";
 
 const HomePage = (): React.JSX.Element => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // State managed by App
+  const storedIsLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+  const [isLoggedIn, setIsLoggedIn] = useState(storedIsLoggedIn);
+
+  useEffect(() => {
+    localStorage.setItem("isLoggedIn", JSON.stringify(isLoggedIn));
+  }, [isLoggedIn]);
 
   return (
     <div>
       {isLoggedIn ? (
-        <Dashboard /> // Render Dashboard if logged in
+        <Dashboard setIsLoggedIn={setIsLoggedIn} />
       ) : (
-        <LandingPage setIsLoggedIn={setIsLoggedIn} /> // Pass setter to LandingPage
+        <LandingPage setIsLoggedIn={setIsLoggedIn} />
       )}
     </div>
   );
