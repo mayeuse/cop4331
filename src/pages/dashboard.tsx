@@ -8,6 +8,7 @@ interface DashboardProps {
 
 const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element => 
 {
+  const [content, setContent] = useState(<DashboardBody />);
   const [isModalVisible, setModalVisible] = useState(false);
 
   function Logout()
@@ -23,25 +24,45 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
 
   function Tabs()
     {
-        const [content, setContent] = useState(<ProfileBody />);
-
-        function ProfileOn()
+        function DashboardOn()
         {
-        setContent(<ProfileBody />)
+        setContent(<DashboardBody />)
+        }
+
+        function ProgressOn()
+        {
+        setContent(<ProgressBody />)
+        }
+
+        function GoalOn()
+        {
+        setContent(<GoalBody />)
+        }
+
+        function DocumentOn()
+        {
+        setContent(<DocumentBody />)
         }
 
         return (
         <div>
-            <button className={styles.button} onClick={ProfileOn}>
-            Home
+            <button className={styles.button} onClick={DashboardOn}>
+            Dashboard
             </button>
-            
-            {content}
+            <button className={styles.button} onClick={ProgressOn}>
+            Progress
+            </button>
+            <button className={styles.button} onClick={GoalOn}>
+            Weekly Goals
+            </button>
+            <button className={styles.button} onClick={DocumentOn}>
+            Log Exercise
+            </button>
         </div>
         )
     }
-  
-  function ProfileBody()
+
+  function DashboardBody()
   {
     return (
       <div className="text-center">
@@ -51,6 +72,49 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
           <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2"/>
         </div>
         <h1 className="text-lg">你的肌肉是我的</h1>
+      </div>
+    );
+  }
+
+  function ProgressBody() //maybe import to own file later
+  {
+    return (
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4">Welcome to your Progress!</h1>
+        <p className="text-lg">Progress Bar goes here?</p>
+        <div className="mx-auto my-8 justify-center size-fit">
+          <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2"/>
+        </div>
+        <h1 className="text-lg">Are you doing good? Hmmm?</h1>
+        <h1 className="text-lg">ARE YOU?!?!?!?!?!?</h1>
+      </div>
+    );
+  }
+
+  function GoalBody() //import to own file later
+  {
+    return (
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4">Insert your Weekly Goal here!</h1>
+        <p className="text-lg">Goal Form goes here?</p>
+        <div className="mx-auto my-8 justify-center size-fit">
+          <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2"/>
+        </div>
+        <h1 className="text-lg">Be ambitious, but reasonable.</h1>
+      </div>
+    );
+  }
+
+  function DocumentBody() //import to own file later
+  {
+    return (
+      <div className="text-center">
+        <h1 className="text-3xl font-bold mb-4">Document your Exercise here!</h1>
+        <p className="text-lg">Exercise Log goes here?</p>
+        <div className="mx-auto my-8 justify-center size-fit">
+          <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2"/>
+        </div>
+        <h1 className="text-lg">Be Honest, I know when you lie.</h1>
       </div>
     );
   }
@@ -73,6 +137,8 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
     <div className="text-center">
       <Logout />
       <Tabs />
+
+      {content}
     </div>
   );
 }

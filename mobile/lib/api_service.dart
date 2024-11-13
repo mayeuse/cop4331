@@ -5,23 +5,53 @@ class ApiService {
   static const String baseUrl = 'http://localhost:9000/api/v1';
 
   // Function to register
-  static Future<Map<String, dynamic>?> registerUser(String name, String email, String username, String password) async {
+  static Future<Map<String, dynamic>?> registerUser(
+      String name, String email, String username, String password) async {
     final url = Uri.parse('$baseUrl/register');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'name': name, 
-        'email': email, 
-        'login': username,
-        'password': password
-        }),
-    );
 
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body);
-    } else {
-      return {'error': response.body};
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'login': username,
+          'password': password,
+        }),
+      );
+
+      // Check if the response body is empty
+      if (response.body.isEmpty) {
+        print('Empty Response Body');
+        return {'error': 'Empty response from server'};
+      }
+
+      // Attempt to parse the response body
+      try {
+        final Map<String, dynamic> responseBody = jsonDecode(response.body);
+
+        // Print the parsed response for debugging
+        print('Parsed API Response: $responseBody');
+
+        // Ensure 'id' is treated as a String
+        if (responseBody.containsKey('id')) {
+          responseBody['id'] = responseBody['id']?.toString() ?? '';
+        }
+
+        // Ensure that 'error' is a string as well
+        if (responseBody.containsKey('error')) {
+          responseBody['error'] = responseBody['error']?.toString() ?? '';
+        }
+
+        return responseBody;
+      } catch (e) {
+        print('JSON Parsing Error: $e');
+        return {'error': 'Malformed JSON response from server'};
+      }
+    } catch (e) {
+      print('API Call Error: $e');
+      return {'error': 'Failed to connect to the server'};
     }
   }
 

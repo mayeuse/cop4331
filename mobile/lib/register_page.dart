@@ -17,6 +17,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String successMessage = '';
 
   Future<void> handleRegister() async {
+  try {
+    // Call the registerUser function from your ApiService
     final response = await ApiService.registerUser(
       nameController.text,
       emailController.text,
@@ -24,23 +26,37 @@ class _RegisterPageState extends State<RegisterPage> {
       passwordController.text,
     );
 
-    //if (mounted) {
-      if (response != null && response['message'] != null) {
-        setState(() {
-          successMessage = response['message'];
-          errorMessage = '';
-        });
+    // Debugging print statements to see the API response
+    print('API Response: $response');
 
-        // Optionally, navigate to the login screen after registration
-        Navigator.pushReplacementNamed(context, '/login');
-      } else {
-        setState(() {
-          successMessage = '';
-          errorMessage = response?['error'] ?? 'Registration failed';
-        });
-      }
-    //}
+    // Updated check to handle API response correctly
+    if (response != null && response['id'] != null && response['id'] != '') {
+      setState(() {
+        successMessage = 'Registration successful! Please login.';
+        errorMessage = '';
+      });
+
+      // Adding a small delay before navigation to ensure setState completes
+      await Future.delayed(Duration(milliseconds: 100));
+
+      // Navigate to the login page
+      Navigator.pushReplacementNamed(context, '/login');
+    } else {
+      setState(() {
+        successMessage = '';
+        errorMessage = response?['error'] ?? 'Registration failed';
+      });
+    }
+  } catch (e) {
+    // Catch any errors and display them
+    print('Registration Error: $e');
+    setState(() {
+      successMessage = '';
+      errorMessage = 'An unexpected error occurred. Please try again.';
+    });
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
