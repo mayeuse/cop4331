@@ -58,7 +58,7 @@ app.post('/api/v1/register', async (req, res, next) =>
     var ret = {id:'', error:'User not appended.'};
     res.status(400).json(ret);
   }
-  res.send();
+  //res.send();
 });
 
 
