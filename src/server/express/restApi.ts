@@ -3,6 +3,8 @@ import express, { Application } from "express";
 import cors from "cors";
 // import { Request, Response } from "express";
 import { Collections } from "./mongo";
+import { UserData } from "@/typings/database";
+import { ObjectId } from "mongodb";
 
 
 const app: Application = express();
@@ -67,14 +69,14 @@ app.post('/api/v1/newForm', async (req, res, next) =>
   // incoming: type, units, source
   // outgoing: id, error
   let error = '';
-  const { type, units, source } = req.body;
+  const { type, calories, source } = req.body;
 
   // get the userId (might be a better way to do this)
-  const userId = req.headers['userid'];
+  const _id = req.headers['_id'];
 
   try 
   {
-    if (!type || !units || !source) {
+    if (!type || !calories || !source) {
       throw new Error('Missing required fields');
     }
 
@@ -83,15 +85,16 @@ app.post('/api/v1/newForm', async (req, res, next) =>
     if (source === 'logExercise') 
     {
       // we can change the units field to calories or just add another field for calories
-      updateResult = await Collections.UserData.updateOne({ userId: userId }, { $push: { exerciseLog: { type: type, units: units, date: new Date() } } });
+      // for testing i'm just using my id in the header in postman
+      updateResult = await Collections.UserData.updateOne({ _id: _id }, { $push: { exerciseLog: { type: type, calories: calories, date: new Date() } } });
     } 
     // if set goal button is clicked
     else if (source === 'setGoal') 
     {
       // the actual input into the goals field needs to be changed
-      updateResult = await Collections.UserData.updateOne({ userId: userId }, { $push: { goals: { type: type, units: units, date: new Date() } } });
+      updateResult = await Collections.UserData.updateOne({ _id: _id }, { $push: { goals: { type: type, calories: calories, date: new Date() } } });
     }
-    res.status(200).json({ id: userId, error: error });
+    res.status(200).json({ id: _id, error: error });
   }
   catch (err) {
     var ret = {id:'', error: 'Error inserting data.'};
