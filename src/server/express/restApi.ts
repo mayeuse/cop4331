@@ -66,7 +66,7 @@ app.post('/api/v1/register', async (req, res, next) =>
 
 app.post('/api/v1/newForm', async (req, res, next) =>
 {
-  // incoming: type, units, source
+  // incoming: type, calories, source
   // outgoing: id, error
   let error = '';
   const { type, calories, source } = req.body;
@@ -94,6 +94,11 @@ app.post('/api/v1/newForm', async (req, res, next) =>
       // the actual input into the goals field needs to be changed
       updateResult = await Collections.UserData.updateOne({ _id: _id }, { $push: { goals: { type: type, calories: calories, date: new Date() } } });
     }
+
+    if (!updateResult || updateResult.modifiedCount === null) {
+      throw new Error('Update failed');
+    }
+
     res.status(200).json({ id: _id, error: error });
   }
   catch (err) {
