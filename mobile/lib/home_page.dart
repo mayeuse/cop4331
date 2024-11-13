@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'login_page.dart';
+import 'register_page.dart';
+import 'team_page.dart';
 
-class DashboardPage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _DashboardPageState createState() => _DashboardPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
+class _HomePageState extends State<HomePage> {
   int currentIndex = 0;
 
+  // List of pages to show below the buttons
   final List<Widget> pages = [
-    Center(child: Text('Dashboard Content')),
-    Center(child: Text('Progress Content')),
-    Center(child: Text('Weekly Goals Content')),
-    Center(child: Text('Settings Content')),
+    Center(child: Text('Welcome to the Home Page')),
+    RegisterPage(),
+    LoginPage(),
+    TeamPage(),
   ];
 
   void onTabTapped(int index) {
@@ -25,7 +29,7 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
+        title: Text('My App'),
       ),
       body: Column(
         children: [
@@ -35,25 +39,19 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               TextButton(
                 onPressed: () => onTabTapped(0),
-                child: Text('Dashboard'),
+                child: Text('Home'),
               ),
               TextButton(
                 onPressed: () => onTabTapped(1),
-                child: Text('Progress'),
+                child: Text('Register'),
               ),
               TextButton(
                 onPressed: () => onTabTapped(2),
-                child: Text('Weekly Goals'),
+                child: Text('Login'),
               ),
               TextButton(
                 onPressed: () => onTabTapped(3),
-                child: Text('Settings'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/home');
-                },
-                child: Text('Logout'),
+                child: Text('Our Team'),
               ),
             ],
           ),
