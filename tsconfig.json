@@ -20,7 +20,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
     "types": ["node", "jest"],
     "typeRoots": ["./src/typings/*.d.ts", "./node_modules/@types"],

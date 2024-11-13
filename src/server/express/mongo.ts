@@ -1,9 +1,9 @@
 import { Collection, DropCollectionOptions, InsertOneResult, MongoClient, ServerApiVersion, Document, UpdateResult } from "mongodb";
 import dotenv from "dotenv";
-import { UserDataSchema, BadgeSchema } from "@/typings/types";
 import { TODO } from "@xdc/todo";
-dotenv.config();
+import { UserDataSchema, BadgeSchema} from "@/typings/database";
 
+dotenv.config();
 
 const client = new MongoClient(process.env.MONGO_URL!!, {
   serverApi: {
@@ -48,7 +48,7 @@ export namespace Collections {
       return TODO(query)
     }
     
-    export async function find(query: any) {
+    export async function find(query: Partial<Schema>) {
       return COLLECTION.find(query)
     }
 
