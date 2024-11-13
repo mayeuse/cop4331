@@ -46,7 +46,11 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
     return (
       <div className="text-center">
         <h1 className="text-3xl font-bold mb-4">Welcome to the Dashboard!</h1>
-        <p className="text-lg">You are logged in. Enjoy your stay!</p>
+        <p className="text-lg">You are logged in. Time to break that body down!!!</p>
+        <div className="mx-auto my-8 justify-center size-fit">
+          <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2"/>
+        </div>
+        <h1 className="text-lg">你的肌肉是我的</h1>
       </div>
     );
   }
@@ -67,7 +71,6 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
 
   return (
     <div className="text-center">
-      <img src="/images/nasa-logo.svg" alt="nasa logo" />
       <Logout />
       <Tabs />
     </div>

@@ -9,10 +9,10 @@ interface LandingPageProps {
 
 const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element => 
 {
+    const [content, setContent] = useState(<LandingBody />);
+
     function Tabs()
     {
-        const [content, setContent] = useState(<LandingBody />);
-
         function LandingOn()
         {
         setContent(<LandingBody />)
@@ -35,6 +35,7 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
 
         return (
         <div>
+            <h1 className="text-5xl m-8">Welcome to Appley's Training Regiment (Suspect to Change)</h1>
             <button className={styles.button} onClick={LandingOn}>
             Home
             </button>
@@ -47,8 +48,6 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
             <button className={styles.button} onClick={TeamOn}>
             Our Team
             </button>
-
-            {content}
         </div>
         )
     }
@@ -56,8 +55,11 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
     function LandingBody()
     {
         return (
-        <div className="flex items-center justify-center h-screen">
-            <h1 className="bg-blue-500 text-white">Landing Page in Progress Ello</h1>
+        <div className="mx-auto my-8 justify-center size-fit">
+            <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2"/>
+            <div>
+                <h1 className= "text-red">I am Appley, here to make you as MUCHO MACHO as me!</h1>
+            </div>
         </div>
         )
     }
@@ -70,10 +72,40 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
             imageUrl:
             'https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280',
         },
+        {
+            name: 'Billy Bob Joe',
+            role: 'Person',
+            imageUrl:
+            'https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280',
+        },
+        {
+            name: 'Billy Bob Joe',
+            role: 'Person',
+            imageUrl:
+            'https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280',
+        },
+        {
+            name: 'Billy Bob Joe',
+            role: 'Person',
+            imageUrl:
+            'https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280',
+        },
+        {
+            name: 'Billy Bob Joe',
+            role: 'Person',
+            imageUrl:
+            'https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280',
+        },
+        {
+            name: 'Billy Bob Joe',
+            role: 'Person',
+            imageUrl:
+            'https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280',
+        },
         ]
 
         return (
-        <div className="bg-white py-24 sm:py-32">
+        <div className="bg-green-200 py-24 sm:py-32 w-3/4 mx-auto my-8">
             <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
             <div className="max-w-xl">
                 <h2 className="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
@@ -103,9 +135,9 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
     }
 
     return (
-        <div className={"text-center"}>
-            <img src="/images/nasa-logo.svg" alt="nasa logo" />
+        <div className="text-center">
             <Tabs />
+            {content}
         </div>
     );
 }

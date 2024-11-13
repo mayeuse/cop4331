@@ -13,7 +13,7 @@ const HomePage = (): React.JSX.Element => {
   }, [isLoggedIn]);
 
   return (
-    <div>
+    <div className="justify-center">
       {isLoggedIn ? (
         <Dashboard setIsLoggedIn={setIsLoggedIn} />
       ) : (
