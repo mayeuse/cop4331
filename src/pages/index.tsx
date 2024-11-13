@@ -7,8 +7,13 @@ const HomePage = (): JSX.Element => {
 
   function Tabs()
   {
-    const [content, setContent] = useState(<LoginBody />);
+    const [content, setContent] = useState(<LandingBody />);
 
+    function LandingOn()
+    {
+      setContent(<LandingBody />)
+    }
+    
     function RegisterOn()
     {
       setContent(<RegisterBody />)
@@ -26,6 +31,9 @@ const HomePage = (): JSX.Element => {
 
     return (
       <div>
+        <button className={styles.button} onClick={LandingOn}>
+          Home
+        </button>
         <button className={styles.button} onClick={RegisterOn}>
           Register
         </button>
@@ -37,6 +45,15 @@ const HomePage = (): JSX.Element => {
         </button>
 
         {content}
+      </div>
+    )
+  }
+
+  function LandingBody()
+  {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <h1 className="text-4xl font-bold text-blue-500">Hello Tailwind!</h1>
       </div>
     )
   }
@@ -86,10 +103,6 @@ const HomePage = (): JSX.Element => {
         setError('An error occurred. Please try again later.');
       }
     };
-
-    // if (isRegistered) {
-    //   return <Test />;
-    // }
 
     return (
       <div className={styles.wrapper}>
