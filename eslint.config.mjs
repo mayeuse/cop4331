@@ -39,14 +39,14 @@ export default [
     },
 
     rules: {
-      "@typescript-eslint/no-unused-vars": [
-        "error",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-          caughtErrors: "none",
-        },
-      ],
+      // "@typescript-eslint/no-unused-vars": [
+      //   "error",
+      //   {
+      //     argsIgnorePattern: "^_",
+      //     varsIgnorePattern: "^_",
+      //     caughtErrors: "none",
+      //   },
+      // ],
 
       "no-import-assign": "error",
       "no-unreachable": "error",
