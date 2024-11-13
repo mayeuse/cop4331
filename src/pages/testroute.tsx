@@ -1,4 +1,6 @@
-const TestPage = (): JSX.Element => {
+import React from "react";
+
+const TestPage = (): React.JSX.Element => {
   return (
     <div>
       <p>Test page</p>

@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styles from "./index.module.css";
 
-const HomePage = (): JSX.Element => {
+const HomePage = (): React.JSX.Element => {
   function Tabs()
   {
     const [content, setContent] = useState(<LandingBody />);
