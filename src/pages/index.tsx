@@ -1,10 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react"
 import styles from "./index.module.css";
-import { commonExample } from "@/utils/utils.ts";
 
 const HomePage = (): JSX.Element => {
-  commonExample();
-
   function Tabs()
   {
     const [content, setContent] = useState(<LandingBody />);
@@ -53,7 +50,7 @@ const HomePage = (): JSX.Element => {
   {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-100">
-        <h1 className="text-4xl font-bold text-blue-500">Hello Tailwind!</h1>
+        <h1 className="bg-blue-500 text-white">Hello Please Work</h1>
       </div>
     )
   }
@@ -67,7 +64,6 @@ const HomePage = (): JSX.Element => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
-    // const [isRegistered, setIsRegistered] = useState(false);
 
     const handleRegisterSubmit = async (event: React.FormEvent) => {
       event.preventDefault();
@@ -137,7 +133,6 @@ const HomePage = (): JSX.Element => {
               <button className={styles.submitbox} type="submit" id="submit_register">Submit</button>
           </div>
 
-          {/* Display success or error message */}
           {successMessage && <span className={styles.success}>{successMessage}</span>}
           {error && <span className={styles.error}>{error}</span>}
       </form>
@@ -212,7 +207,6 @@ const HomePage = (): JSX.Element => {
               <button className={styles.submitbox} type="submit">Submit</button>
           </div>
 
-          {/* Display success or error message */}
           {successMessage && <span className={styles.success}>{successMessage}</span>}
           {error && <span className={styles.error}>{error}</span>}
       </form>

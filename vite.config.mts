@@ -37,6 +37,9 @@ export default defineConfig({
     sourcemap: true,
     manifest: true,
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'src/index.html'), // Ensure this path is correct
+      },
       output: {
         manualChunks: {
           react: ["react", "react-dom"],
