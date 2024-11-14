@@ -9,47 +9,73 @@ interface LandingPageProps {
 
 const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element => 
 {
-    const [content, setContent] = useState(<LandingBody />);
-
     function Tabs()
     {
-        function LandingOn()
-        {
-        setContent(<LandingBody />)
-        }
-        
-        function RegisterOn()
-        {
-        setContent(<RegisterBody />)
-        }
+        const [activeTab, setActiveTab] = useState("landing");
 
-        function LoginOn()
-        {
-        setContent(<LoginBody setIsLoggedIn={setIsLoggedIn} />)
-        }
-
-        function TeamOn()
-        {
-        setContent(<Team />)
-        }
+        const handleTabChange = (tab: string) => {
+            setActiveTab(tab);
+        };
 
         return (
-        <div>
-            <h1 className="text-5xl m-8">Welcome to Appley's Training Regiment (Suspect to Change)</h1>
-            <button className={styles.button} onClick={LandingOn}>
-            Home
-            </button>
-            <button className={styles.button} onClick={RegisterOn}>
-            Register
-            </button>
-            <button className={styles.button} onClick={LoginOn}>
-            Login
-            </button>
-            <button className={styles.button} onClick={TeamOn}>
-            Our Team
-            </button>
-        </div>
-        )
+            <div className="min-h-screen flex flex-col items-center">
+                <h1 className="text-5xl font-bold mt-8 text-orange-600 text-center">
+                    Welcome to Appley's Training Regiment (Subject to Change)
+                </h1>
+                <div className="mt-6">
+                    <div className="flex border-b border-gray-300">
+                    <button
+                        className={`py-3 px-8 ${
+                        activeTab === "landing"
+                            ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                            : "text-gray-500 hover:text-blue-500"
+                        }`}
+                        onClick={() => handleTabChange("landing")}
+                    >
+                        Home
+                    </button>
+                    <button
+                        className={`py-3 px-8 ${
+                        activeTab === "register"
+                            ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                            : "text-gray-500 hover:text-blue-500"
+                        }`}
+                        onClick={() => handleTabChange("register")}
+                    >
+                        Register
+                    </button>
+                    <button
+                        className={`py-3 px-8 ${
+                        activeTab === "login"
+                            ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                            : "text-gray-500 hover:text-blue-500"
+                        }`}
+                        onClick={() => handleTabChange("login")}
+                    >
+                        Login
+                    </button>
+                    <button
+                        className={`py-3 px-8 ${
+                        activeTab === "team"
+                            ? "border-b-2 border-blue-500 text-blue-500 font-bold"
+                            : "text-gray-500 hover:text-blue-500"
+                        }`}
+                        onClick={() => handleTabChange("team")}
+                    >
+                        Our Team
+                    </button>
+                    </div>
+                </div>
+
+                {/* Tab Content */}
+                <div className="mt-8 max-w-3/4 w-full px-4">
+                    {activeTab === "landing" && <LandingBody />}
+                    {activeTab === "register" && <RegisterBody />}
+                    {activeTab === "login" && <LoginBody setIsLoggedIn={setIsLoggedIn} />}
+                    {activeTab === "team" && <Team />}
+                </div>
+            </div>
+        );
     }
 
     function LandingBody()
@@ -109,11 +135,10 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
             <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
             <div className="max-w-xl">
                 <h2 className="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
-                Meet our leadership
+                Our Team
                 </h2>
-                <p className="mt-6 text-lg/8 text-gray-600">
-                We’re a dynamic group of individuals who are passionate about what we do and dedicated to delivering the
-                best results for our clients.
+                <p className="mt-6 text-lg/8 text-orange-500">
+                Something goes here I guess
                 </p>
             </div>
             <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">
@@ -123,7 +148,7 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
                     <img alt="" src={person.imageUrl} className="h-16 w-16 rounded-full" />
                     <div>
                         <h3 className="text-base/7 font-semibold tracking-tight text-gray-900">{person.name}</h3>
-                        <p className="text-sm/6 font-semibold text-indigo-600">{person.role}</p>
+                        <p className="text-sm/6 font-semibold text-red-600">{person.role}</p>
                     </div>
                     </div>
                 </li>
@@ -137,7 +162,6 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
     return (
         <div className="text-center">
             <Tabs />
-            {content}
         </div>
     );
 }
