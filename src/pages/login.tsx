@@ -51,12 +51,12 @@ const LoginBody = ({ setIsLoggedIn }: LoginBodyProps): React.JSX.Element =>
       <div className={styles.wrapper}>
       <h2>Login</h2>
       <form name="login" onSubmit={handleLoginSubmit}>
-          <div className={styles.inputcombo}>
+          <div className="w-auto text-center">
               <input className={styles.inputbox} type="text" name="username"  value={username}
               onChange={(e) => setUsername(e.target.value)} placeholder="Username"/>
           </div>
 
-          <div className={styles.inputcombo}>
+          <div className="w-auto text-center">
               <input className={styles.inputbox} type="password" name="password" value={password}
               onChange={(e) => setPassword(e.target.value)} placeholder="Password"/>
           </div>

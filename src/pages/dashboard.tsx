@@ -32,12 +32,12 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
         return (
           <div className="min-h-screen flex flex-col items-center">
           <div className="mt-3">
-              <div className="flex border-b border-gray-300">
+              <div className="flex border-b border-yellow-700">
               <button
                   className={`py-3 px-8 ${
                   activeTab === "dashboard"
-                      ? "border-b-2 border-blue-500 text-blue-500 font-bold"
-                      : "text-gray-500 hover:text-blue-500"
+                      ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
+                      : "text-yellow-700 hover:text-lime-900"
                   }`}
                   onClick={() => handleTabChange("dashboard")}
               >
@@ -46,8 +46,8 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
               <button
                   className={`py-3 px-8 ${
                   activeTab === "progress"
-                      ? "border-b-2 border-blue-500 text-blue-500 font-bold"
-                      : "text-gray-500 hover:text-blue-500"
+                      ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
+                      : "text-yellow-700 hover:text-lime-900"
                   }`}
                   onClick={() => handleTabChange("progress")}
               >
@@ -56,8 +56,8 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
               <button
                   className={`py-3 px-8 ${
                   activeTab === "goal"
-                      ? "border-b-2 border-blue-500 text-blue-500 font-bold"
-                      : "text-gray-500 hover:text-blue-500"
+                      ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
+                      : "text-yellow-700 hover:text-lime-900"
                   }`}
                   onClick={() => handleTabChange("goal")}
               >
@@ -66,8 +66,8 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
               <button
                   className={`py-3 px-8 ${
                   activeTab === "document"
-                      ? "border-b-2 border-blue-500 text-blue-500 font-bold"
-                      : "text-gray-500 hover:text-blue-500"
+                      ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
+                      : "text-yellow-700 hover:text-lime-900"
                   }`}
                   onClick={() => handleTabChange("document")}
               >
@@ -104,7 +104,7 @@ const Dashboard = ({ setIsLoggedIn }: DashboardProps): React.JSX.Element =>
   function ProgressBody() //maybe import to own file later
   {
     return (
-      <div className="text-center text-yellow-300">
+      <div className="text-center text-rose-500">
         <h1 className="text-3xl font-bold mb-4">Welcome to your Progress!</h1>
         <p className="text-lg">Progress Bar goes here?</p>
         <div className="mx-auto my-8 justify-center size-fit">

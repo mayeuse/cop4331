@@ -49,27 +49,27 @@ const RegisterBody = (): React.JSX.Element =>
       <div className={styles.wrapper}>
       <h2>Sign Up</h2>
       <form id="register" onSubmit={handleRegisterSubmit}>
-          <div className={styles.inputcombo}>
+          <div className="w-auto text-center">
               <input className={styles.inputbox} type="text" name="first_name" value={firstName} 
               onChange={(e) => setFirstName(e.target.value)} placeholder="First Name"/>
           </div>
 
-          <div className={styles.inputcombo}>
+          <div className="w-auto text-center">
               <input className={styles.inputbox} type="text" name="last_name" value={lastName} 
               onChange={(e) => setLastName(e.target.value)} placeholder="Last Name"/>
           </div>
 
-          <div className={styles.inputcombo}>
+          <div className="w-auto text-center">
               <input className={styles.inputbox} type="email" name="email" value={email}
               onChange={(e) => setEmail(e.target.value)} placeholder="Email"/>
           </div>
 
-          <div className={styles.inputcombo}>
+          <div className="w-auto text-center">
               <input className={styles.inputbox} type="text" name="username" value={username}
               onChange={(e) => setUsername(e.target.value)} placeholder="Username"/>
           </div>
 
-          <div className={styles.inputcombo}>
+          <div className="w-auto text-center">
               <input className={styles.inputbox} type="password" name="password" value={password}
               onChange={(e) => setPassword(e.target.value)} placeholder="Password"/>
           </div>
