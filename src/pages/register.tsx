@@ -74,7 +74,7 @@ const RegisterBody = (): React.JSX.Element =>
               onChange={(e) => setPassword(e.target.value)} placeholder="Password"/>
           </div>
           
-          <div className={styles.submitwrap}>
+          <div className="text-center">
               <button className={styles.submitbox} type="submit" id="submit_register">Submit</button>
           </div>
 

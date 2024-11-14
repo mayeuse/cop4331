@@ -61,7 +61,7 @@ const LoginBody = ({ setIsLoggedIn }: LoginBodyProps): React.JSX.Element =>
               onChange={(e) => setPassword(e.target.value)} placeholder="Password"/>
           </div>
           
-          <div className={styles.submitwrap}>
+          <div className="text-center">
               <button className={styles.submitbox} type="submit">Submit</button>
           </div>
 

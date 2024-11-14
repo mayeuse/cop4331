@@ -22,7 +22,7 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
                 <h1 className="text-5xl font-bold mt-8 text-orange-600 text-center">
                     Welcome to Appley's Training Regiment (Subject to Change)
                 </h1>
-                <div className="mt-6">
+                <div className="mt-3">
                     <div className="flex border-b border-gray-300">
                     <button
                         className={`py-3 px-8 ${

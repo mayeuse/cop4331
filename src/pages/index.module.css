@@ -4,21 +4,21 @@
 
 .button {
     padding: 8px 16px;
-    background-color: #4CAF50; /* Green background */
-    color: white; /* White text */
+    background-color: #719458; /* Green background */
+    color: #fdebae;
     border-radius: 4px; /* Rounded corners */
     text-align: center; /* Centered text */
     display: inline-block; /* Inline block */
     font-size: calc(10px + 2vmin); /* Responsive font size */
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
     cursor: pointer; /* Pointer cursor on hover */
-    border: 2px solid #4CAF50; /* Green border on hover */
+    border: 2px solid #719458; /* Green border on hover */
   }
   
   .button:hover {
-    background-color: white; /* White background on hover */
-    color: #4CAF50; /* Green text on hover */
-    border: 2px solid #4CAF50; /* Green border on hover */
+    background-color: #fdebae; /* White background on hover */
+    color: #719458; /* Green text on hover */
+    border: 2px solid #719458; /* Green border on hover */
   }
 
 .wrapper
@@ -63,11 +63,6 @@
     cursor: pointer;
 }
 
-.submitwrap
-{
-    text-align: center;
-}
-
 .inputbox
 {
     border-radius: 20px;
@@ -85,7 +80,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
