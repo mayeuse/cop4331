@@ -36,7 +36,7 @@ export enum GoalType {
     STEPCOUNT
 }
 
-export namespace Intervals { // this sucks, this really sucks
+export declare namespace Intervals { // this sucks, this really sucks
     declare const WEEKLY: Date
     declare const BIWEEKLY: Date
     declare const MONTHLY: Date

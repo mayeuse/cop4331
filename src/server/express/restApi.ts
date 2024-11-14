@@ -1,13 +1,22 @@
 // import packageJSON from "../../../package.json";
-import express, { Application } from "express";
+import express, { Application, Response } from "express";
 import cors from "cors";
 // import { Request, Response } from "express";
 import { Collections } from "./mongo";
+import { ENDPOINTS } from "@/typings/constants";
+import { BadgeDataRequest } from "@/utils/client/askforassets";
 import { UserData } from "@/typings/database";
 import { ObjectId } from "mongodb";
+import { ExerciseDataImpl } from "@/typings/database/impl/userdataimpl.ts";
+import { AddExercisePacket } from "@/typings/packets.ts";
 
 
 const app: Application = express();
+
+function onInvalidPayload(res: Response): void {
+  res.status(400).send()
+  return;
+}
 
 
 app.use(express.json({ limit: "20mb" }));
@@ -107,6 +116,34 @@ app.post('/api/v1/newForm', async (req, res, next) =>
   }
   res.send();
 });
+
+
+
+app.post(ENDPOINTS.Forms.AddExercise, async (req, res) => {
+  const payload = AddExercisePacket.deserialize(req.body)
+  if (!payload)
+    return onInvalidPayload(res)
+  
+  const exercise = ExerciseDataImpl.of(payload)
+  
+  await Collections.UserData.pushExercise(payload.userId, exercise) // TODO return error if invalid
+  
+  res.status(200).send()
+})
+
+// Get badge data (name, desc, etc.) by id
+app.get(ENDPOINTS.Data.Badges, async (req, res) => {
+  const payload = BadgeDataRequest.deserialize(req.body)
+  if (!payload) {
+    return onInvalidPayload(res)
+  }
+  
+  const badgeData = await Collections.Badges.get({_id: payload.id})
+  if (badgeData)
+    res.header("Content-Type", "application/json").status(200).json(badgeData)
+  else
+    res.status(500).send()
+})
 
 
 app.use(express.static("./.local/vite/dist"));
