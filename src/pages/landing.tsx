@@ -19,16 +19,16 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
 
         return (
             <div className="min-h-screen flex flex-col items-center">
-                <h1 className="text-5xl font-bold mt-8 text-orange-600 text-center">
+                <h1 className="text-5xl font-bold mt-8 text-red-600 text-center">
                     Welcome to Appley's Training Regiment (Subject to Change)
                 </h1>
-                <div className="mt-6">
-                    <div className="flex border-b border-gray-300">
+                <div className="mt-3">
+                    <div className="flex border-b border-yellow-700">
                     <button
                         className={`py-3 px-8 ${
                         activeTab === "landing"
-                            ? "border-b-2 border-blue-500 text-blue-500 font-bold"
-                            : "text-gray-500 hover:text-blue-500"
+                            ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
+                            : "text-yellow-700 hover:text-lime-900"
                         }`}
                         onClick={() => handleTabChange("landing")}
                     >
@@ -37,8 +37,8 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
                     <button
                         className={`py-3 px-8 ${
                         activeTab === "register"
-                            ? "border-b-2 border-blue-500 text-blue-500 font-bold"
-                            : "text-gray-500 hover:text-blue-500"
+                            ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
+                            : "text-yellow-700 hover:text-lime-900"
                         }`}
                         onClick={() => handleTabChange("register")}
                     >
@@ -47,8 +47,8 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
                     <button
                         className={`py-3 px-8 ${
                         activeTab === "login"
-                            ? "border-b-2 border-blue-500 text-blue-500 font-bold"
-                            : "text-gray-500 hover:text-blue-500"
+                            ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
+                            : "text-yellow-700 hover:text-lime-900"
                         }`}
                         onClick={() => handleTabChange("login")}
                     >
@@ -57,8 +57,8 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
                     <button
                         className={`py-3 px-8 ${
                         activeTab === "team"
-                            ? "border-b-2 border-blue-500 text-blue-500 font-bold"
-                            : "text-gray-500 hover:text-blue-500"
+                            ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
+                            : "text-yellow-700 hover:text-lime-900"
                         }`}
                         onClick={() => handleTabChange("team")}
                     >
@@ -84,7 +84,7 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
         <div className="mx-auto my-8 justify-center size-fit">
             <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2"/>
             <div>
-                <h1 className= "text-red">I am Appley, here to make you as MUCHO MACHO as me!</h1>
+                <h1 className= "text-rose-500">I am Appley, here to make you as MUCHO MACHO as me!</h1>
             </div>
         </div>
         )
@@ -131,13 +131,13 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
         ]
 
         return (
-        <div className="bg-green-200 py-24 sm:py-32 w-3/4 mx-auto my-8">
+        <div className={`${styles.wrappercolor} py-24 sm:py-32 w-3/4 mx-auto my-8 rounded-lg`}>
             <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
             <div className="max-w-xl">
-                <h2 className="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                <h2 className="text-pretty text-3xl font-semibold tracking-tight text-red-600 sm:text-4xl">
                 Our Team
                 </h2>
-                <p className="mt-6 text-lg/8 text-orange-500">
+                <p className="mt-6 text-lg/8 text-rose-500">
                 Something goes here I guess
                 </p>
             </div>
@@ -147,8 +147,8 @@ const LandingPage = ({ setIsLoggedIn }: LandingPageProps): React.JSX.Element =>
                     <div className="flex items-center gap-x-6">
                     <img alt="" src={person.imageUrl} className="h-16 w-16 rounded-full" />
                     <div>
-                        <h3 className="text-base/7 font-semibold tracking-tight text-gray-900">{person.name}</h3>
-                        <p className="text-sm/6 font-semibold text-red-600">{person.role}</p>
+                        <h3 className="text-base/7 font-semibold tracking-tight text-rose-500">{person.name}</h3>
+                        <p className="text-sm/6 font-semibold text-lime-900">{person.role}</p>
                     </div>
                     </div>
                 </li>

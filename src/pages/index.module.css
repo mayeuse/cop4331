@@ -4,22 +4,22 @@
 
 .button {
     padding: 8px 16px;
-    background-color: #4CAF50; /* Green background */
-    color: white; /* White text */
+    background-color: #719458; /* Green background */
+    color: #fdebae;
     border-radius: 4px; /* Rounded corners */
     text-align: center; /* Centered text */
     display: inline-block; /* Inline block */
     font-size: calc(10px + 2vmin); /* Responsive font size */
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
     cursor: pointer; /* Pointer cursor on hover */
-    border: 2px solid #4CAF50; /* Green border on hover */
+    border: 2px solid #719458; /* Green border on hover */
   }
   
-  .button:hover {
-    background-color: white; /* White background on hover */
-    color: #4CAF50; /* Green text on hover */
-    border: 2px solid #4CAF50; /* Green border on hover */
-  }
+.button:hover {
+    background-color: #fdebae; /* White background on hover */
+    color: #719458; /* Green text on hover */
+    border: 2px solid #719458; /* Green border on hover */
+}
 
 .wrapper
 {
@@ -31,7 +31,7 @@
     border-radius: 20px;
     height: 30%;
     width: 30%;
-    background: #dadaff99;
+    background: rgb(173, 109, 64, 0.4);
     margin: auto;
     padding-bottom: 20px;
 }
@@ -41,14 +41,13 @@
     padding-top: 10px;
     font-size: 36px;
     text-align: center;
-    color: rgb(150, 112, 48);
-    text-shadow: 1px 1px 2px rgb(0, 183, 255);
+    color: #cb3032;
+    text-shadow: 1px 1px 2px #d57885;
 }
 
-.inputcombo
+.wrappercolor
 {
-    width: auto;
-    text-align: center;
+    background: rgb(173, 109, 64, 0.3);
 }
 
 .submitbox
@@ -58,14 +57,9 @@
     width: 100px;
     height: 30px;
     margin-bottom: 2.5%;
-    background: #01ced1;
+    background: #3d592e;
     font-family: Tahoma;
     cursor: pointer;
-}
-
-.submitwrap
-{
-    text-align: center;
 }
 
 .inputbox
@@ -85,7 +79,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    background: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -93,9 +87,10 @@
   
 .modal 
 {
-    background: white;
+    background: #c9ce2d;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
     min-width: 200px;
+    color: #304524;
 }
