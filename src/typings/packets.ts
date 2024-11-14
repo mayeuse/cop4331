@@ -1,5 +1,6 @@
-import { ExerciseType } from "@/typings/database/userdata";
+import { ExerciseType, GoalData, GoalType } from "@/typings/database/userdata";
 import { ObjectId } from "mongodb";
+import { UserDataId } from "@/typings/database";
 
 export type Serializer = [ InstanceType<any>, Function ]
 export const SERIALIZERS: Serializer[] = [
@@ -137,3 +138,34 @@ export class AddExercisePacket extends Packet implements IAddExercisePacket {
   }
 }
 
+export interface IAddGoalPacket extends GoalData {
+  type: GoalType,
+  userId: UserDataId
+}
+
+export class AddGoalPacket extends Packet implements IAddGoalPacket {
+  public userId: UserDataId;
+  public type: GoalType;
+  public target: number;
+  public units: string;
+  public interval: Date;
+  
+  constructor(userId: UserDataId, type: GoalType, target: number, units: string, interval: Date) {
+    super();
+    this.userId = userId;
+    this.type = type;
+    this.target = target;
+    this.units = units;
+    this.interval = interval;
+  }
+  
+  public static deserialize(it: string): IAddGoalPacket | null {
+    return this.deserializer<IAddGoalPacket>(it, {
+      userId: DESERIALIZERS.ObjectId,
+      type: (s: string) => GoalType[s as keyof typeof GoalType],
+      interval: DESERIALIZERS.Date,
+      units: DESERIALIZERS.itself,
+      target: DESERIALIZERS.itself
+    })
+  }
+}

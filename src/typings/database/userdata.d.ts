@@ -32,8 +32,8 @@ export interface ExerciseData {
 }
 
 export enum GoalType {
-    CALORIE,
-    STEPCOUNT
+    CALORIE = 'calorie',
+    STEPCOUNT = 'stepcount'
 }
 
 export declare namespace Intervals { // this sucks, this really sucks

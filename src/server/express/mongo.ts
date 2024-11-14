@@ -1,10 +1,10 @@
 import {
   Collection,
   Document,
-  DropCollectionOptions,
+  DropCollectionOptions, Filter,
   InsertOneResult,
   MongoClient,
-  ServerApiVersion,
+  ServerApiVersion, UpdateFilter,
   UpdateResult,
 } from "mongodb";
 import dotenv from "dotenv";
@@ -30,7 +30,6 @@ export namespace Collections {
     export type Schema = BadgeSchema
     
     const COLLECTION: Collection<Schema> = DATABASE.collection("Badges");
-    
     // ^ don't use this directly!!! make a function and export it instead like below, in case something has to be changed
     
     
@@ -56,11 +55,11 @@ export namespace Collections {
       return COLLECTION.insertOne(obj);
     }
     
-    export async function pushGoal(userId: UserDataId, type: GoalType, goal: GoalData) {
+    export async function updateGoal(userId: UserDataId, type: GoalType, goal: GoalData) {
       const x: Goals = {}
       // @ts-ignore
       x[type] = goal
-      return Collections.UserData.updateOne({ _id: userId }, { $push: { goals: x } }); // TODO make sure this works
+      return Collections.UserData.updateOne({ _id: userId }, { $set: { goals: x } }); // TODO make sure this works for pushing the new value into the object
     }
     
     export async function pushExercise(userId: UserDataId, exercise: ExerciseData) {
@@ -79,7 +78,7 @@ export namespace Collections {
       return COLLECTION.drop(query);
     }
     
-    export async function updateOne(filter: any, update: any): Promise<UpdateResult> {
+    export async function updateOne(filter: Filter<Schema>, update: UpdateFilter<Schema>): Promise<UpdateResult> {
       return COLLECTION.updateOne(filter, update);
     }
     

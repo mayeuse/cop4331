@@ -5,16 +5,14 @@ import cors from "cors";
 import { Collections } from "./mongo";
 import { ENDPOINTS } from "@/typings/constants";
 import { BadgeDataRequest } from "@/utils/client/askforassets";
-import { UserData } from "@/typings/database";
-import { ObjectId } from "mongodb";
-import { ExerciseDataImpl } from "@/typings/database/impl/userdataimpl.ts";
-import { AddExercisePacket, LoginPacket } from "@/typings/packets.ts";
+import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database/impl/userdataimpl.ts";
+import { AddExercisePacket, AddGoalPacket, RegisterPacket } from "@/typings/packets.ts";
 
 
 const app: Application = express();
 
 function onInvalidPayload(res: Response): void {
-  res.status(400).send()
+  res.status(400).send();
   return;
 }
 
@@ -30,45 +28,37 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 
-app.post(ENDPOINTS.Forms.Login, async (req, res, next) =>
-{
+app.post(ENDPOINTS.Forms.Login, async (req, res, next) => {
   // incoming: login, password
   // outgoing: id, name, error
   const { login, password } = req.body;
   const results = await (await Collections.UserData.find({ username: login, password: password })).toArray();
-  let id = '';
-  let name = '';
-  if( results.length > 0 )
-  {
+  let id = "";
+  let name = "";
+  if (results.length > 0) {
     id = results[0]._id.toHexString();
     name = results[0].name;
-    var ret = {id:id, name:name, error:''};
+    const ret = { id: id, name: name, error: "" };
     res.status(200).json(ret);
-  }
-  else
-  {
-    var ret = {id:'', name:'', error:'User not found.'};
+  } else {
+    const ret = { id: "", name: "", error: "User not found." };
     res.status(400).json(ret);
   }
   res.send();
 });
 
-app.post(ENDPOINTS.Forms.Register, async (req, res, next) =>
-{
+app.post(ENDPOINTS.Forms.Register, async (req, res, next) => {
   // incoming: name, email, login, password
   // outgoing: id, error
-  const { name, email, login, password } = LoginPacket.deserialize(req.body);
+  const { name, email, login, password } = RegisterPacket.deserialize(req.body);
   
   
-  const results = await (await Collections.UserData.insert({ name: name, email: email, username: login, password: password, badges: [], exerciseLog: [], goals: {}}));
-  if( results != null )
-  {
-    var ret = {id:results.insertedId.toHexString(), error:''};
+  const results = await Collections.UserData.insert(new UserDataImpl(name, login, password, { email }));
+  if (results != null) {
+    const ret = { id: results.insertedId.toHexString(), error: "" };
     res.status(200).json(ret);
-  }
-  else
-  {
-    var ret = {id:'', error:'User not appended.'};
+  } else {
+    const ret = { id: "", error: "User not appended." };
     res.status(400).json(ret);
   }
   //res.send();
@@ -120,32 +110,47 @@ app.post('/api/v1/newForm', async (req, res, next) =>
 });
 
 
-
 app.post(ENDPOINTS.Forms.AddExercise, async (req, res) => {
-  const payload = AddExercisePacket.deserialize(req.body)
+  const payload = AddExercisePacket.deserialize(req.body);
   if (!payload)
-    return onInvalidPayload(res)
+    return onInvalidPayload(res);
   
-  const exercise = ExerciseDataImpl.of(payload)
+  const exercise = ExerciseDataImpl.of(payload);
   
-  await Collections.UserData.pushExercise(payload.userId, exercise) // TODO return error if invalid
+  await Collections.UserData.pushExercise(payload.userId, exercise); // TODO return error if invalid
   
-  res.status(200).send()
+  res.status(200).send();
+});
+
+app.post(ENDPOINTS.Forms.Goals, async (req, res) => {
+  const payload = AddGoalPacket.deserialize(req.body);
+  if (!payload) {
+    return onInvalidPayload(res);
+  }
+  const GoalCtor = GoalDataImpl.forType(payload.type);
+  if (!GoalCtor) {
+    return onInvalidPayload(res);
+  }
+  const pushResult = await Collections.UserData.updateGoal(payload.userId, payload.type, new GoalCtor(payload.target, payload.interval));
+  if (pushResult.acknowledged)
+    res.status(200).send()
+  else
+    res.status(500).send()
 })
 
 // Get badge data (name, desc, etc.) by id
 app.get(ENDPOINTS.Data.Badges, async (req, res) => {
-  const payload = BadgeDataRequest.deserialize(req.body)
+  const payload = BadgeDataRequest.deserialize(req.body);
   if (!payload) {
-    return onInvalidPayload(res)
+    return onInvalidPayload(res);
   }
   
-  const badgeData = await Collections.Badges.get({_id: payload.id})
+  const badgeData = await Collections.Badges.get({ _id: payload.id });
   if (badgeData)
-    res.header("Content-Type", "application/json").status(200).json(badgeData)
+    res.header("Content-Type", "application/json").status(200).json(badgeData);
   else
-    res.status(500).send()
-})
+    res.status(500).send();
+});
 
 
 app.use(express.static("./.local/vite/dist"));
