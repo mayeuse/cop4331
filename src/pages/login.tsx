@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import styles from "./index.module.css";
+import { LoginPacket, ENDPOINTS } from "@/typings";
 
 interface LoginBodyProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>; // Accept setter as a prop
@@ -17,15 +18,12 @@ const LoginBody = ({ setIsLoggedIn }: LoginBodyProps): React.JSX.Element =>
       console.log('Login submit triggered'); // Debugging if the function is called
     
       try {
-        const response = await fetch('/api/v1/login', {
+        const response = await fetch(ENDPOINTS.Forms.Login, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            login: username,
-            password: password,
-          }),
+          body: new LoginPacket(username, password).serialize(),
         });
     
         const data = await response.json();

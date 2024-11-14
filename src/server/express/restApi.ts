@@ -8,7 +8,7 @@ import { BadgeDataRequest } from "@/utils/client/askforassets";
 import { UserData } from "@/typings/database";
 import { ObjectId } from "mongodb";
 import { ExerciseDataImpl } from "@/typings/database/impl/userdataimpl.ts";
-import { AddExercisePacket } from "@/typings/packets.ts";
+import { AddExercisePacket, LoginPacket } from "@/typings/packets.ts";
 
 
 const app: Application = express();
@@ -30,7 +30,7 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 
-app.post('/api/v1/login', async (req, res, next) =>
+app.post(ENDPOINTS.Forms.Login, async (req, res, next) =>
 {
   // incoming: login, password
   // outgoing: id, name, error
@@ -53,11 +53,13 @@ app.post('/api/v1/login', async (req, res, next) =>
   res.send();
 });
 
-app.post('/api/v1/register', async (req, res, next) =>
+app.post(ENDPOINTS.Forms.Register, async (req, res, next) =>
 {
   // incoming: name, email, login, password
   // outgoing: id, error
-  const { name, email, login, password } = req.body;
+  const { name, email, login, password } = LoginPacket.deserialize(req.body);
+  
+  
   const results = await (await Collections.UserData.insert({ name: name, email: email, username: login, password: password, badges: [], exerciseLog: [], goals: {}}));
   if( results != null )
   {

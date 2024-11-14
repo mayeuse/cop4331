@@ -14,6 +14,7 @@ export function askForBadgeData(id: BadgeId): Promise<BadgeSchema> {
   }).then(res => res.ok ? res.json() : Promise.reject())
 }
 
+//@ts-ignore
 export class BadgeDataRequest extends Packet {
   constructor(
     public id: ObjectId,
@@ -28,6 +29,6 @@ export class BadgeDataRequest extends Packet {
   }
   
   public static deserialize(it: string): BadgeDataRequest | null {
-    return this.deserializer(it, this.TYPES)
+    return Packet.deserializer<BadgeDataRequest>(it, this.TYPES)
   }
 }

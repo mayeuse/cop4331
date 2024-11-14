@@ -1,10 +1,6 @@
 import { ExerciseType } from "@/typings/database/userdata";
 import { ObjectId } from "mongodb";
 
-export type SerializedObjectId = ReturnType<ObjectId["toHexString"]>
-export type SerializedDate = ReturnType<Date["getUTCDate"]>
-
-
 export type Serializer = [ InstanceType<any>, Function ]
 export const SERIALIZERS: Serializer[] = [
   [ Date, Date.prototype.toUTCString ],
@@ -14,49 +10,20 @@ export const SERIALIZERS: Serializer[] = [
 export const DESERIALIZERS = {
   itself: <T>(x: T) => x,
   ObjectId: ObjectId.createFromHexString,
-  Date: Date.parse
-}
+  Date: Date.parse,
+};
 
-export class LoginPacket {
-  // define the properties it'll have
-  public login: string;
-  public password: string;
-  
-  // make a constructor
-  constructor(login: string, password: string) {
-    this.login = login;
-    this.password = password;
-  }
-}
 
-export class RegisterPacket {
-  // define the properties it'll have
-  public name: string;
-  public email: string;
-  public login: string;
-  public password: string;
-  
-  // make a constructor
-  constructor(name: string, email: string, login: string, password: string) {
-    this.name = name;
-    this.email = email;
-    this.login = login;
-    this.password = password;
-  }
-}
-
-export interface IPacket extends Record<string, any> {}
-
-export abstract class Packet implements IPacket {
-  public serialize(serializers?: Serializer[]): string {
+export abstract class Packet {
+  public serialize(additionalSerializers?: Serializer[]): string {
     return JSON.stringify(this, (_key, value) => {
       for (const [ type, serializer ] of SERIALIZERS) {
         if (value instanceof type) {
           return serializer.bind(value)();
         }
       }
-      if (serializers) {
-        for (const [ type, serializer ] of serializers) {
+      if (additionalSerializers) {
+        for (const [ type, serializer ] of additionalSerializers) {
           if (value instanceof type) {
             return serializer.bind(value)();
           }
@@ -66,7 +33,10 @@ export abstract class Packet implements IPacket {
     });
   }
   
-  protected static deserializer<T extends Packet>(it: string, types: Omit<Record<keyof T, Function>, 'serialize'>) : T | null {
+  static deserializer<T>(it: string, types?: Record<string, Function>): T | null {
+    if (!types)
+      return JSON.parse(it);
+    
     try {
       return JSON.parse(it, (key, value) => {
         if (!(key in types)) {
@@ -74,15 +44,66 @@ export abstract class Packet implements IPacket {
         }
         
         // @ts-ignore
-        return types[key](value)
-      })
+        return types[key](value);
+      });
     } catch (e) {
       return null;
     }
   }
 }
 
-export interface IAddExercisePacket extends IPacket {
+export interface ILoginPacket {
+  login: string;
+  password: string;
+}
+
+export class LoginPacket extends Packet {
+  // define the properties it'll have
+  public login: string;
+  public password: string;
+  
+  // make a constructor
+  constructor(login: string, password: string) {
+    super();
+    this.login = login;
+    this.password = password;
+  }
+  
+  public static deserialize(it: string): ILoginPacket {
+    return JSON.parse(it);
+  }
+}
+
+export interface IRegisterPacket {
+  name: string;
+  email: string;
+  login: string;
+  password: string;
+}
+
+export class RegisterPacket extends Packet implements IRegisterPacket {
+  // define the properties it'll have
+  public name: string;
+  public email: string;
+  public login: string;
+  public password: string;
+  
+  // make a constructor
+  constructor(name: string, email: string, login: string, password: string) {
+    super();
+    this.name = name;
+    this.email = email;
+    this.login = login;
+    this.password = password;
+  }
+  
+  public static deserialize(it: string): IRegisterPacket {
+    return JSON.parse(it)
+  }
+}
+
+
+export interface IAddExercisePacket {
   userId: ObjectId,
   calories: number,
   date: Date,
@@ -107,11 +128,12 @@ export class AddExercisePacket extends Packet implements IAddExercisePacket {
   private static TYPES = {
     "userId": DESERIALIZERS.ObjectId,
     "date": DESERIALIZERS.Date,
-    'type': DESERIALIZERS.itself,
-    'calories': DESERIALIZERS.itself,
-  }
+    "type": DESERIALIZERS.itself,
+    "calories": DESERIALIZERS.itself,
+  };
   
-  public static deserialize(it: string): AddExercisePacket | null {
-    return super.deserializer<AddExercisePacket>(it, this.TYPES)
+  public static deserialize(it: string): IAddExercisePacket | null {
+    return Packet.deserializer<IAddExercisePacket>(it, this.TYPES);
   }
 }
+

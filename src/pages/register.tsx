@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import styles from "./index.module.css";
+import { ENDPOINTS, RegisterPacket } from "@/typings";
 
 const RegisterBody = (): React.JSX.Element =>
 {
@@ -15,17 +16,12 @@ const RegisterBody = (): React.JSX.Element =>
       event.preventDefault();
   
       try {
-        const response = await fetch('/api/v1/register', {
+        const response = await fetch(ENDPOINTS.Forms.Register, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({
-            name: `${firstName} ${lastName}`,
-            email: email,
-            login: username,
-            password: password,
-          }),
+          body: new RegisterPacket(`${firstName} ${lastName}`, email, username, password).serialize(),
         });
   
         const data = await response.json();
