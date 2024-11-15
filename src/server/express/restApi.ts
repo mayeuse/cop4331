@@ -5,6 +5,7 @@ import cors from "cors";
 import { Collections } from "./mongo";
 import { UserData } from "@/typings/database";
 import { ObjectId } from "mongodb";
+import { sendMail } from "../../utils/mailer";
 
 
 const app: Application = express();
@@ -108,7 +109,40 @@ app.post('/api/v1/newForm', async (req, res, next) =>
   res.send();
 });
 
+app.post('/api/v1/forgotPassword', async (req, res, next) =>
+{
+  // incoming: email
+  // outgoing: error, confirmation of email sent
+  let error = '';
+  const { email } = req.body;
 
+  const user = (await Collections.UserData.findOne({ email: email}));
+  
+  if (!user) {
+    error = 'User not found'
+    var ret = {id:'', error: error};
+    res.status(400).json(ret);
+    res.send();
+  }
+  else
+  {
+    const resetURL = `http://localhost:9000/reset-password/${email}`;
+
+    await sendMail(email, 'Password Reset', `You requested a password reset. Click the link to reset your password: ${resetURL}`);
+  
+    error = 'Password Reset Email Sent'
+    var ret = {id:'', error: error};
+    res.status(200).json(ret);
+    res.send();
+  }
+});
+
+app.post('/api/v1/passwordReset', async (req, res, next) =>
+{
+  // incoming: 
+}
+);
+  
 app.use(express.static("./.local/vite/dist"));
 
 
