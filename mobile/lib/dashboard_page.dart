@@ -12,7 +12,7 @@ class _DashboardPageState extends State<DashboardPage> {
     Center(child: Text('Dashboard Content')),
     Center(child: Text('Progress Content')),
     Center(child: Text('Weekly Goals Content')),
-    Center(child: Text('Settings Content')),
+    Center(child: Text('Log Exercise Content')),
   ];
 
   void onTabTapped(int index) {

@@ -58,19 +58,39 @@ class ApiService {
   // Function to login
   static Future<Map<String, dynamic>?> loginUser(String username, String password) async {
     final url = Uri.parse('$baseUrl/login');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'login': username, 
-        'password': password
-        }),
-    );
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'login': username, 
+          'password': password
+          }),
+      );
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      return {'error': response.body};
+      // Check if the response is successful
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+
+        // Debugging: print the parsed response
+        print('Login Response: $responseBody');
+
+        // Ensure 'id' and 'name' are returned
+        if (responseBody.containsKey('id') && responseBody.containsKey('name')) {
+          return {
+            'id': responseBody['id'].toString(),
+            'name': responseBody['name'],
+            'error': null
+          };
+        } else {
+          return {'error': 'User ID or Name not found'};
+        }
+      } else {
+        return {'error': jsonDecode(response.body)['error'] ?? 'Invalid credentials'};
+      }
+    } catch (e) {
+      print('Login Error: $e');
+      return {'error': 'Failed to connect to the server'};
     }
   }
 
@@ -93,6 +113,40 @@ class ApiService {
     } catch (e) {
       print('Forgot Password Error: $e');
       return {'error': 'Failed to send password reset email'};
+    }
+  }
+
+  // Function to submit the form for logging exercise or setting goals
+  static Future<Map<String, dynamic>?> submitForm({
+    required String type,
+    required int calories,
+    required String source,
+    required String userId,
+  }) async {
+    final url = Uri.parse('$baseUrl/newForm');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          '_id': userId, // Passing the user ID in the headers
+        },
+        body: jsonEncode({
+          'type': type,
+          'calories': calories,
+          'source': source,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      print('Form Submission Error: $e');
+      return {'error': 'Failed to submit form'};
     }
   }
 
