@@ -14,7 +14,7 @@ export interface GlobalUserContext {
 
 const [user, setUser] = useState<UserDataSchema | null>( null)
 
-export const UserContext = React.createContext<GlobalUserContext>({user, setUser})
+export const UserContext: React.Context<GlobalUserContext> = React.createContext<GlobalUserContext>({user, setUser})
 
 const root = createRoot(document.getElementById("root")!);
 
