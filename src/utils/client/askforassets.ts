@@ -28,7 +28,11 @@ export class BadgeDataRequest extends Packet {
     type: DESERIALIZERS.itself
   }
   
-  public static deserialize(it: string): BadgeDataRequest | null {
+  public static deserialize(it: object): BadgeDataRequest | null {
+    return super.deserializerObject(it, this.TYPES)
+  }
+  
+  public static deserializeStr(it: string): BadgeDataRequest | null {
     return Packet.deserializer<BadgeDataRequest>(it, this.TYPES)
   }
 }

@@ -1,13 +1,11 @@
-// import packageJSON from "../../../package.json";
 import express, { Application, Response } from "express";
 import cors from "cors";
-// import { Request, Response } from "express";
 import { Collections } from "./mongo";
 import { ENDPOINTS } from "@/typings/constants";
 import { BadgeDataRequest } from "@/utils/client/askforassets";
 import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database/impl/userdataimpl.ts";
 import { AddExercisePacket, AddGoalPacket, RegisterPacket } from "@/typings/packets.ts";
-import { sendMail } from "../../utils/mailer";
+import { sendMail } from "@/utils/mailer";
 
 
 const app: Application = express();
@@ -66,50 +64,6 @@ app.post(ENDPOINTS.Forms.Register, async (req, res, next) => {
 });
 
 
-app.post('/api/v1/newForm', async (req, res, next) =>
-{
-  // incoming: type, calories, source
-  // outgoing: id, error
-  let error = '';
-  const { type, calories, source } = req.body;
-
-  // get the userId (might be a better way to do this)
-  const _id = req.headers['_id'];
-
-  try 
-  {
-    if (!type || !calories || !source) {
-      throw new Error('Missing required fields');
-    }
-
-    let updateResult;
-    // if log exercise button is clicked
-    if (source === 'logExercise') 
-    {
-      // we can change the units field to calories or just add another field for calories
-      // for testing i'm just using my id in the header in postman
-      updateResult = await Collections.UserData.updateOne({ _id: _id }, { $push: { exerciseLog: { type: type, calories: calories, date: new Date() } } });
-    } 
-    // if set goal button is clicked
-    else if (source === 'setGoal') 
-    {
-      // the actual input into the goals field needs to be changed
-      updateResult = await Collections.UserData.updateOne({ _id: _id }, { $push: { goals: { type: type, calories: calories, date: new Date() } } });
-    }
-
-    if (!updateResult || updateResult.modifiedCount === null) {
-      throw new Error('Update failed');
-    }
-
-    res.status(200).json({ id: _id, error: error });
-  }
-  catch (err) {
-    var ret = {id:'', error: 'Error inserting data.'};
-    res.status(400).json(ret);
-  }
-  res.send();
-});
-
 app.post('/api/v1/forgotPassword', async (req, res, next) =>
 {
   // incoming: email
@@ -160,9 +114,9 @@ app.post('/api/v1/passwordReset', async (req, res, next) =>
       res.send();
     }
   }
-  else{
+  else {
     error = 'Bad request - Passwords do not match'
-    var ret = {error: error};
+    var ret = { error: error };
     res.status(400).json(ret);
     res.send();
   }
@@ -197,7 +151,7 @@ app.post(ENDPOINTS.Forms.Goals, async (req, res) => {
     res.status(500).send()
 })
 
-// Get badge data (name, desc, etc.) by id
+// Get badge data (name, desc, etc.) by id for dashboard badge display
 app.get(ENDPOINTS.Data.Badges, async (req, res) => {
   const payload = BadgeDataRequest.deserialize(req.body);
   if (!payload) {
@@ -206,7 +160,7 @@ app.get(ENDPOINTS.Data.Badges, async (req, res) => {
   
   const badgeData = await Collections.Badges.get({ _id: payload.id });
   if (badgeData)
-    res.header("Content-Type", "application/json").status(200).json(badgeData);
+    res.status(200).json(badgeData);
   else
     res.status(500).send();
 });

@@ -51,6 +51,18 @@ export abstract class Packet {
       return null;
     }
   }
+  
+  static deserializerObject<T>(it: Record<string, any>, deserializers?: Record<string, Function>): T | null {
+    if (deserializers) {
+      for (let key in it) {
+        if (!(key in deserializers)) {
+          return null;
+        }
+        it[key] = deserializers[key](it[key])
+      }
+    }
+    return (it as T);
+  }
 }
 
 export interface ILoginPacket {
@@ -98,8 +110,12 @@ export class RegisterPacket extends Packet implements IRegisterPacket {
     this.password = password;
   }
   
-  public static deserialize(it: string): IRegisterPacket {
+  public static deserializeStr(it: string): IRegisterPacket {
     return JSON.parse(it)
+  }
+  
+  public static deserialize(it: object): IRegisterPacket {
+    return it as IRegisterPacket
   }
 }
 
@@ -133,7 +149,11 @@ export class AddExercisePacket extends Packet implements IAddExercisePacket {
     "calories": DESERIALIZERS.itself,
   };
   
-  public static deserialize(it: string): IAddExercisePacket | null {
+  public static deserialize(it: object): IAddExercisePacket | null {
+    return Packet.deserializerObject<IAddExercisePacket>(it, this.TYPES);
+  }
+  
+  public static deserializeStr(it: string): IAddExercisePacket | null {
     return Packet.deserializer<IAddExercisePacket>(it, this.TYPES);
   }
 }
@@ -159,13 +179,19 @@ export class AddGoalPacket extends Packet implements IAddGoalPacket {
     this.interval = interval;
   }
   
-  public static deserialize(it: string): IAddGoalPacket | null {
-    return this.deserializer<IAddGoalPacket>(it, {
-      userId: DESERIALIZERS.ObjectId,
-      type: (s: string) => GoalType[s as keyof typeof GoalType],
-      interval: DESERIALIZERS.Date,
-      units: DESERIALIZERS.itself,
-      target: DESERIALIZERS.itself
-    })
+  static TYPES = {
+    userId: DESERIALIZERS.ObjectId,
+    type: (s: string) => GoalType[s as keyof typeof GoalType],
+    interval: DESERIALIZERS.Date,
+    units: DESERIALIZERS.itself,
+    target: DESERIALIZERS.itself
+  }
+  
+  public static deserialize(it: object): IAddGoalPacket | null {
+    return super.deserializerObject<IAddGoalPacket>(it, this.TYPES);
+  }
+  
+  public static deserializeStr(it: string): IAddGoalPacket | null {
+    return this.deserializer<IAddGoalPacket>(it, )
   }
 }

@@ -71,7 +71,9 @@ export class GoalDataImpl implements GoalData {
     static forType(type: GoalType) {
         switch (type) {
             case GoalType.CALORIE:
-                return CalorieGoal
+                return GoalDataImpls.CalorieGoal
+            case GoalType.STEPCOUNT:
+                return GoalDataImpls.StepGoal
         }
     }
 }
