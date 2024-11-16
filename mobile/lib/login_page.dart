@@ -65,6 +65,14 @@ class _LoginPageState extends State<LoginPage> {
               Text(successMessage, style: TextStyle(color: Colors.green)),
             if (errorMessage.isNotEmpty)
               Text(errorMessage, style: TextStyle(color: Colors.red)),
+
+            // Add a "Forgot Password" button
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/forgotPassword');
+              },
+              child: Text('Forgot Password?'),
+            ),
           ],
         ),
       ),
