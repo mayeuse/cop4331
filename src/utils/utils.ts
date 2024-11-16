@@ -1,6 +1,5 @@
-export function commonExample(): void {
-    console.log("common example output");
-}
+
+
 
 /**
  * @param obj The object to test.

@@ -5,12 +5,14 @@ import {
     ExerciseType,
     GoalData,
     Goals,
-    Intervals,
+    GoalType,
     UserBadgeData,
-    UserDataSchema
+    UserDataSchema,
 } from "@/typings/database/userdata";
 
 import { BadgeSchema } from "@/typings/database";
+import CalorieGoal = GoalDataImpls.CalorieGoal;
+import { Intervals } from "@/typings";
 
 export class UserDataImpl implements UserDataSchema {
     public _id?: ObjectId = undefined;
@@ -65,6 +67,15 @@ export class GoalDataImpl implements GoalData {
         this.units = units;
         this.interval = interval;
     }
+    
+    static forType(type: GoalType) {
+        switch (type) {
+            case GoalType.CALORIE:
+                return GoalDataImpls.CalorieGoal
+            case GoalType.STEPCOUNT:
+                return GoalDataImpls.StepGoal
+        }
+    }
 }
 
 
@@ -76,20 +87,28 @@ export namespace GoalDataImpls {
     }
 
     export class DistanceGoal extends GoalDataImpl {
-        constructor(target: number, units: "kilometers" | "miles", interval: Date) {
-            super(target, units, interval);
+        constructor(target: number, interval: Date) {
+            super(target, 'miles', interval);
+        }
+    }
+    
+    export class CalorieGoal extends GoalDataImpl {
+        constructor(target: number, interval: Date) {
+            super(target, 'calories', interval);
         }
     }
 }
 
 export class BadgeObjectImpl implements BadgeSchema {
-    badge_type: BadgeTypes;
-    requirement: number;
     
-    constructor(badge_type: BadgeTypes, requirement: number) {
-        this.badge_type = badge_type;
-        this.requirement = requirement;
-    }
+    constructor(
+      public badge_type: BadgeTypes,
+      public name: string,
+      public desc: string,
+      public requirement: number,
+    ) {}
+    
+    
 }
 
 export class UserBadgeDataImpl implements UserBadgeData {
