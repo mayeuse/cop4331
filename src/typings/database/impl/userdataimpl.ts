@@ -6,13 +6,13 @@ import {
     GoalData,
     Goals,
     GoalType,
-    Intervals,
     UserBadgeData,
     UserDataSchema,
 } from "@/typings/database/userdata";
 
 import { BadgeSchema } from "@/typings/database";
 import CalorieGoal = GoalDataImpls.CalorieGoal;
+import { Intervals } from "@/typings";
 
 export class UserDataImpl implements UserDataSchema {
     public _id?: ObjectId = undefined;

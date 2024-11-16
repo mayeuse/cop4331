@@ -1,6 +1,6 @@
 import { Document, ObjectId } from "mongodb";
 
-export declare type BadgeId = ObjectId
+export type BadgeId = ObjectId
 
 export interface BadgeSchema extends Document {
     _id?: BadgeId,

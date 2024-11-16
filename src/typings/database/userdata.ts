@@ -1,6 +1,6 @@
 import { Document, ObjectId } from "mongodb";
 
-import { BadgeId, UserDataId } from "@/typings/database/index";
+import { BadgeId } from "@/typings/database/index";
 
 export * as Impl from "./impl/userdataimpl"
 
@@ -36,12 +36,6 @@ export enum GoalType {
     STEPCOUNT = 'stepcount'
 }
 
-export declare namespace Intervals { // this sucks, this really sucks
-    declare const WEEKLY: Date
-    declare const BIWEEKLY: Date
-    declare const MONTHLY: Date
-}
-
 export interface GoalData {
     target: number,
     /**
@@ -52,6 +46,6 @@ export interface GoalData {
     units: string
 }
 
-export interface Goals {
-    [key: GoalType]: GoalData;
-}
+export type Goals = {
+    [key in GoalType]?: GoalData;
+};

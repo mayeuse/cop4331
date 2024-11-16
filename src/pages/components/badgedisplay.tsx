@@ -16,9 +16,9 @@ export const CSS = {
 };
 
 export default (): React.JSX.Element => {
-  const userContext = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   
-  const userBadgeDatas = (userContext.user?.badges ?? []);
+  const userBadgeDatas = (user?.badges ?? []);
   
   const badgeData_p: Promise<BadgeSchema>[] = userBadgeDatas.map(el => askForBadgeData(el.badge_id))
   
