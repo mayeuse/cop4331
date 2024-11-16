@@ -73,4 +73,55 @@ class ApiService {
       return {'error': response.body};
     }
   }
+
+  // Function to send a password reset email
+  static Future<Map<String, dynamic>?> forgotPassword(String email) async {
+    final url = Uri.parse('$baseUrl/forgotPassword');
+    
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'email': email}),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      print('Forgot Password Error: $e');
+      return {'error': 'Failed to send password reset email'};
+    }
+  }
+
+  /*
+  // Function to reset the password
+  static Future<Map<String, dynamic>?> resetPassword(
+      String newPassword, String confirmPassword, String userEmail) async {
+    final url = Uri.parse('$baseUrl/passwordReset?user=$userEmail');
+    
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'newPassword': newPassword,
+          'confirmPassword': confirmPassword,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        return jsonDecode(response.body);
+      }
+    } catch (e) {
+      print('Password Reset Error: $e');
+      return {'error': 'Failed to reset password'};
+    }
+  }
+  */
+
 }

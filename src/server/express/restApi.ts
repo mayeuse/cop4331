@@ -7,6 +7,7 @@ import { ENDPOINTS } from "@/typings/constants";
 import { BadgeDataRequest } from "@/utils/client/askforassets";
 import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database/impl/userdataimpl.ts";
 import { AddExercisePacket, AddGoalPacket, RegisterPacket } from "@/typings/packets.ts";
+import { sendMail } from "../../utils/mailer";
 
 
 const app: Application = express();
@@ -107,6 +108,64 @@ app.post('/api/v1/newForm', async (req, res, next) =>
     res.status(400).json(ret);
   }
   res.send();
+});
+
+app.post('/api/v1/forgotPassword', async (req, res, next) =>
+{
+  // incoming: email
+  // outgoing: error, confirmation of email sent
+  let error = '';
+  const { email } = req.body;
+
+  const user = (await Collections.UserData.findOne({ email: email}));
+  
+  if (!user) {
+    error = 'User not found'
+    var ret = {id:'', error: error};
+    res.status(400).json(ret);
+    res.send();
+  }
+  else
+  {
+    const resetURL = `http://localhost:9000/reset-password?user=${email}`;
+
+    await sendMail(email, 'Password Reset', `You requested a password reset. Click the link to reset your password: ${resetURL}`);
+  
+    error = 'Password Reset Email Sent'
+    var ret = {id:'', error: error};
+    res.status(200).json(ret);
+    res.send();
+  }
+});
+
+app.post('/api/v1/passwordReset', async (req, res, next) =>
+{
+  // incoming: new password, confirm new password
+  // outgoing: error, confirmation
+
+  let error = ''
+  const { newPassword, confirmPassword } = req.body;
+
+  const userEmail = req.query.user?.toString();
+
+  if (newPassword.equals(confirmPassword)){
+    var updateResult = await Collections.UserData.updateOne({ email: userEmail }, { $set: { "password": newPassword}});
+    if (!updateResult || updateResult.modifiedCount === null) {
+      throw new Error('Update failed');
+    }
+    else{
+      error = 'Password Update Successful'
+      var ret = {error: error};
+      res.status(200).json(ret);
+      res.send();
+    }
+  }
+  else{
+    error = 'Bad request - Passwords do not match'
+    var ret = {error: error};
+    res.status(400).json(ret);
+    res.send();
+  }
 });
 
 

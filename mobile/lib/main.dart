@@ -3,6 +3,7 @@ import 'home_page.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 import 'dashboard_page.dart';
+import 'forgot_password_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/dashboard': (context) => DashboardPage(),
+        '/forgotPassword': (context) => ForgotPasswordPage(),
       },
     );
   }

@@ -73,6 +73,11 @@ export namespace Collections {
     export async function find(query: Partial<Schema>) {
       return COLLECTION.find(query);
     }
+
+    export async function findOne(query: Partial<Schema>) {
+      return COLLECTION.findOne(query)
+    }
+
     
     export async function drop(query: DropCollectionOptions): Promise<boolean> {
       return COLLECTION.drop(query);
