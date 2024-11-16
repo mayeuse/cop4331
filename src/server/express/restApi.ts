@@ -126,7 +126,7 @@ app.post('/api/v1/forgotPassword', async (req, res, next) =>
   }
   else
   {
-    const resetURL = `http://localhost:9000/reset-password/${email}`;
+    const resetURL = `http://localhost:9000/reset-password?user=${email}`;
 
     await sendMail(email, 'Password Reset', `You requested a password reset. Click the link to reset your password: ${resetURL}`);
   
@@ -139,7 +139,32 @@ app.post('/api/v1/forgotPassword', async (req, res, next) =>
 
 app.post('/api/v1/passwordReset', async (req, res, next) =>
 {
-  // incoming: 
+  // incoming: new password, confirm new password
+  // outgoing: error, confirmation
+
+  let error = ''
+  const { newPassword, confirmPassword } = req.body;
+
+  const userEmail = req.query.user?.toString();
+
+  if (newPassword.equals(confirmPassword)){
+    var updateResult = await Collections.UserData.updateOne({ email: userEmail }, { $set: { "password": newPassword}});
+    if (!updateResult || updateResult.modifiedCount === null) {
+      throw new Error('Update failed');
+    }
+    else{
+      error = 'Password Update Successful'
+      var ret = {error: error};
+      res.status(200).json(ret);
+      res.send();
+    }
+  }
+  else{
+  error = 'Bad request - Passwords do not match'
+  var ret = {error: error};
+  res.status(400).json(ret);
+  res.send();
+  }
 }
 );
   
