@@ -154,7 +154,7 @@ class ApiService {
     required String units,
     required String interval,
   }) async {
-    final url = Uri.parse('$baseUrl/forms/goals');
+    final url = Uri.parse('$baseUrl/goals');
 
     // Map the interval to match the expected string format
     /*String mappedInterval = '';
