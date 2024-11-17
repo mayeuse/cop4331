@@ -4,8 +4,9 @@ import { Collections } from "./mongo";
 import { ENDPOINTS } from "@/typings/constants";
 import { BadgeDataRequest } from "@/utils/client/askforassets";
 import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database/impl/userdataimpl.ts";
-import { AddExercisePacket, AddGoalPacket, RegisterPacket } from "@/typings/packets.ts";
+import { AddExercisePacket, AddGoalPacket, RegisterPacket, IResetPasswordPacket } from "@/typings/packets.ts";
 import { sendMail } from "@/utils/mailer";
+
 
 
 const app: Application = express();
@@ -98,11 +99,11 @@ app.post('/api/v1/passwordReset', async (req, res, next) =>
   // outgoing: error, confirmation
 
   let error = ''
-  const { newPassword, confirmPassword } = req.body;
+  const { newPassword, confirmPassword } = req.body as IResetPasswordPacket;
 
   const userEmail = req.query.user?.toString();
 
-  if (newPassword.equals(confirmPassword)){
+  if (newPassword === confirmPassword){
     var updateResult = await Collections.UserData.updateOne({ email: userEmail }, { $set: { "password": newPassword}});
     if (!updateResult || updateResult.modifiedCount === null) {
       throw new Error('Update failed');

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { IResetPasswordPacket } from "@/typings/packets.ts";
 
 const ResetPasswordBody = () => {
   const [searchParams] = useSearchParams();
@@ -19,7 +20,7 @@ const ResetPasswordBody = () => {
       const response = await fetch(`/api/v1/passwordReset`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ newPassword, confirmPassword }),
+        body: JSON.stringify({ newPassword, confirmPassword } as IResetPasswordPacket),
       });
 
       const data = await response.json();

@@ -2,6 +2,7 @@ import { ExerciseType, GoalData, GoalType } from "@/typings/database/userdata";
 import { ObjectId } from "mongodb";
 import { UserDataId } from "@/typings/database";
 
+
 export type Serializer = [ InstanceType<any>, Function ]
 export const SERIALIZERS: Serializer[] = [
   [ Date, Date.prototype.toUTCString ],
@@ -117,6 +118,11 @@ export class RegisterPacket extends Packet implements IRegisterPacket {
   public static deserialize(it: object): IRegisterPacket {
     return it as IRegisterPacket
   }
+}
+
+export interface IResetPasswordPacket {
+  newPassword: string,
+  confirmPassword: string,
 }
 
 
