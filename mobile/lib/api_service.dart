@@ -116,37 +116,65 @@ class ApiService {
     }
   }
 
-  // Function to submit the form for logging exercise or setting goals
-  static Future<Map<String, dynamic>?> submitForm({
+  // Function to log an exercise
+  static Future<Map<String, dynamic>?> addExercise({
+    required String userId,
     required String type,
     required int calories,
-    required String source,
-    required String userId,
   }) async {
-    final url = Uri.parse('$baseUrl/newForm');
+    final url = Uri.parse('$baseUrl/exerciselog');
 
     try {
       final response = await http.post(
         url,
-        headers: {
-          'Content-Type': 'application/json',
-          '_id': userId, // Passing the user ID in the headers
-        },
+        headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
+          'userId': userId,
           'type': type,
           'calories': calories,
-          'source': source,
         }),
       );
 
       if (response.statusCode == 200) {
-        return jsonDecode(response.body);
+        return {'success': true};
       } else {
-        return jsonDecode(response.body);
+        return {'error': 'Failed to log exercise'};
       }
     } catch (e) {
-      print('Form Submission Error: $e');
-      return {'error': 'Failed to submit form'};
+      print('Log Exercise Error: $e');
+      return {'error': 'Failed to connect to the server'};
+    }
+  }
+
+  // Function to set a weekly goal
+  static Future<Map<String, dynamic>?> addGoal({
+    required String userId,
+    required String type,
+    required int target,
+    required String interval,
+  }) async {
+    final url = Uri.parse('$baseUrl/goals');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'type': type,
+          'target': target,
+          'interval': interval,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return {'success': true};
+      } else {
+        return {'error': 'Failed to set goal'};
+      }
+    } catch (e) {
+      print('Set Goal Error: $e');
+      return {'error': 'Failed to connect to the server'};
     }
   }
 

@@ -26,15 +26,17 @@ class _LogExercisePageState extends State<LogExercisePage> {
       return;
     }
 
-    final response = await ApiService.submitForm(
+    final response = await ApiService.addExercise(
+      userId: widget.userId,
       type: type,
       calories: calories,
-      source: 'logExercise',
-      userId: widget.userId,
     );
 
+
     setState(() {
-      message = response?['error'] ?? 'Exercise logged successfully';
+      message = response?['success'] == true
+          ? 'Exercise logged successfully'
+          : response?['error'] ?? 'Failed to log exercise';
     });
   }
 

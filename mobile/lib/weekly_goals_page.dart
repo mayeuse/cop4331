@@ -12,29 +12,33 @@ class WeeklyGoalsPage extends StatefulWidget {
 
 class _WeeklyGoalsPageState extends State<WeeklyGoalsPage> {
   final TextEditingController typeController = TextEditingController();
-  final TextEditingController caloriesController = TextEditingController();
+  final TextEditingController targetController = TextEditingController();
+  final TextEditingController intervalController = TextEditingController();
   String message = '';
 
   Future<void> handleSubmit() async {
     final String type = typeController.text;
-    final int calories = int.tryParse(caloriesController.text) ?? 0;
+    final int target = int.tryParse(targetController.text) ?? 0;
+    final String interval = intervalController.text;
 
-    if (type.isEmpty || calories == 0) {
+    if (type.isEmpty || target == 0 || interval.isEmpty) {
       setState(() {
         message = 'Please fill all fields';
       });
       return;
     }
 
-    final response = await ApiService.submitForm(
-      type: type,
-      calories: calories,
-      source: 'setGoal',
+    final response = await ApiService.addGoal(
       userId: widget.userId,
+      type: type,
+      target: target,
+      interval: interval,
     );
 
     setState(() {
-      message = response?['error'] ?? 'Goal set successfully';
+      message = response?['success'] == true
+          ? 'Goal set successfully'
+          : response?['error'] ?? 'Failed to set goal';
     });
   }
 
@@ -51,9 +55,13 @@ class _WeeklyGoalsPageState extends State<WeeklyGoalsPage> {
               decoration: InputDecoration(labelText: 'Goal Type'),
             ),
             TextField(
-              controller: caloriesController,
-              decoration: InputDecoration(labelText: 'Target Calories'),
+              controller: targetController,
+              decoration: InputDecoration(labelText: 'Target (e.g., calories)'),
               keyboardType: TextInputType.number,
+            ),
+            TextField(
+              controller: intervalController,
+              decoration: InputDecoration(labelText: 'Interval (e.g., Daily, Weekly)'),
             ),
             SizedBox(height: 20),
             ElevatedButton(

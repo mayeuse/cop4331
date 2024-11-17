@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'log_exercise_page.dart';
+import 'weekly_goals_page.dart';
 
 class DashboardPage extends StatefulWidget {
+  final String userId;
+
+  DashboardPage({required this.userId});
+
   @override
   _DashboardPageState createState() => _DashboardPageState();
 }
@@ -8,12 +14,19 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   int currentIndex = 0;
 
-  final List<Widget> pages = [
-    Center(child: Text('Dashboard Content')),
-    Center(child: Text('Progress Content')),
-    Center(child: Text('Weekly Goals Content')),
-    Center(child: Text('Log Exercise Content')),
-  ];
+  late final List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the pages list with the userId passed to the forms
+    pages = [
+      Center(child: Text('Dashboard Content')),
+      Center(child: Text('Progress Content')),
+      WeeklyGoalsPage(userId: widget.userId),
+      LogExercisePage(userId: widget.userId),
+    ];
+  }
 
   void onTabTapped(int index) {
     setState(() {
