@@ -8,9 +8,10 @@ import { UserDataSchema } from "@/typings/database";
 import { Primitive, Replaced } from "@/typings";
 import { type ObjectId } from "mongodb";
 import Register from "@/pages/register.tsx";
-import Login from "@/pages/login";
+import Login from "@/pages/login.tsx";
 import LandingPage, { LandingBody, Team } from "@/pages/landing.tsx";
-import Dashboard, { DashboardBody, ExerciseBody, GoalBody, ProgressBody } from "@/pages/dashboard.tsx";
+import ExerciseBody from "@/pages/addexercise.tsx"
+import Dashboard, { DashboardBody, GoalBody, ProgressBody } from "@/pages/dashboard.tsx";
 import { CookiesProvider, useCookies } from "react-cookie";
 
 export type UserDataContext = Replaced<UserDataSchema, ObjectId, string, Primitive | Date>

@@ -10,6 +10,8 @@ export default function(): React.JSX.Element {
   if (authCookie["appley-auth"]) {
     return <div className={ styles.wrapper }>Already logged in!</div>;
   }
+
+  const userContext = useContext(USER_CONTEXT);
   
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
@@ -36,8 +38,9 @@ export default function(): React.JSX.Element {
       if (response.ok && !data.error) {
         setSuccessMessage(`Login successful! Welcome, ${ data.name }`);
         setError("");
+
+        userContext.data = data;
         
-        useContext(USER_CONTEXT).data = data;
         window.location.href = "dashboard"; // navigate to dashboard
       } else {
         console.error("API Error Response:", data);
