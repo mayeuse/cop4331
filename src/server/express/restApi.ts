@@ -13,6 +13,7 @@ import {
 } from "@/typings/packets.ts";
 import { sendMail } from "@/utils/mailer";
 import { ObjectId } from "mongodb";
+import { Intervals } from "@/typings";
 
 
 
@@ -152,7 +153,23 @@ app.post(ENDPOINTS.Forms.Goals, async (req, res) => {
   if (!GoalCtor) {
     return onInvalidPayload(res);
   }
-  const pushResult = await Collections.UserData.updateGoal(ObjectId.createFromHexString(payload.userId), payload.type, new GoalCtor(payload.target, payload.interval));
+  let interval;
+  switch (payload.interval) {
+    case "WEEKLY":
+      interval = Intervals.WEEKLY;
+      break;
+    case "BIWEEKLY":
+      interval = Intervals.BIWEEKLY;
+      break;
+    case "MONTHLY":
+      interval = Intervals.MONTHLY;
+      break;
+    default:
+      onInvalidPayload(res)
+      return;
+  }
+  
+  const pushResult = await Collections.UserData.updateGoal(ObjectId.createFromHexString(payload.userId), payload.type, new GoalCtor(payload.target, interval));
   if (pushResult.acknowledged)
     res.status(200).send()
   else

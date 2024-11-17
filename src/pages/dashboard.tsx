@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import Modal from "./modal.tsx";
 import { USER_CONTEXT } from "@/index.tsx";
-import { LoaderFunction, LoaderFunctionArgs, NavLink, Outlet } from "react-router-dom";
+import { LoaderFunctionArgs, NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = (): React.JSX.Element => {
   const [ isModalVisible, setModalVisible ] = useState(false);
