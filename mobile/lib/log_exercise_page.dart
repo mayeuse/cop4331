@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
+import 'package:intl/intl.dart';
 
 class LogExercisePage extends StatefulWidget {
   final String userId;
@@ -13,13 +14,15 @@ class LogExercisePage extends StatefulWidget {
 class _LogExercisePageState extends State<LogExercisePage> {
   final TextEditingController typeController = TextEditingController();
   final TextEditingController caloriesController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
   String message = '';
 
   Future<void> handleSubmit() async {
     final String type = typeController.text;
     final int calories = int.tryParse(caloriesController.text) ?? 0;
+    final String date = dateController.text;
 
-    if (type.isEmpty || calories == 0) {
+    if (type.isEmpty || calories == 0 || date.isEmpty) {
       setState(() {
         message = 'Please fill all fields';
       });
@@ -30,6 +33,7 @@ class _LogExercisePageState extends State<LogExercisePage> {
       userId: widget.userId,
       type: type,
       calories: calories,
+      date: date,
     );
 
 
@@ -38,6 +42,23 @@ class _LogExercisePageState extends State<LogExercisePage> {
           ? 'Exercise logged successfully'
           : response?['error'] ?? 'Failed to log exercise';
     });
+  }
+
+  // Function to show the date picker
+  Future<void> selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+
+    if (pickedDate != null) {
+      String formattedDate = DateFormat('MM/dd/yyyy').format(pickedDate);
+      setState(() {
+        dateController.text = formattedDate;
+      });
+    }
   }
 
   @override
@@ -56,6 +77,17 @@ class _LogExercisePageState extends State<LogExercisePage> {
               controller: caloriesController,
               decoration: InputDecoration(labelText: 'Calories Burned'),
               keyboardType: TextInputType.number,
+            ),
+            TextField(
+              controller: dateController,
+              decoration: InputDecoration(
+                labelText: 'Date (MM/DD/YYYY)',
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.calendar_today),
+                  onPressed: () => selectDate(context),
+                ),
+              ),
+              keyboardType: TextInputType.datetime,
             ),
             SizedBox(height: 20),
             ElevatedButton(

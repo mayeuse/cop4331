@@ -121,6 +121,7 @@ class ApiService {
     required String userId,
     required String type,
     required int calories,
+    required String date,
   }) async {
     final url = Uri.parse('$baseUrl/exerciselog');
 
@@ -132,6 +133,7 @@ class ApiService {
           'userId': userId,
           'type': type,
           'calories': calories,
+          'date': date,
         }),
       );
 
