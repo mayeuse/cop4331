@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'log_exercise_page.dart';
-import 'weekly_goals_page.dart';
-import 'progress.dart';
+import 'add_goal_page.dart';
+//import 'progress.dart';
 
 class DashboardPage extends StatefulWidget {
   final String userId;
@@ -23,8 +23,8 @@ class _DashboardPageState extends State<DashboardPage> {
     // Initialize the pages list with the userId passed to the forms
     pages = [
       Center(child: Text('Dashboard Content')),
-      ProgressPage(userId: widget.userId),
-      WeeklyGoalsPage(userId: widget.userId),
+      Center(child: Text('Progress Content')),
+      AddGoalPage(userId: widget.userId),
       LogExercisePage(userId: widget.userId),
     ];
   }
@@ -57,7 +57,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               TextButton(
                 onPressed: () => onTabTapped(2),
-                child: Text('Weekly Goals'),
+                child: Text('Add Goals'),
               ),
               TextButton(
                 onPressed: () => onTabTapped(3),

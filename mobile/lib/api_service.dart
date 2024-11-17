@@ -121,6 +121,7 @@ class ApiService {
     required String userId,
     required String type,
     required int calories,
+    required String date,
   }) async {
     final url = Uri.parse('$baseUrl/exerciselog');
 
@@ -132,6 +133,7 @@ class ApiService {
           'userId': userId,
           'type': type,
           'calories': calories,
+          'date': date,
         }),
       );
 
@@ -146,14 +148,31 @@ class ApiService {
     }
   }
 
-  // Function to set a weekly goal
+  // Function to add a new goal
   static Future<Map<String, dynamic>?> addGoal({
     required String userId,
     required String type,
     required int target,
+    required String units,
     required String interval,
   }) async {
     final url = Uri.parse('$baseUrl/goals');
+
+    // Map the interval to match the expected string format
+    /*String mappedInterval = '';
+    switch (interval) {
+      case 'WEEKLY':
+        mappedInterval = 'WEEKLY';
+        break;
+      case 'BIWEEKLY':
+        mappedInterval = 'BIWEEKLY';
+        break;
+      case 'MONTHLY':
+        mappedInterval = 'MONTHLY';
+        break;
+      default:
+        mappedInterval = 'WEEKLY'; // Default to WEEKLY if not specified
+    }*/
 
     try {
       final response = await http.post(
@@ -163,6 +182,7 @@ class ApiService {
           'userId': userId,
           'type': type,
           'target': target,
+          'units': units,
           'interval': interval,
         }),
       );
@@ -170,10 +190,11 @@ class ApiService {
       if (response.statusCode == 200) {
         return {'success': true};
       } else {
-        return {'error': 'Failed to set goal'};
+        print('API Error Response: ${response.body}');
+        return {'error': 'Failed to add goal'};
       }
     } catch (e) {
-      print('Set Goal Error: $e');
+      print('Add Goal Error: $e');
       return {'error': 'Failed to connect to the server'};
     }
   }
