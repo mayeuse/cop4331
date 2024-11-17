@@ -26,8 +26,6 @@ const Dashboard = (): React.JSX.Element => {
   
   const handleConfirmLogout = () => {
     userDataContext.data = null; // remove user data
-    // setIsLoggedIn(false);
-    // localStorage.removeItem("isLoggedIn");
     setModalVisible(false); // Close the modal after logout
   };
   
