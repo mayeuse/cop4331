@@ -178,6 +178,31 @@ class ApiService {
     }
   }
 
+  // Function to fetch badges data
+  static Future<List<dynamic>?> getUserBadges(String userId) async {
+    final url = Uri.parse('$baseUrl/data/badges');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'userId': userId // Send the userId in the headers if needed
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        print('Failed to fetch badges');
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching badges: $e');
+      return null;
+    }
+  }
+
   /*
   // Function to reset the password
   static Future<Map<String, dynamic>?> resetPassword(
