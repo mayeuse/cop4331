@@ -11,7 +11,7 @@ import Register from "@/pages/register.tsx";
 import Login from "@/pages/login";
 import LandingPage, { LandingBody, Team } from "@/pages/landing.tsx";
 import Dashboard, { DashboardBody, ExerciseBody, GoalBody, ProgressBody } from "@/pages/dashboard.tsx";
-import { useCookies } from "react-cookie";
+import { CookiesProvider, useCookies } from "react-cookie";
 
 export type UserDataContext = Replaced<UserDataSchema, ObjectId, string, Primitive | Date>
 
@@ -23,7 +23,7 @@ export interface UserContext {
 
 export const USER_CONTEXT: React.Context<UserContext> = React.createContext<UserContext>({ data: null });
 
-export const [ authCookie, setAuthCookie, removeAuthCookie ] = useCookies([ "appley-auth" ]);
+export const useAuthCookie = () =>  useCookies([ "appley-auth" ]);
 
 export const ROUTER = createBrowserRouter([
   {
@@ -74,7 +74,9 @@ export const ROUTER = createBrowserRouter([
 
 createRoot(document.getElementById("root")!)
   .render(
-    <React.StrictMode>
-      <RouterProvider router={ ROUTER } />
-    </React.StrictMode>,
+    <CookiesProvider>
+      <React.StrictMode>
+        <RouterProvider router={ ROUTER } />
+      </React.StrictMode>
+    </CookiesProvider>,
   );

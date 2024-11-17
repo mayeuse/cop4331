@@ -6,8 +6,6 @@ import { BadgeDataRequest } from "@/utils/client/askforassets";
 import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database/impl/userdataimpl.ts";
 import {
   AddExercisePacket,
-  AddGoalPacket,
-  RegisterPacket,
   IResetPasswordPacket,
   IAddGoalPacket, ILoginPacket, IRegisterPacket,
 } from "@/typings/packets.ts";
