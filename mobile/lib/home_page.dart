@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 import 'team_page.dart';
+import 'package:tailwind_cli/tailwind_cli.dart';
 
 class HomePage extends StatefulWidget {
   @override
