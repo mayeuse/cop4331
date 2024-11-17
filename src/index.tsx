@@ -10,69 +10,71 @@ import { type ObjectId } from "mongodb";
 import Register from "@/pages/register.tsx";
 import Login from "@/pages/login";
 import LandingPage, { LandingBody, Team } from "@/pages/landing.tsx";
-import Forgotpassword from "@/pages/forgotpassword.tsx";
 import Dashboard, { DashboardBody, ExerciseBody, GoalBody, ProgressBody } from "@/pages/dashboard.tsx";
+import { useCookies } from "react-cookie";
 
 export type UserDataContext = Replaced<UserDataSchema, ObjectId, string, Primitive | Date>
+
 // userdataschema after the ObjectIds were stringified
 
 export interface UserContext {
-  data: UserDataContext | null
+  data: UserDataContext | null;
 }
 
-export const USER_CONTEXT: React.Context<UserContext> = React.createContext<UserContext>({ data: null })
+export const USER_CONTEXT: React.Context<UserContext> = React.createContext<UserContext>({ data: null });
+
+export const [ authCookie, setAuthCookie, removeAuthCookie ] = useCookies([ "appley-auth" ]);
 
 export const ROUTER = createBrowserRouter([
   {
-    path: '/',
-    element: <LandingPage/>,
+    path: "/",
+    element: <LandingPage />,
     children: [
       {
-        path: '',
-        element: <LandingBody/>
+        path: "",
+        element: <LandingBody />,
       },
       {
-        path: 'register',
-        element: <Register/>
+        path: "register",
+        element: <Register />,
       },
       {
-        path: 'login',
-        element: <Login/>,
+        path: "login",
+        element: <Login />,
       },
       {
-        path: 'team',
-        element: <Team/>
-      }
-    ]
+        path: "team",
+        element: <Team />,
+      },
+    ],
   },
   {
-    path: '/dashboard',
-    element: <Dashboard/>,
+    path: "/dashboard",
+    element: <Dashboard />,
     children: [
       {
-        path: 'progress',
-        element: <ProgressBody/>
+        path: "",
+        element: <DashboardBody />,
       },
       {
-        path: '',
-        element: <DashboardBody/>
+        path: "progress",
+        element: <ProgressBody />,
       },
       {
-        path: 'goals',
-        element: <GoalBody/>
+        path: "goals",
+        element: <GoalBody />,
       },
       {
-        path: 'exercise',
-        element: <ExerciseBody/>
-      }
-    ]
-  }
-])
+        path: "exercise",
+        element: <ExerciseBody />,
+      },
+    ],
+  },
+]);
 
-const root = createRoot(document.getElementById("root")!);
-
-root.render(
-  <React.StrictMode>
-    <RouterProvider router={ROUTER}/>
-  </React.StrictMode>,
-);
+createRoot(document.getElementById("root")!)
+  .render(
+    <React.StrictMode>
+      <RouterProvider router={ ROUTER } />
+    </React.StrictMode>,
+  );

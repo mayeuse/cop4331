@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import Modal from "./modal.tsx";
 import { USER_CONTEXT } from "@/index.tsx";
-import { NavLink, Outlet } from "react-router-dom";
+import { LoaderFunction, LoaderFunctionArgs, NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = (): React.JSX.Element => {
   const [ isModalVisible, setModalVisible ] = useState(false);
@@ -143,6 +143,11 @@ export function ExerciseBody() //import to own file later
       <h1 className="text-lg">Be Honest, I know when you lie.</h1>
     </div>
   );
+}
+
+/** @type LoaderFunction */
+export function loader(args: LoaderFunctionArgs) {
+
 }
 
 export default Dashboard;

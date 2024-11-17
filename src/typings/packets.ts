@@ -1,5 +1,7 @@
 import { ExerciseType, GoalData, GoalType } from "@/typings/database/userdata";
 import { UserDataIdString } from "@/typings/database";
+import { Intervals } from "@/typings/impl/constants.ts";
+import { Replaced } from "@/typings/util.ts";
 
 
 // export type Serializer = [ InstanceType<any>, Function ]
@@ -162,7 +164,7 @@ export class AddExercisePacket extends Packet implements IAddExercisePacket {
   // }
 }
 
-export interface IAddGoalPacket extends GoalData {
+export interface IAddGoalPacket extends Replaced<GoalData, Date, keyof typeof Intervals>  {
   type: GoalType,
   userId: UserDataIdString
 }
@@ -172,9 +174,9 @@ export class AddGoalPacket extends Packet implements IAddGoalPacket {
   public type: GoalType;
   public target: number;
   public units: string;
-  public interval: Date;
+  public interval: keyof typeof Intervals;
   
-  constructor(userId: UserDataIdString, type: GoalType, target: number, units: string, interval: Date) {
+  constructor(userId: UserDataIdString, type: GoalType, target: number, units: string, interval: keyof typeof Intervals) {
     super();
     this.userId = userId;
     this.type = type;
@@ -182,20 +184,4 @@ export class AddGoalPacket extends Packet implements IAddGoalPacket {
     this.units = units;
     this.interval = interval;
   }
-  
-  // static TYPES = {
-  //   userId: DESERIALIZERS.ObjectId,
-  //   type: (s: string) => GoalType[s as keyof typeof GoalType],
-  //   interval: DESERIALIZERS.Date,
-  //   units: DESERIALIZERS.itself,
-  //   target: DESERIALIZERS.itself
-  // }
-  //
-  // public static deserialize(it: object): IAddGoalPacket | null {
-  //   return super.deserializerObject<IAddGoalPacket>(it, this.TYPES);
-  // }
-  //
-  // public static deserializeStr(it: string): IAddGoalPacket | null {
-  //   return this.deserializer<IAddGoalPacket>(it, )
-  // }
 }
