@@ -1,12 +1,7 @@
 import React, { useState } from "react"
 import styles from "./index.module.css";
-import RegisterBody from "./register.tsx";
-import LoginBody from "./login.tsx";
 import { NavLink, Outlet } from "react-router-dom";
 
-interface LandingPageProps {
-    setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>; // Accept setter as a prop
-}
 
 const LandingPage = (): React.JSX.Element =>
 {
@@ -18,7 +13,7 @@ const LandingPage = (): React.JSX.Element =>
                 </h1>
                 <div className="mt-3">
                     <div className="flex border-b border-yellow-700">
-                        <NavLink to={ "home" } className={ ({ isActive }) =>
+                        <NavLink to={ "" } className={ ({ isActive }) =>
                           `py-3 px-8 ${
                             isActive
                               ? "border-b-2 border-yellow-700 text-lime-900 font-bold"
@@ -27,16 +22,6 @@ const LandingPage = (): React.JSX.Element =>
                         }>
                             Home
                         </NavLink>
-                        {/*<button*/ }
-                        {/*    className={`py-3 px-8 ${*/ }
-                        {/*    activeTab === "landing"*/ }
-                        {/*        ? "border-b-2 border-yellow-700 text-lime-900 font-bold"*/ }
-                        {/*        : "text-yellow-700 hover:text-lime-900"*/ }
-                        {/*    }`}*/ }
-                        {/*    onClick={() => handleTabChange("landing")}*/ }
-                        {/*>*/ }
-                        {/*    Home*/ }
-                        {/*</button>*/ }
                         <NavLink to={ "register" }
                                  className={ ({ isActive }) => `py-3 px-8 ${
                                    isActive

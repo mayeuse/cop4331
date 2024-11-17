@@ -4,7 +4,7 @@ import ForgotPassBody from "./forgotpassword.tsx";
 import { LoginPacket, ENDPOINTS } from "@/typings";
 import { USER_CONTEXT } from "@/index.tsx";
 
-const LoginBody = (): React.JSX.Element =>
+export default function(): React.JSX.Element
 {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -33,6 +33,7 @@ const LoginBody = (): React.JSX.Element =>
           setError('');
           
           useContext(USER_CONTEXT).data = data
+          window.location.href = 'dashboard' // navigate to dashboard
         } else {
           console.error("API Error Response:", data);
           setSuccessMessage('');
@@ -43,7 +44,7 @@ const LoginBody = (): React.JSX.Element =>
         setSuccessMessage('');
         setError('An error occurred. Please try again later.');
       }
-    };    
+    };
 
     return (
       <div className={styles.wrapper}>
@@ -86,5 +87,3 @@ const LoginBody = (): React.JSX.Element =>
       </div>
     )
 }
-
-export default LoginBody;

@@ -16,7 +16,7 @@ const HomePage = (): React.JSX.Element => {
   return (
     <div className="justify-center">
       {isLoggedIn ? (
-        <Dashboard setIsLoggedIn={setIsLoggedIn} />
+        <Dashboard />
       ) : (
         <LandingPage />
       )}

@@ -11,6 +11,7 @@ import Register from "@/pages/register.tsx";
 import Login from "@/pages/login";
 import LandingPage, { LandingBody, Team } from "@/pages/landing.tsx";
 import Forgotpassword from "@/pages/forgotpassword.tsx";
+import Dashboard, { DashboardBody, ExerciseBody, GoalBody, ProgressBody } from "@/pages/dashboard.tsx";
 
 export type UserDataContext = Replaced<UserDataSchema, ObjectId, string, Primitive | Date>
 // userdataschema after the ObjectIds were stringified
@@ -21,13 +22,13 @@ export interface UserContext {
 
 export const USER_CONTEXT: React.Context<UserContext> = React.createContext<UserContext>({ data: null })
 
-const ROUTER = createBrowserRouter([
+export const ROUTER = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage/>,
     children: [
       {
-        path: 'home',
+        path: '',
         element: <LandingBody/>
       },
       {
@@ -36,11 +37,33 @@ const ROUTER = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <Login/>
+        element: <Login/>,
       },
       {
         path: 'team',
         element: <Team/>
+      }
+    ]
+  },
+  {
+    path: '/dashboard',
+    element: <Dashboard/>,
+    children: [
+      {
+        path: 'progress',
+        element: <ProgressBody/>
+      },
+      {
+        path: '',
+        element: <DashboardBody/>
+      },
+      {
+        path: 'goals',
+        element: <GoalBody/>
+      },
+      {
+        path: 'exercise',
+        element: <ExerciseBody/>
       }
     ]
   }
