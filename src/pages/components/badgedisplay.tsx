@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { UserContext } from "@/index.tsx";
+import { USER_CONTEXT } from "@/index.tsx";
 import { BadgeSchema } from "@/typings/database";
 import { askForBadgeData } from "@/utils/client/askforassets.ts";
 
@@ -16,9 +16,9 @@ export const CSS = {
 };
 
 export default (): React.JSX.Element => {
-  const { user, setUser } = useContext(UserContext);
+  const user = useContext(USER_CONTEXT);
   
-  const userBadgeDatas = (user?.badges ?? []);
+  const userBadgeDatas = (user.data?.badges ?? []);
   
   const badgeData_p: Promise<BadgeSchema>[] = userBadgeDatas.map(el => askForBadgeData(el.badge_id))
   
