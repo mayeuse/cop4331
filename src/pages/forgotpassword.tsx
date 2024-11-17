@@ -16,7 +16,7 @@ const ForgotPassBody = (): React.JSX.Element =>
         const response = await fetch('/api/v1/forgotPassword', {
             method: 'POST',
             headers: {
-            'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({email}),
         });
@@ -30,8 +30,8 @@ const ForgotPassBody = (): React.JSX.Element =>
             setError(data.error || 'Failed to send reset link. Please try again.');
         }
         } catch (err) {
-        console.error("Forgot Password Error:", err);
-        setError('An error occurred. Please try again later.');
+            console.error("Forgot Password Error:", err);
+            setError('An error occurred. Please try again later.');
         }
     };
 

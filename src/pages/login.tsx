@@ -1,14 +1,10 @@
-import React, { useState } from "react"
+import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import ForgotPassBody from "./forgotpassword.tsx";
 import { LoginPacket, ENDPOINTS } from "@/typings";
+import { USER_CONTEXT } from "@/index.tsx";
 
-interface LoginBodyProps {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>; // Accept setter as a prop
-  // onForgotPassword: () => void;
-}
-
-const LoginBody = ({setIsLoggedIn}: LoginBodyProps): React.JSX.Element =>
+const LoginBody = (): React.JSX.Element =>
 {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -33,9 +29,10 @@ const LoginBody = ({setIsLoggedIn}: LoginBodyProps): React.JSX.Element =>
         console.log("API Response:", data);
     
         if (response.ok && !data.error) {
-          setIsLoggedIn(true); 
           setSuccessMessage(`Login successful! Welcome, ${data.name}`);
           setError('');
+          
+          useContext(USER_CONTEXT).data = data
         } else {
           console.error("API Error Response:", data);
           setSuccessMessage('');

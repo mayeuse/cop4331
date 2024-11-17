@@ -18,7 +18,7 @@ const HomePage = (): React.JSX.Element => {
       {isLoggedIn ? (
         <Dashboard setIsLoggedIn={setIsLoggedIn} />
       ) : (
-        <LandingPage setIsLoggedIn={setIsLoggedIn} />
+        <LandingPage />
       )}
     </div>
   );
