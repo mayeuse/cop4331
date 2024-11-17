@@ -1,5 +1,5 @@
-export namespace Intervals { // this sucks, this really sucks
-    export const WEEKLY: Date = new Date(0, 0, 7)
-    export const BIWEEKLY: Date = new Date(0, 0, 14)
-    export const MONTHLY: Date = new Date(0, 1)
+export const Intervals = { // this sucks, this really sucks
+    WEEKLY: new Date(0, 0, 7),
+    BIWEEKLY: new Date(0, 0, 14),
+    MONTHLY: new Date(0, 1)
 }

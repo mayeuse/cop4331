@@ -12,6 +12,7 @@ import Login from "@/pages/login";
 import LandingPage, { LandingBody, Team } from "@/pages/landing.tsx";
 import Dashboard, { DashboardBody, ExerciseBody, GoalBody, ProgressBody } from "@/pages/dashboard.tsx";
 import { CookiesProvider, useCookies } from "react-cookie";
+import GoalForm from "@/pages/forms/newgoal.tsx";
 
 export type UserDataContext = Replaced<UserDataSchema, ObjectId, string, Primitive | Date>
 
@@ -23,9 +24,9 @@ export interface UserContext {
 
 export const USER_CONTEXT: React.Context<UserContext> = React.createContext<UserContext>({ data: null });
 
-export const useAuthCookie = () =>  useCookies([ "appley-auth" ]);
+export const useAuthCookie = () => useCookies([ "appley-auth" ]);
 
-export const ROUTER = createBrowserRouter([
+const ROUTER = createBrowserRouter([
   {
     path: "/",
     element: <LandingPage />,
@@ -70,6 +71,10 @@ export const ROUTER = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/addGoal',
+    element: <GoalForm/>
+  }
 ]);
 
 createRoot(document.getElementById("root")!)

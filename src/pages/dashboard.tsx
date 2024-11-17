@@ -4,7 +4,7 @@ import Modal from "./modal.tsx";
 import { USER_CONTEXT } from "@/index.tsx";
 import { LoaderFunctionArgs, NavLink, Outlet } from "react-router-dom";
 
-const Dashboard = (): React.JSX.Element => {
+export default function(): React.JSX.Element {
   const [ isModalVisible, setModalVisible ] = useState(false);
   
   const userDataContext = useContext(USER_CONTEXT);
@@ -145,9 +145,7 @@ export function ExerciseBody() //import to own file later
   );
 }
 
-/** @type LoaderFunction */
 export function loader(args: LoaderFunctionArgs) {
 
 }
 
-export default Dashboard;

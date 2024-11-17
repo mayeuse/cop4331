@@ -1,5 +1,7 @@
 
-
+export function capitalize(s: string): string {
+    return s.charAt(0).toUpperCase() + s.substring(1)
+}
 
 /**
  * @param obj The object to test.
