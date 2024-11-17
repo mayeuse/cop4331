@@ -2,9 +2,11 @@ import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import ForgotPassBody from "./forgotpassword.tsx";
 import { ENDPOINTS, LoginPacket } from "@/typings";
-import { authCookie, USER_CONTEXT } from "@/index.tsx";
+import { useAuthCookie, USER_CONTEXT } from "@/index.tsx";
 
 export default function(): React.JSX.Element {
+  const [authCookie] = useAuthCookie()
+  
   if (authCookie["appley-auth"]) {
     return <div className={ styles.wrapper }>Already logged in!</div>;
   }
