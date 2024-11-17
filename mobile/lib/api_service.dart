@@ -58,19 +58,39 @@ class ApiService {
   // Function to login
   static Future<Map<String, dynamic>?> loginUser(String username, String password) async {
     final url = Uri.parse('$baseUrl/login');
-    final response = await http.post(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        'login': username, 
-        'password': password
-        }),
-    );
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'login': username, 
+          'password': password
+          }),
+      );
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      return {'error': response.body};
+      // Check if the response is successful
+      if (response.statusCode == 200) {
+        final responseBody = jsonDecode(response.body);
+
+        // Debugging: print the parsed response
+        print('Login Response: $responseBody');
+
+        // Ensure 'id' and 'name' are returned
+        if (responseBody.containsKey('id') && responseBody.containsKey('name')) {
+          return {
+            'id': responseBody['id'].toString(),
+            'name': responseBody['name'],
+            'error': null
+          };
+        } else {
+          return {'error': 'User ID or Name not found'};
+        }
+      } else {
+        return {'error': jsonDecode(response.body)['error'] ?? 'Invalid credentials'};
+      }
+    } catch (e) {
+      print('Login Error: $e');
+      return {'error': 'Failed to connect to the server'};
     }
   }
 
@@ -93,6 +113,68 @@ class ApiService {
     } catch (e) {
       print('Forgot Password Error: $e');
       return {'error': 'Failed to send password reset email'};
+    }
+  }
+
+  // Function to log an exercise
+  static Future<Map<String, dynamic>?> addExercise({
+    required String userId,
+    required String type,
+    required int calories,
+  }) async {
+    final url = Uri.parse('$baseUrl/exerciselog');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'type': type,
+          'calories': calories,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return {'success': true};
+      } else {
+        return {'error': 'Failed to log exercise'};
+      }
+    } catch (e) {
+      print('Log Exercise Error: $e');
+      return {'error': 'Failed to connect to the server'};
+    }
+  }
+
+  // Function to set a weekly goal
+  static Future<Map<String, dynamic>?> addGoal({
+    required String userId,
+    required String type,
+    required int target,
+    required String interval,
+  }) async {
+    final url = Uri.parse('$baseUrl/goals');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'userId': userId,
+          'type': type,
+          'target': target,
+          'interval': interval,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return {'success': true};
+      } else {
+        return {'error': 'Failed to set goal'};
+      }
+    } catch (e) {
+      print('Set Goal Error: $e');
+      return {'error': 'Failed to connect to the server'};
     }
   }
 

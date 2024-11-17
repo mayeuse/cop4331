@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart'; // Import your API service
+import 'dashboard_page.dart';
 
 class LoginPage extends StatefulWidget {
   // Add the key parameter
@@ -16,19 +17,32 @@ class _LoginPageState extends State<LoginPage> {
   String successMessage = '';
 
   Future<void> handleLogin() async {
-    final response = await ApiService.loginUser(
-      usernameController.text,
-      passwordController.text,
-    );
+    final username = usernameController.text;
+    final password = passwordController.text;
+
+    if (username.isEmpty || password.isEmpty) {
+      setState(() {
+        errorMessage = 'Please fill in all fields';
+      });
+      return;
+    }
+
+    final response = await ApiService.loginUser(username, password);
+    
     //if (mounted) {
-      if (response != null && response['name'] != null) {
+      if (response != null && response['id'] != null) {
         setState(() {
           successMessage = 'Login successful! Welcome, ${response['name']}';
           errorMessage = '';
         });
 
         // Navigate to the Dashboard
-        Navigator.pushReplacementNamed(context, '/dashboard');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => DashboardPage(userId: response['id']),
+          ),
+        );
       } else {
         setState(() {
           successMessage = '';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'login_page.dart';
 import 'register_page.dart';
-import 'dashboard_page.dart';
 import 'forgot_password_page.dart';
 
 void main() {
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => HomePage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
-        '/dashboard': (context) => DashboardPage(),
+        //'/dashboard': (context) => DashboardPage(),
         '/forgotPassword': (context) => ForgotPasswordPage(),
       },
     );
