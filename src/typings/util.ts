@@ -17,3 +17,13 @@ export type XOR<T, U> = (T | U) extends object ? (Without<T, U> & U) | (Without<
 
 
 export type PropertyKeys<T> =  { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
+
+export type Primitive = string | number | bigint | boolean | null | undefined;
+
+export type Replaced<T, TReplace, TWith, TKeep = Primitive> = T extends TReplace | TKeep
+  ? (T extends TReplace
+    ? TWith | Exclude<T, TReplace>
+    : T)
+  : {
+    [P in keyof T]: Replaced<T[P], TReplace, TWith, TKeep>
+  }

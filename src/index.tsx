@@ -6,18 +6,14 @@ import App from "@/App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 import { UserDataSchema } from "@/typings/database";
+import { Primitive, Replaced } from "@/typings";
+import { type ObjectId } from "mongodb";
 
-export interface GlobalUserContext {
-  user: UserDataSchema | null,
-  setUser: (it: UserDataSchema) => void
-}
+export type UserDataContext = Replaced<UserDataSchema, ObjectId, string, Primitive | Date> // userdataschema after the objectids were stringified
 
-const [user, setUser] = useState<UserDataSchema | null>( null)
-
-export const UserContext: React.Context<GlobalUserContext> = React.createContext<GlobalUserContext>({user, setUser})
+export const UserContext: React.Context<UserDataContext | null> = React.createContext<UserDataContext | null>(null)
 
 const root = createRoot(document.getElementById("root")!);
-
 root.render(
   <React.StrictMode>
     <BrowserRouter>

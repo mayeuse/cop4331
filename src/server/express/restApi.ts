@@ -4,8 +4,15 @@ import { Collections } from "./mongo";
 import { ENDPOINTS } from "@/typings/constants";
 import { BadgeDataRequest } from "@/utils/client/askforassets";
 import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database/impl/userdataimpl.ts";
-import { AddExercisePacket, AddGoalPacket, RegisterPacket, IResetPasswordPacket } from "@/typings/packets.ts";
+import {
+  AddExercisePacket,
+  AddGoalPacket,
+  RegisterPacket,
+  IResetPasswordPacket,
+  IAddGoalPacket, ILoginPacket, IRegisterPacket,
+} from "@/typings/packets.ts";
 import { sendMail } from "@/utils/mailer";
+import { ObjectId } from "mongodb";
 
 
 
@@ -31,7 +38,7 @@ app.get("/api/v1/health", (req, res) => {
 app.post(ENDPOINTS.Forms.Login, async (req, res, next) => {
   // incoming: login, password
   // outgoing: id, name, error
-  const { login, password } = req.body;
+  const { login, password } = req.body as ILoginPacket;
   const results = await (await Collections.UserData.find({ username: login, password: password })).toArray();
   let id = "";
   let name = "";
@@ -50,7 +57,7 @@ app.post(ENDPOINTS.Forms.Login, async (req, res, next) => {
 app.post(ENDPOINTS.Forms.Register, async (req, res, next) => {
   // incoming: name, email, login, password
   // outgoing: id, error
-  const { name, email, login, password } = RegisterPacket.deserialize(req.body);
+  const { name, email, login, password } = req.body as IRegisterPacket;
   
   
   const results = await Collections.UserData.insert(new UserDataImpl(name, login, password, { email }));
@@ -125,19 +132,19 @@ app.post('/api/v1/passwordReset', async (req, res, next) =>
 
 
 app.post(ENDPOINTS.Forms.AddExercise, async (req, res) => {
-  const payload = AddExercisePacket.deserialize(req.body);
+  const payload: AddExercisePacket = req.body;
   if (!payload)
     return onInvalidPayload(res);
   
   const exercise = ExerciseDataImpl.of(payload);
   
-  await Collections.UserData.pushExercise(payload.userId, exercise); // TODO return error if invalid
+  await Collections.UserData.pushExercise(ObjectId.createFromHexString(payload.userId), exercise); // TODO return error if invalid
   
   res.status(200).send();
 });
 
 app.post(ENDPOINTS.Forms.Goals, async (req, res) => {
-  const payload = AddGoalPacket.deserialize(req.body);
+  const payload: IAddGoalPacket = req.body;
   if (!payload) {
     return onInvalidPayload(res);
   }
@@ -145,7 +152,7 @@ app.post(ENDPOINTS.Forms.Goals, async (req, res) => {
   if (!GoalCtor) {
     return onInvalidPayload(res);
   }
-  const pushResult = await Collections.UserData.updateGoal(payload.userId, payload.type, new GoalCtor(payload.target, payload.interval));
+  const pushResult = await Collections.UserData.updateGoal(ObjectId.createFromHexString(payload.userId), payload.type, new GoalCtor(payload.target, payload.interval));
   if (pushResult.acknowledged)
     res.status(200).send()
   else
@@ -154,12 +161,12 @@ app.post(ENDPOINTS.Forms.Goals, async (req, res) => {
 
 // Get badge data (name, desc, etc.) by id for dashboard badge display
 app.get(ENDPOINTS.Data.Badges, async (req, res) => {
-  const payload = BadgeDataRequest.deserialize(req.body);
+  const payload: BadgeDataRequest = req.body;
   if (!payload) {
     return onInvalidPayload(res);
   }
   
-  const badgeData = await Collections.Badges.get({ _id: payload.id });
+  const badgeData = await Collections.Badges.get({ _id: ObjectId.createFromHexString(payload.id) });
   if (badgeData)
     res.status(200).json(badgeData);
   else

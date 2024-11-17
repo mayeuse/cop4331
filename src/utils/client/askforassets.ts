@@ -1,9 +1,8 @@
-import { BadgeId, BadgeSchema } from "@/typings/database";
+import { BadgeId, BadgeIdString, BadgeSchema } from "@/typings/database";
 import { ENDPOINTS } from "@/typings/constants";
-import { ObjectId } from "mongodb";
-import { DESERIALIZERS, Packet } from "@/typings/packets.ts";
+import { Packet } from '@/typings'
 
-export function askForBadgeData(id: BadgeId): Promise<BadgeSchema> {
+export function askForBadgeData(id: BadgeIdString): Promise<BadgeSchema> {
   if (id == null)
     return Promise.reject()
   
@@ -17,22 +16,22 @@ export function askForBadgeData(id: BadgeId): Promise<BadgeSchema> {
 //@ts-ignore
 export class BadgeDataRequest extends Packet {
   constructor(
-    public id: ObjectId,
+    public id: BadgeIdString,
     public type: 'badge'
   ) {
     super()
   }
   
-  private static TYPES = {
-    id: DESERIALIZERS.ObjectId,
-    type: DESERIALIZERS.itself
-  }
-  
-  public static deserialize(it: object): BadgeDataRequest | null {
-    return super.deserializerObject(it, this.TYPES)
-  }
-  
-  public static deserializeStr(it: string): BadgeDataRequest | null {
-    return Packet.deserializer<BadgeDataRequest>(it, this.TYPES)
-  }
+  // private static TYPES = {
+  //   id: DESERIALIZERS.ObjectId,
+  //   type: DESERIALIZERS.itself
+  // }
+  //
+  // public static deserialize(it: object): BadgeDataRequest | null {
+  //   return super.deserializerObject(it, this.TYPES)
+  // }
+  //
+  // public static deserializeStr(it: string): BadgeDataRequest | null {
+  //   return Packet.deserializer<BadgeDataRequest>(it, this.TYPES)
+  // }
 }
