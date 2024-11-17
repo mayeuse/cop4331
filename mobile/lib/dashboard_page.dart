@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'log_exercise_page.dart';
-import 'weekly_goals_page.dart';
+import 'add_goal_page.dart';
 //import 'progress.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _DashboardPageState extends State<DashboardPage> {
     pages = [
       Center(child: Text('Dashboard Content')),
       Center(child: Text('Progress Content')),
-      WeeklyGoalsPage(userId: widget.userId),
+      AddGoalPage(userId: widget.userId),
       LogExercisePage(userId: widget.userId),
     ];
   }
@@ -57,7 +57,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               TextButton(
                 onPressed: () => onTabTapped(2),
-                child: Text('Weekly Goals'),
+                child: Text('Add Goals'),
               ),
               TextButton(
                 onPressed: () => onTabTapped(3),
