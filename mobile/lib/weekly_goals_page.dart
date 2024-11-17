@@ -46,7 +46,7 @@ class _WeeklyGoalsPageState extends State<WeeklyGoalsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Set Weekly Goal')),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
