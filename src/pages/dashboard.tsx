@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import Modal from "./modal.tsx";
-import { USER_CONTEXT } from "@/index.tsx";
+import { UserContext } from "@/index.tsx";
 import { LoaderFunctionArgs, NavLink, Outlet } from "react-router-dom";
 
 export default function(): React.JSX.Element {
   const [ isModalVisible, setModalVisible ] = useState(false);
   
-  const userDataContext = useContext(USER_CONTEXT);
+  const userDataContext = useContext(UserContext);
   
   function Logout() {
     return (

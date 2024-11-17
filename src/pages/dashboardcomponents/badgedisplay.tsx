@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { USER_CONTEXT } from "@/index.tsx";
+import { UserContext } from "@/index.tsx";
 import { BadgeSchema } from "@/typings/database";
 import { askForBadgeData } from "@/utils/client/askforassets.ts";
 
@@ -16,7 +16,7 @@ export const CSS = {
 };
 
 export default (): React.JSX.Element => {
-  const user = useContext(USER_CONTEXT);
+  const user = useContext(UserContext);
   
   const userBadgeDatas = (user.data?.badges ?? []);
   

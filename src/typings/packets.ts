@@ -2,6 +2,7 @@ import { ExerciseType, GoalData, GoalType } from "@/typings/database/userdata";
 import { UserDataIdString } from "@/typings/database";
 import { Intervals } from "@/typings/impl/constants.ts";
 import { Replaced } from "@/typings/util.ts";
+import { GoalDataImpl } from '@/typings/database/impl/userdataimpl.ts';
 
 
 // export type Serializer = [ InstanceType<any>, Function ]
@@ -184,4 +185,13 @@ export class AddGoalPacket extends Packet implements IAddGoalPacket {
     this.units = units;
     this.interval = interval;
   }
+  
+  public toClientGoalData() {
+    return new GoalDataImpl(this.target, this.units, new Date(this.interval));
+  }
+}
+
+export interface ErrorPacket {
+  code: number,
+  message: string
 }

@@ -10,7 +10,15 @@ export const ENDPOINTS = {
   Forms: {
     Login: '/api/v1/login',
     Register: '/api/v1/register',
-    Goals: '/api/v1/goals',
+    AddGoal: '/api/v1/addgoal',
     AddExercise: '/api/v1/exerciselog'
   }
 }
+
+export enum ErrorCodes {
+  UNKNOWN = 0,
+  NOT_LOGGED_IN = 1,
+  NO_ACCESS = 2
+}
+
+export const AUTH_HEADER = 'authentication'

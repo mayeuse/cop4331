@@ -1,14 +1,14 @@
 import express, { Application, Response } from "express";
 import cors from "cors";
 import { Collections } from "./mongo";
-import { ENDPOINTS } from "@/typings/constants";
+import { AUTH_HEADER, ENDPOINTS } from '@/typings/constants';
 import { BadgeDataRequest } from "@/utils/client/askforassets";
 import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database/impl/userdataimpl.ts";
 import {
   AddExercisePacket,
   IResetPasswordPacket,
-  IAddGoalPacket, ILoginPacket, IRegisterPacket,
-} from "@/typings/packets.ts";
+  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket,
+} from '@/typings/packets.ts';
 import { sendMail } from "@/utils/mailer";
 import { ObjectId } from "mongodb";
 import { Intervals } from "@/typings";
@@ -17,8 +17,11 @@ import { Intervals } from "@/typings";
 
 const app: Application = express();
 
-function onInvalidPayload(res: Response): void {
-  res.status(400).send();
+function onInvalidPayload(res: Response, errorMessage: string = "Invalid payload.", errorCode: number = 0): void {
+  res.status(400).json({
+    code: errorCode,
+    message: errorMessage
+  } as ErrorPacket);
   return;
 }
 
@@ -39,6 +42,11 @@ app.post(ENDPOINTS.Forms.Login, async (req, res, next) => {
   // outgoing: id, name, error
   const { login, password } = req.body as ILoginPacket;
   const results = await (await Collections.UserData.find({ username: login, password: password })).toArray();
+  
+  if (results.length !== 0) {
+    res.status(200).json(results[0])
+  }
+  
   let id = "";
   let name = "";
   if (results.length > 0) {
@@ -142,15 +150,16 @@ app.post(ENDPOINTS.Forms.AddExercise, async (req, res) => {
   res.status(200).send();
 });
 
-app.post(ENDPOINTS.Forms.Goals, async (req, res) => {
+app.post(ENDPOINTS.Forms.AddGoal, async (req, res) => {
   const payload: IAddGoalPacket = req.body;
-  if (!payload) {
-    return onInvalidPayload(res);
+  if (!payload.userId || !req.headers[AUTH_HEADER]) {
+    return onInvalidPayload(res, "No authentication.");
   }
   const GoalCtor = GoalDataImpl.forType(payload.type);
   if (!GoalCtor) {
-    return onInvalidPayload(res);
+    return onInvalidPayload(res, "No goal found for " + payload.type);
   }
+  
   let interval;
   switch (payload.interval) {
     case "WEEKLY":
@@ -166,6 +175,8 @@ app.post(ENDPOINTS.Forms.Goals, async (req, res) => {
       onInvalidPayload(res)
       return;
   }
+  
+  // if (!(await )) // TODO check that user exists? or ig the update goal thing does that already
   
   const pushResult = await Collections.UserData.updateGoal(ObjectId.createFromHexString(payload.userId), payload.type, new GoalCtor(payload.target, interval));
   if (pushResult.acknowledged)

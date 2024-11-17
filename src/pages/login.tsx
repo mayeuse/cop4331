@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import ForgotPassBody from "./forgotpassword.tsx";
 import { ENDPOINTS, LoginPacket } from "@/typings";
-import { useAuthCookie, USER_CONTEXT } from "@/index.tsx";
+import { useAuthCookie, UserContext } from "@/index.tsx";
 
 export default function(): React.JSX.Element {
   const [authCookie] = useAuthCookie()
@@ -37,7 +37,7 @@ export default function(): React.JSX.Element {
         setSuccessMessage(`Login successful! Welcome, ${ data.name }`);
         setError("");
         
-        useContext(USER_CONTEXT).data = data;
+        useContext(UserContext).data = data;
         window.location.href = "dashboard"; // navigate to dashboard
       } else {
         console.error("API Error Response:", data);
