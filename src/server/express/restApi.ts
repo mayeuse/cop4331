@@ -224,9 +224,8 @@ app.post(ENDPOINTS.Data.RetrieveUserData, async (req: Request, res: Response) =>
       res.status(400).json({ error: "User not found" });
       return;
     }
-
-    const { exerciseLog, goals } = user;
-    res.status(200).json({ exerciseLog, goals });
+    
+    res.status(200).json(user);
   } catch (error) {
     console.error("Error retrieving user data:", error);
     res.status(500).json({ error: "Internal Server Error" });

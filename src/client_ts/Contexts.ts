@@ -2,7 +2,7 @@ import { useCookies } from 'react-cookie';
 import { Primitive, Replaced } from '@/typings';
 import { UserDataSchema } from '@/typings/database';
 import type { ObjectId } from 'mongodb';
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 
 export type UserDataContext = Replaced<UserDataSchema, ObjectId, string, Primitive | Date>
 
@@ -13,6 +13,7 @@ export interface IUserContext {
 
 class Lazy<T> {
   private value?: T
+  
   constructor(private getter: () => T) {
     this.value = undefined;
   }
@@ -28,14 +29,13 @@ class Lazy<T> {
 
 export let UserContext: React.Context<IUserContext>;
 
-export function initUserContext() {
-  UserContext = createContext<IUserContext>({
-    data: null, setData: () => {},
-  })
+export function initUserContext(): React.Context<IUserContext> {
+  const [data, setData] = useState<UserDataContext | null>(null);
+  UserContext = createContext<IUserContext>({data, setData})
+  return UserContext;
 }
 
 export const useUserContext = () => useContext(UserContext)
-
 
 
 export interface AuthCookie {

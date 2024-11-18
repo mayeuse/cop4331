@@ -17,7 +17,7 @@ export const dashboardLoader = (authCookieCtx: AuthCookie) => async ({ request }
     })
     
     if (response.ok) {
-      return json(response.body)
+      return json(await response.json())
     }
   }
   return redirect('/login')

@@ -13,6 +13,7 @@ function Dashboard(): React.JSX.Element {
   const loaderData = useLoaderData(); // preload the user data
   if (loaderData) {
     userDataContext.setData(loaderData as UserDataContext);
+    console.log("setting user data: " + JSON.stringify(loaderData))
   }
   
   function Logout() {
