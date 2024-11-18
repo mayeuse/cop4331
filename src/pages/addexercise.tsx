@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, {useContext, useState} from "react";
 import styles from "./index.module.css";
-import { ENDPOINTS, AddExercisePacket } from "@/typings";
-import {  useAuthCookie, UserContext } from "@/index.tsx";
+import {ENDPOINTS, AddExercisePacket} from "@/typings";
+import {useAuthCookie, UserContext} from "@/index.tsx";
 
 const ExerciseBody = (): React.JSX.Element => 
 {
@@ -14,19 +14,22 @@ const ExerciseBody = (): React.JSX.Element =>
     const [cookies] = useAuthCookie();
     const user = cookies["appley-auth"];  
 
+    const formatDate = (dateString: string): string => {
+        const [year, month, day] = dateString.split('-');
+        return `${month}/${day}/${year}`;
+    };
+
     const handleAddExerciseSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         try {
-        if (user == null)
-        {
-            throw("Null String Oh Noes");
+        if (!user) {
+            throw new Error("User is null.");
         }
-        const userId = user;
         const payload = {
-            userId,
+            userId: user,
             calories: Number(calories),
-            date: new Date(date),
+            date: formatDate(date),
             type,
         };
 
