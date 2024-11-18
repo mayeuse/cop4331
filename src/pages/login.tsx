@@ -8,12 +8,6 @@ import { Form, json } from 'react-router-dom';
 
 
 export default function(): React.JSX.Element {
-  
-  // if (cookies["appley-auth"]) {
-  //   return <div className={ styles.wrapper }>Already logged in!</div>;
-  // }
-
-  
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
   const [ isForgotPassword, setIsForgotPassword ] = useState(false);
@@ -61,9 +55,7 @@ export default function(): React.JSX.Element {
   );
 }
 
-export const loginAction = (userDataContext: IUserContext, cookieCtx: AuthCookie) => async ({ request }: ActionFunctionArgs) => {
-  console.log("Login submit triggered"); // Debugging if the function is called
-  
+export const loginAction = (userDataContext: IUserContext, cookieCtx: AuthCookie) => async ({ request }: ActionFunctionArgs) => {  
   const data = await request.formData();
   
   try {
@@ -86,13 +78,13 @@ export const loginAction = (userDataContext: IUserContext, cookieCtx: AuthCookie
       console.log("set user data to " + JSON.stringify(ctx))
       cookieCtx.setCookie(ctx._id!);
       
-      return redirect('/dashboard'); // navigate to dashboard
+      return redirect('/dashboard');
     } else {
       console.error("API Error Response:", ctx);
       return json({error: ctx.error || "Invalid credentials. Please try again."})
     }
   } catch (error) {
-    console.error("Fetch Error:", error); // Log any fetch errors
+    console.error("Fetch Error:", error);
     return json({error: "An error occurred. Please try again later."})
   }
 };

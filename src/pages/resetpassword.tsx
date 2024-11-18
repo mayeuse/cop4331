@@ -56,6 +56,7 @@ const ResetPasswordBody = (): React.JSX.Element => {
       });
 
       const data = await response.json();
+      console.log("Output:", data);
 
       if (response.ok) {
         setMessage("Password reset successful! Please return home.");
@@ -116,8 +117,8 @@ const ResetPasswordBody = (): React.JSX.Element => {
                   Reset Password
                 </button>
               </div>
-              {message && <p className="text-green-500 mt-4 text-center">{message}</p>}
-              {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
+              {message && <p className="text-green-800 mt-4 text-center">{message}</p>}
+              {error && <p className="text-red-800 mt-4 text-center">{error}</p>}
             </form>
           ) : (
             <div className="mt-6 text-center">
