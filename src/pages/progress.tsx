@@ -57,7 +57,7 @@ const ProgressBody = (): React.JSX.Element => {
       const data = await response.json();
       
       if (response.ok) {
-        console.log(data); //Shows data for user
+        console.log(data); // Shows data for user
         setExerciseLog(data.exerciseLog);
         setGoal(data.goals);
       } else {
@@ -75,7 +75,7 @@ const ProgressBody = (): React.JSX.Element => {
     handleUserProgress();
   }, []);  // Empty dependency array ensures this runs once after the component mounts
 
-  //console.log('Goal:', goal);  // Add this to check if goal is being set correctly
+  // console.log('Goal:', goal);  // Add this to check if goal is being set correctly
 
   return (
     <div className={styles.wrapper}>
@@ -85,8 +85,10 @@ const ProgressBody = (): React.JSX.Element => {
 
       {goal ? (
         <div className="mx-auto w-3/4 mt-6 p-4 border-2 border-green-500 rounded-lg shadow-md bg-amber-100">
-          <h3 className="text-3xl text-center text-green-700">Goal</h3>
-          {goal.stepcount ? (
+          <h3 className="text-3xl text-center text-green-700">Your Goals</h3>
+
+          {/* Display Step Count Goal if present */}
+          {goal.stepcount && (
             <>
               <p className="text-center text-xl mt-2">
                 Target Steps: <span className="font-semibold">{goal.stepcount.target} {goal.stepcount.units}</span>
@@ -95,7 +97,10 @@ const ProgressBody = (): React.JSX.Element => {
                 Interval: <span className="font-semibold">{goal.stepcount.interval}</span>
               </p>
             </>
-          ) : goal.calorie ? (
+          )}
+
+          {/* Display Calorie Goal if present */}
+          {goal.calorie && (
             <>
               <p className="text-center text-xl mt-2">
                 Target Calories: <span className="font-semibold">{goal.calorie.target} {goal.calorie.units}</span>
@@ -104,14 +109,16 @@ const ProgressBody = (): React.JSX.Element => {
                 Interval: <span className="font-semibold">{goal.calorie.interval}</span>
               </p>
             </>
-          ) : (
+          )}
+
+          {/* If no specific goal set */}
+          {!goal.stepcount && !goal.calorie && (
             <p className="text-center text-xl mt-2 text-gray-500">No specific goal set</p>
           )}
         </div>
       ) : (
         <div className="text-center text-xl mt-4 text-gray-500">No goal data available</div>
       )}
-
 
       <h3 className="text-3xl text-center text-red-700 mt-6">Exercise Log</h3>
       {exerciseLog.length > 0 ? (
