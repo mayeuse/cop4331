@@ -59,12 +59,22 @@
     background: rgb(173, 109, 64, 0.3);
 }
 
-.submitbox
+/* .submitbox
 {
     border-radius: 20px;
     border: 2px solid black;
     width: 100px;
     height: 30px;
+    margin-bottom: 2.5%;
+    background: #3d592e;
+    font-family: Tahoma;
+    cursor: pointer;
+} */
+
+.submitbox
+{
+    border-radius: 20px;
+    border: 2px solid black;
     margin-bottom: 2.5%;
     background: #3d592e;
     font-family: Tahoma;

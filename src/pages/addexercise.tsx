@@ -1,7 +1,7 @@
 import React, {useContext, useState} from "react";
 import styles from "./index.module.css";
 import {ENDPOINTS, AddExercisePacket} from "@/typings";
-import {useAuthCookie, UserContext} from "@/index.tsx";
+import { useAuthCookie, UserContext } from '@/client_ts/Contexts.ts';
 
 const ExerciseBody = (): React.JSX.Element => 
 {
@@ -11,8 +11,8 @@ const ExerciseBody = (): React.JSX.Element =>
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    const [cookies] = useAuthCookie();
-    const user = cookies["appley-auth"];  
+    const {getCookie} = useAuthCookie();
+    const user = getCookie()
 
     const formatDate = (dateString: string): string => {
         const [year, month, day] = dateString.split('-');
@@ -79,7 +79,7 @@ const ExerciseBody = (): React.JSX.Element =>
             </div>
 
             <div className="text-center">
-                <button className={ styles.submitbox } type="submit">Submit</button>
+                <button className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit">Submit</button>
             </div>
 
             {successMessage && <span className={styles.success}>{successMessage}</span>}

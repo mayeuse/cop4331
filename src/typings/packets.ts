@@ -196,7 +196,11 @@ export interface ErrorPacket {
   message: string
 }
 
-export class UserDataRequest extends Packet {
+export interface IUserDataRequest {
+  id: UserDataIdString
+}
+
+export class UserDataRequest extends Packet implements IUserDataRequest {
   constructor(
     public id: UserDataIdString,
   ) {
