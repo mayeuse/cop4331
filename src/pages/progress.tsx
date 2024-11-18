@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { ENDPOINTS } from "@/typings"; // Assuming ENDPOINTS is imported from your typings
+import { ENDPOINTS } from "@/typings";
 import styles from "./index.module.css";
 import { useAuthCookie } from '@/client_ts/Contexts.ts';
 
-// Define the structure for exercise log and goal
 interface ExerciseLog {
   type: string;
   calories: number;
@@ -60,7 +59,6 @@ const ProgressBody = (): React.JSX.Element => {
       });
 
       const data = await response.json();
-      //console.log("Backend Response:", data);
 
       if (response.ok) {
         setExerciseLog(data.exerciseLog);
@@ -87,7 +85,6 @@ const ProgressBody = (): React.JSX.Element => {
         <div className="mx-auto w-3/4 mt-6 p-4 border-2 border-green-500 rounded-lg shadow-md bg-amber-100">
           <h3 className="text-3xl text-center text-green-700">Your Goals</h3>
 
-          {/* Display Step Count Goal if present */}
           {goal.stepcount && (
             <>
               <p className="text-center text-xl mt-2">
@@ -104,7 +101,6 @@ const ProgressBody = (): React.JSX.Element => {
             </>
           )}
 
-          {/* Display Calorie Goal if present */}
           {goal.calorie && (
             <>
               <p className="text-center text-xl mt-2">
@@ -121,7 +117,6 @@ const ProgressBody = (): React.JSX.Element => {
             </>
           )}
 
-          {/* If no specific goal set */}
           {!goal.stepcount && !goal.calorie && (
             <p className="text-center text-xl mt-2 text-gray-500">No specific goal set</p>
           )}

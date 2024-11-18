@@ -121,10 +121,14 @@ app.post('/api/v1/passwordReset', async (req, res, next) =>
   // incoming: new password, confirm new password
   // outgoing: error, confirmation
 
+  console.log('Request body:', req.body);  // Log the payload
+
   let error = ''
   const { newPassword, confirmPassword } = req.body as IResetPasswordPacket;
 
   const userEmail = req.query.user?.toString();
+
+  console.log('Email:', userEmail);  // Log the payload
 
   if (newPassword === confirmPassword){
     var updateResult = await Collections.UserData.updateOne({ email: userEmail }, { $set: { "password": newPassword}});

@@ -54,21 +54,18 @@ const GoalForm = () => {
     setMessage('');
     setError('');
   
-    // Validate fields if needed (optional as HTML form validation handles this)
     if (!target || !interval) {
       setError("All fields must be filled.");
       return;
     }
   
     try {
-      // Prepare payload
       const payload = {
         userId: authCookie,
         type: goalType.toLowerCase(),
         target: Number(target),
         interval: interval,
         units: goalUnits,
-        auth: authCookie, // Optional, but kept for now
       };
   
       console.log("Payload being submitted:", payload);
@@ -82,21 +79,17 @@ const GoalForm = () => {
         body: JSON.stringify(payload),
       });
   
-      // Log the response status and text for debugging
       const responseText = await response.text();
       console.log('Response Status:', response.status);
       console.log('Response Text:', responseText);
   
-      // If response is ok (status 2xx), show success message
       if (response.ok) {
         setMessage('Goal added successfully!');
         setError('');
-        // Reset fields after success
         setTarget('');
-        setGoalType(goalTypesOptions[0]);  // Reset to the default goal type
-        setInterval('WEEKLY');             // Reset to the default interval
+        setGoalType(goalTypesOptions[0]);
+        setInterval('WEEKLY');
       } else {
-        // If not ok, show error with response message
         setError(responseText || "Failed to add goal.");
         setMessage('');
       }
