@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { Form } from 'react-router-dom';
-import { GoalType, GoalUnits } from '@/typings/database/userdata.ts';
-import { Intervals } from '@/typings';
-import { capitalize } from '@/utils/utils.ts';
 import styles from '../index.module.css';
+import { GoalType, GoalUnits } from '@/typings/database/userdata.ts';
+import { ENDPOINTS, Intervals } from '@/typings';
+import { capitalize } from '@/utils/utils.ts';
 import { useAuthCookie, UserContext } from '@/client_ts/Contexts.ts';
 
 const CSS = {
@@ -25,63 +24,168 @@ const intervalsOptions =
             { capitalize(interval.toLowerCase()) }
           </option>,
         );
-const goalTypesOptions = Object.keys(GoalType)
+
+const goalTypesOptions = Object.keys(GoalType);
 
 const goalTypesOptionsElements =
   goalTypesOptions.map(type =>
-    <option key={ type } className={ CSS.Form.Option } value={ type }>{ capitalize(type.toLowerCase()) }</option>)
+    <option key={ type } className={ CSS.Form.Option } value={ type }>{ capitalize(type.toLowerCase()) }</option>);
 
 const GoalForm = () => {
-  const userData = UserContext.getData()
-  const [ goalUnits, setGoalUnits ] = useState<string | string[]>(GoalUnits[GoalType[goalTypesOptions[0] as keyof typeof GoalType]]);
+  const userData = UserContext.getData();
+  const { getCookie } = useAuthCookie();
+  const authCookie = getCookie();
+
+  const [goalUnits, setGoalUnits] = useState<string | string[]>(
+    GoalUnits[GoalType[goalTypesOptions[0] as keyof typeof GoalType]]
+  );
+  const [goalType, setGoalType] = useState(goalTypesOptions[0]);
+  const [target, setTarget] = useState('');
+  const [interval, setInterval] = useState('WEEKLY');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  if (!userData) {
+    console.log("No user data!");
+  }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setMessage('');
+    setError('');
   
-  if (!userData)
-    console.log("No user data!")
+    // Validate fields if needed (optional as HTML form validation handles this)
+    if (!target || !interval) {
+      setError("All fields must be filled.");
+      return;
+    }
   
-  const authCookie = useAuthCookie().getCookie()
+    try {
+      // Prepare payload
+      const payload = {
+        userId: authCookie,
+        type: goalType.toLowerCase(),
+        target: Number(target),
+        interval: interval,
+        units: goalUnits,
+        auth: authCookie, // Optional, but kept for now
+      };
   
+      console.log("Payload being submitted:", payload);
+  
+      const response = await fetch(ENDPOINTS.Forms.AddGoal, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'authentication': `Bearer ${authCookie}`,
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      // Log the response status and text for debugging
+      const responseText = await response.text();
+      console.log('Response Status:', response.status);
+      console.log('Response Text:', responseText);
+  
+      // If response is ok (status 2xx), show success message
+      if (response.ok) {
+        setMessage('Goal added successfully!');
+        setError('');
+        // Reset fields after success
+        setTarget('');
+        setGoalType(goalTypesOptions[0]);  // Reset to the default goal type
+        setInterval('WEEKLY');             // Reset to the default interval
+      } else {
+        // If not ok, show error with response message
+        setError(responseText || "Failed to add goal.");
+        setMessage('');
+      }
+    } catch (error) {
+      console.error("Error adding goal:", error);
+      setError("An unexpected error occurred.");
+      setMessage('');
+    }
+  };
+  
+  const handleGoalTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedType = e.target.value;
+    setGoalType(selectedType);
+    setGoalUnits(GoalUnits[GoalType[selectedType as keyof typeof GoalType]]);
+  };
+
+  const unitOptions = (units: string[]): React.JSX.Element => {
+    return (
+      <select name="units" className="goal-units">
+        {units.map(unit => (
+          <option className={CSS.Form.UnitElements} value={unit} key={unit}>
+            {unit}
+          </option>
+        ))}
+      </select>
+    );
+  };
+
   return (
-    <div className={ styles.wrapper }>
+    <div className={styles.wrapper}>
       <div>
         <h2>Add Weekly Goal</h2>
-        <Form id='goals-form' method='POST'>
-          Type:
-          <select name='goalType' className={`${CSS.Form.Target} ${styles.sminputboxsq}`} defaultValue={ goalTypesOptions[0] }
-                  onChange={ e => setGoalUnits(GoalUnits[GoalType[e.target.value as keyof typeof GoalType]]) }>
-            { goalTypesOptionsElements }
-          </select>
-          <br />
-          Target: 
-          <span className={`${CSS.Form.Target}`}>
-            <input className={styles.smallinputbox} type='number' />
-            <span className={CSS.Form.Units}>
-              {
-                Array.isArray(goalUnits)
-                  ? unitOptions(goalUnits)
-                  : <input name='units' type='text' className={`${CSS.Form.Target} ${styles.sminputboxsq}`} value={ goalUnits } readOnly />
-              }
-            </span>
-          </span>
-          <br />
-          Interval:
-          <select className="styles.sminputboxsq" name='interval'>
-              { intervalsOptions }
-          </select>
-          <div className="text-center">
-              <button className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit">Submit</button>
+        <form id="goal-form" onSubmit={handleSubmit}>
+          <div className="w-3/4 text-center mx-auto">
+            <label htmlFor="goalType">Goal Type:</label>
+            <select
+              name="goalType"
+              className={`${CSS.Form.Target} ${styles.sminputboxsq}`}
+              value={goalType}
+              onChange={handleGoalTypeChange}
+            >
+              {goalTypesOptionsElements}
+            </select>
           </div>
-          <input name='userId' type='hidden' value={ userData?._id } />
-          <input name='auth' type='hidden' value={ authCookie } />
-        </Form>
+
+          <div className="w-3/4 text-center mx-auto">
+            <label htmlFor="target">Target:</label>
+            <input
+              className={styles.inputbox}
+              type="number"
+              name="target"
+              value={target}
+              onChange={(e) => setTarget(e.target.value)}
+              placeholder="Enter target value"
+              min="0"
+              required
+            />
+            <span className={CSS.Form.Units}>
+              {Array.isArray(goalUnits) ? unitOptions(goalUnits) : <input value={goalUnits} readOnly />}
+            </span>
+          </div>
+
+          <div className="w-3/4 text-center mx-auto">
+            <label htmlFor="interval">Interval:</label>
+            <select
+              name="interval"
+              className={`${styles.sminputboxsq}`}
+              value={interval}
+              onChange={(e) => setInterval(e.target.value)}
+            >
+              {intervalsOptions}
+            </select>
+          </div>
+
+          <div className="text-center">
+            <button
+              className={`${styles.submitbox} w-1/4 py-1 rounded min-h-fit mt-2`}
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+
+          {message && <span className={styles.success}>{message}</span>}
+          {error && <span className={styles.error}>{error}</span>}
+        </form>
       </div>
     </div>
   );
 };
-
-function unitOptions(units: string[]): React.JSX.Element {
-  return <select name='units' className='goal-units'>
-    { units.map(unit => <option className={CSS.Form.UnitElements} value={ unit } key={ unit }> { unit } </option>) }
-  </select>;
-}
 
 export default GoalForm;

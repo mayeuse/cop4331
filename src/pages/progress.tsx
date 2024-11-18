@@ -34,9 +34,6 @@ const ProgressBody = (): React.JSX.Element => {
   const {getCookie} = useAuthCookie(); // Assuming this hook gives you cookies
   const userId = getCookie(); // The user ID from cookies
 
-  // console.log("Cookies:", cookies);  // Add this line to check all cookies
-  // console.log("User ID:", userId);  // Check if the userId is being set correctly
-
   const handleUserProgress = async () => {
     if (!userId) {
       setError("User not logged in");

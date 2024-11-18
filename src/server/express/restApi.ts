@@ -160,6 +160,8 @@ app.post(ENDPOINTS.Forms.AddExercise, async (req, res) => {
 });
 
 app.post(ENDPOINTS.Forms.AddGoal, async (req, res) => {
+  console.log('Request body:', req.body);  // Log the payload
+
   const payload: IAddGoalPacket = req.body;
   if (!payload.userId || !req.headers[AUTH_HEADER]) {
     return onInvalidPayload(res, "No authentication.");

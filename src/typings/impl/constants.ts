@@ -1,5 +1,7 @@
-export const Intervals = { // this sucks, this really sucks
-    WEEKLY: new Date(0, 0, 7),
-    BIWEEKLY: new Date(0, 0, 14),
-    MONTHLY: new Date(0, 1)
-}
+import { addDays, addMonths } from 'date-fns';
+
+export const Intervals = {
+    WEEKLY: addDays(new Date(), 7),
+    BIWEEKLY: addDays(new Date(), 14),
+    MONTHLY: addMonths(new Date(), 1)
+  };
