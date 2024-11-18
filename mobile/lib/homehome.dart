@@ -6,6 +6,7 @@ class HomeHome extends StatelessWidget {
     return Scaffold(
       body: Container(
         // Apply the gradient background
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [const Color(0xFFFBE68A), const Color(0xFFDAF89C)],
