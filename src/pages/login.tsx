@@ -26,7 +26,7 @@ export default function(): React.JSX.Element {
         <div>
           <ForgotPassBody />
           <button
-            className="text-blue-500 underline mt-4"
+            className="text-blue-500 underline mt-1"
             onClick={ () => setIsForgotPassword(false) }
           >
             Back to Login
@@ -52,7 +52,7 @@ export default function(): React.JSX.Element {
             
             { actionData?.error && <span className={ styles.error }>{ actionData.error }</span> }
           </Form>
-          <button className="text-blue-500 underline mt-4" onClick={ () => setIsForgotPassword(true) }>
+          <button className="text-blue-500 underline mt-1" onClick={ () => setIsForgotPassword(true) }>
             Forgot Password?
           </button>
         </div>
