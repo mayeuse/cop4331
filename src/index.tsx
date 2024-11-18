@@ -10,7 +10,8 @@ import { type ObjectId } from 'mongodb';
 import Register from '@/pages/register.tsx';
 import Login from '@/pages/login';
 import LandingPage, { LandingBody, Team } from '@/pages/landing.tsx';
-import Dashboard, { DashboardBody, ExerciseBody, GoalBody, ProgressBody } from '@/pages/dashboard.tsx';
+import ExerciseBody from '@/pages/addexercise';
+import Dashboard, { DashboardBody, GoalBody, ProgressBody } from '@/pages/dashboard.tsx';
 import { CookiesProvider, useCookies } from 'react-cookie';
 import GoalForm, { action as goalAction } from '@/pages/forms/newgoal.tsx';
 
