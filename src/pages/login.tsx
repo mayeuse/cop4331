@@ -84,13 +84,13 @@ export default function(): React.JSX.Element {
             </div>
             
             <div className="text-center">
-              <button className={ styles.submitbox } type="submit">Submit</button>
+              <button className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit">Submit</button>
             </div>
             
             { successMessage && <span className={ styles.success }>{ successMessage }</span> }
             { error && <span className={ styles.error }>{ error }</span> }
           </form>
-          <button className="text-blue-500 underline mt-4" onClick={ () => setIsForgotPassword(true) }>
+          <button className="text-blue-500 underline mt-2" onClick={ () => setIsForgotPassword(true) }>
             Forgot Password?
           </button>
         </div>

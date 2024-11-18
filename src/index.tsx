@@ -95,7 +95,7 @@ const App = (): React.JSX.Element => {
       ],
     },
     {
-      path: '/reset',
+      path: '/reset-password',
       element: <ResetPasswordBody />,
     },
   ]);
