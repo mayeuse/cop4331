@@ -11,6 +11,7 @@ import ExerciseBody from '@/pages/addexercise.tsx';
 import { CookiesProvider } from 'react-cookie';
 import { dashboardLoader } from '@/client_ts/loaders.ts';
 import { newGoalAction as goalAction } from '@/client_ts/actions.ts';
+import ResetPasswordBody from '@/pages/resetpassword.tsx';
 
 export const Root = (): React.JSX.Element => {
   initUserContext()
@@ -72,7 +73,10 @@ export const Root = (): React.JSX.Element => {
         },
       ],
     },
-  
+    {
+      path: '/reset',
+      element: <ResetPasswordBody />,
+    },
   ]);
   
   return (
