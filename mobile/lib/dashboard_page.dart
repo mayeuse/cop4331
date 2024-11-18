@@ -55,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
             children: [
               TextButton(
                 onPressed: () => onTabTapped(0),
-                child: Text('Dashboard'),
+                child: Text('Dash'),
               ),
               TextButton(
                 onPressed: () => onTabTapped(1),
@@ -63,11 +63,11 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               TextButton(
                 onPressed: () => onTabTapped(2),
-                child: Text('Add Goals'),
+                child: Text('Goals'),
               ),
               TextButton(
                 onPressed: () => onTabTapped(3),
-                child: Text('Log Exercise'),
+                child: Text('Exercise'),
               ),
               TextButton(
                 onPressed: () {
