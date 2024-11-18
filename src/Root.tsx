@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage, { LandingBody, Team } from '@/pages/landing.tsx';
 import Register from '@/pages/register.tsx';
 import Login, { loginAction } from '@/pages/login.tsx';
-import Dashboard, { DashboardBody, GoalBody } from '@/pages/dashboard.tsx';
+import Dashboard, { DashboardBody} from '@/pages/dashboard.tsx';
 import ProgressBody from '@/pages/progress.tsx';
 import GoalForm from '@/pages/forms/newgoal.tsx';
 import ExerciseBody from '@/pages/addexercise.tsx';

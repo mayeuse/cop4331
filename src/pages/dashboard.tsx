@@ -7,10 +7,10 @@ import { useAuthCookie, UserContext, UserDataContext } from '@/client_ts/Context
 function Dashboard(): React.JSX.Element {
   const [ isModalVisible, setModalVisible ] = useState(false);
   const userDataContext = UserContext;
-  const {removeCookie} = useAuthCookie();  // Access the cookies
-  const navigate = useNavigate();  // To handle navigation after logout
+  const {removeCookie} = useAuthCookie();
+  const navigate = useNavigate();
   
-  const loaderData = useLoaderData(); // preload the user data
+  const loaderData = useLoaderData();
   if (loaderData) {
     userDataContext.setData(loaderData as UserDataContext);
     console.log("setting user data: " + JSON.stringify(loaderData))
@@ -28,18 +28,18 @@ function Dashboard(): React.JSX.Element {
   
   
   const handleLogout = () => {
-    setModalVisible(true); // Show the modal when the user clicks logout
+    setModalVisible(true);
   };
   
   const handleConfirmLogout = () => {
-    userDataContext.setData(null); // remove user data
+    userDataContext.setData(null);
     removeCookie()
-    setModalVisible(false); // Close the modal after logout
-    navigate('/');  // This will navigate to the landing page ("/")
+    setModalVisible(false);
+    navigate('/');
   };
   
   const handleCancelLogout = () => {
-    setModalVisible(false); // Close the modal if user cancels
+    setModalVisible(false);
   };
   
   return (
@@ -87,7 +87,6 @@ function Dashboard(): React.JSX.Element {
           </div>
         </div>
         
-        {/* Tab Content */ }
         <div className="mt-8 max-w-3/4 w-full px-4">
           <Outlet />
         </div>
@@ -110,19 +109,3 @@ export function DashboardBody() {
     </div>
   );
 }
-
-export function GoalBody() //import to own file later
-{
-  return (
-    <div className="text-center text-rose-500">
-      <h1 className="text-3xl font-bold mb-4">Insert your Weekly Goal here!</h1>
-      <p className="text-lg">Goal Form goes here?</p>
-      <Outlet/>
-      <div className="mx-auto my-8 justify-center size-fit">
-        <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2" />
-      </div>
-      <h1 className="text-lg">Be ambitious, but reasonable.</h1>
-    </div>
-  );
-}
-
