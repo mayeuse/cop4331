@@ -5,6 +5,7 @@ import { GoalType, GoalUnits } from '@/typings/database/userdata.ts';
 import { IUserContext, useAuthCookie, UserContext } from '@/index.tsx';
 import { AddGoalPacket, ENDPOINTS, ErrorCodes, ErrorPacket, Intervals } from '@/typings';
 import { capitalize } from '@/utils/utils.ts';
+import styles from '../index.module.css';
 
 export const CSS = {
   Container: 'goals-wrapper',
@@ -36,34 +37,39 @@ const GoalForm = () => {
   const [ goalUnits, setGoalUnits ] = useState<string | string[]>(GoalUnits[GoalType[goalTypesOptions[0] as keyof typeof GoalType]]);
   
   return (
-    <div className={ CSS.Container }>
-      <Form id='goals-form' method='POST'>
-        Type:
-        <select name='goalType' className={ CSS.Form.Type } defaultValue={ goalTypesOptions[0] }
-                onChange={ e => setGoalUnits(GoalUnits[GoalType[e.target.value as keyof typeof GoalType]]) }>
-          { goalTypesOptionsElements }
-        </select>
-        <br />
-        Target:
-        <span className={ CSS.Form.Target }>
-          <input name='target' type='number' />
-          <span className={CSS.Form.Units}>
-            {
-              Array.isArray(goalUnits)
-                ? unitOptions(goalUnits)
-                : <input name='units' type='text' className={CSS.Form.UnitElements} value={ goalUnits } readOnly />
-            }
+    <div className={ styles.wrapper }>
+      <div>
+        <h2>Add Weekly Goal</h2>
+        <Form id='goals-form' method='POST'>
+          Type:
+          <select name='goalType' className={`${CSS.Form.Target} ${styles.sminputboxsq}`} defaultValue={ goalTypesOptions[0] }
+                  onChange={ e => setGoalUnits(GoalUnits[GoalType[e.target.value as keyof typeof GoalType]]) }>
+            { goalTypesOptionsElements }
+          </select>
+          <br />
+          Target: 
+          <span className={`${CSS.Form.Target}`}>
+            <input className={styles.smallinputbox} type='number' />
+            <span className={CSS.Form.Units}>
+              {
+                Array.isArray(goalUnits)
+                  ? unitOptions(goalUnits)
+                  : <input name='units' type='text' className={`${CSS.Form.Target} ${styles.sminputboxsq}`} value={ goalUnits } readOnly />
+              }
+            </span>
           </span>
-        </span>
-        <br />
-        Interval:
-        <select name='interval'>
-            { intervalsOptions }
-        </select>
-        <button name='submit' type='submit'>SUBMIT</button>
-        <input name='userId' type='hidden' value={ user.data?._id } />
-        <input name='auth' type='hidden' value={ useAuthCookie()[0]['appley-auth'] } />
-      </Form>
+          <br />
+          Interval:
+          <select className="styles.sminputboxsq" name='interval'>
+              { intervalsOptions }
+          </select>
+          <div className="text-center">
+              <button className={ styles.submitbox } type="submit">Submit</button>
+          </div>
+          <input name='userId' type='hidden' value={ user.data?._id } />
+          <input name='auth' type='hidden' value={ useAuthCookie()[0]['appley-auth'] } />
+        </Form>
+      </div>
     </div>
   );
 };

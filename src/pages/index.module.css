@@ -62,12 +62,36 @@
     cursor: pointer;
 }
 
+.submitbox:hover
+{
+    background: #cb3032;
+    color: rgb(217, 217, 217);
+}
+
 .inputbox
 {
     border-radius: 20px;
     border: 2px solid black;
     width: 60%;
     height: 30px;
+    margin-bottom: 2.5%;
+    font-family: Tahoma;
+}
+
+.smallinputbox
+{
+    border-radius: 20px;
+    border: 2px solid black;
+    max-width: 30%;
+    max-height: 30px;
+    margin-bottom: 2.5%;
+    font-family: Tahoma;
+}
+
+.sminputboxsq
+{
+    max-width: 30%;
+    max-height: 30px;
     margin-bottom: 2.5%;
     font-family: Tahoma;
 }
