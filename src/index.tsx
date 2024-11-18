@@ -29,9 +29,11 @@ export const UserContext: React.Context<IUserContext> = createContext<IUserConte
 
 export const useUserContext = () => useContext(UserContext)
 
-export const useAuthCookie = () => useCookies([ 'appley-auth' ]);
-export const getAuthCookie = () => useAuthCookie()[0]['appley-auth']
-
+export const authCookieName = 'appley-auth';
+export const useAuthCookie = () => useCookies([ authCookieName ]);
+export const getAuthCookie = () => useAuthCookie()[0][authCookieName]
+export const setAuthCookie = (newValue: string) => useAuthCookie()[1].bind(null, authCookieName)
+export const removeAuthCookie = (newValue: string) => useAuthCookie()[2].bind(null, authCookieName)
 
 const App = (): React.JSX.Element => {
   const userContext = useUserContext()
