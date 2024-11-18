@@ -65,17 +65,17 @@ const ExerciseBody = (): React.JSX.Element =>
         <form id="add-exercise" onSubmit={handleAddExerciseSubmit}>
             <div className="w-3/4 text-center mx-auto">
                 <input className={styles.inputbox} type="number" name="calories" value={calories}
-                onChange={(e) => setCalories(e.target.valueAsNumber || '')} placeholder="Calories Burned" min="0"/>
+                onChange={(e) => setCalories(e.target.valueAsNumber || '')} placeholder="Calories Burned" min="0" required/>
             </div>
 
             <div className="w-3/4 text-center mx-auto">
                 <input className={styles.inputbox} type="date" name="date" value={date}
-                onChange={(e) => setDate(e.target.value)}/>
+                onChange={(e) => setDate(e.target.value)} required/>
             </div>
 
             <div className="w-3/4 text-center mx-auto">
                 <input className={styles.inputbox} type="text" name="type" value={type}
-                onChange={(e) => setType(e.target.value)} placeholder="Exercise Type: e.g., Running, Swimming"/>
+                onChange={(e) => setType(e.target.value)} placeholder="Exercise Type: e.g., Running, Swimming" required/>
             </div>
 
             <div className="text-center">

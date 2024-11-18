@@ -68,7 +68,7 @@ const GoalForm = () => {
               { intervalsOptions }
           </select>
           <div className="text-center">
-              <button className={ styles.submitbox } type="submit">Submit</button>
+              <button className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit">Submit</button>
           </div>
           <input name='userId' type='hidden' value={ userData?._id } />
           <input name='auth' type='hidden' value={ authCookie } />

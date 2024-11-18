@@ -42,7 +42,7 @@ const ForgotPassBody = (): React.JSX.Element =>
                 <div className="w-auto text-center">
                 <input
                     className={styles.inputbox} type="email" name="email" value={email}
-                    onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email"/>
+                    onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" required/>
                 </div>
 
                 <div className="text-center">

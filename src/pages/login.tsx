@@ -38,12 +38,12 @@ export default function(): React.JSX.Element {
           <Form name="login" method="POST">
             <div className="w-auto text-center">
               <input className={ styles.inputbox } type="text" name="username" value={ username }
-                     onChange={ (e) => setUsername(e.target.value) } placeholder="Username" />
+                     onChange={ (e) => setUsername(e.target.value) } placeholder="Username" required/>
             </div>
             
             <div className="w-auto text-center">
               <input className={ styles.inputbox } type="password" name="password" value={ password }
-                     onChange={ (e) => setPassword(e.target.value) } placeholder="Password" />
+                     onChange={ (e) => setPassword(e.target.value) } placeholder="Password" required/>
             </div>
             
             <div className="text-center">
