@@ -16,22 +16,22 @@ export const CSS = {
   },
 };
 
+const intervalsOptions =
+  Object.keys(Intervals)
+        .map(interval =>
+          <option key={ interval } className={ CSS.Form.Option } value={ interval }>
+            { capitalize(interval.toLowerCase()) }
+          </option>,
+        );
+const goalTypesOptions = Object.keys(GoalType)
+
+const goalTypesOptionsElements =
+  goalTypesOptions.map(type =>
+    <option key={ type } className={ CSS.Form.Option } value={ type }>{ capitalize(type.toLowerCase()) }</option>)
+
 const GoalForm = () => {
   const user = useContext(UserContext);
-  
-  const goalTypesOptions = [];
-  for (let type in GoalType) {
-    goalTypesOptions.push(type);
-    console.log(`Type: ${ type }`);
-  }
   const [ goalUnits, setGoalUnits ] = useState<string | string[]>(GoalUnits[GoalType[goalTypesOptions[0] as keyof typeof GoalType]]);
-  
-  const intervalsOptions = [];
-  for (let interval in Intervals) {
-    intervalsOptions.push(<option key={ interval } className={ CSS.Form.Option }
-                                  value={ interval }>{ capitalize(interval.toLowerCase()) }</option>);
-    console.log(`Interval: ${ interval }`);
-  }
   
   return (
     <div className={ CSS.Container }>
@@ -39,23 +39,24 @@ const GoalForm = () => {
         Type:
         <select name='goalType' className={ CSS.Form.Type } defaultValue={ goalTypesOptions[0] }
                 onChange={ e => setGoalUnits(GoalUnits[GoalType[e.target.value as keyof typeof GoalType]]) }>
-          { goalTypesOptions.map(type => <option key={ type } className={ CSS.Form.Option }
-                                                 value={ type }>{ capitalize(type.toLowerCase()) }</option>) }
+          { goalTypesOptionsElements }
         </select>
         <br />
         Target:
         <span className={ CSS.Form.Target }>
           <input name='target' type='number' />
-          {
-            Array.isArray(goalUnits)
-              ? unitOptions(goalUnits)
-              : <input name='units' type='text' value={ goalUnits } readOnly />
-          }
+          <span>
+            {
+              Array.isArray(goalUnits)
+                ? unitOptions(goalUnits)
+                : <input name='units' type='text' value={ goalUnits } readOnly />
+            }
+          </span>
         </span>
         <br />
         Interval:
         <select name='interval'>
-          { intervalsOptions }
+            { intervalsOptions }
         </select>
         <button name='submit' type='submit'>SUBMIT</button>
         <input name='userId' type='hidden' value={ user.data?._id } />
@@ -67,7 +68,7 @@ const GoalForm = () => {
 
 function unitOptions(units: string[]): React.JSX.Element {
   return <select name='units' className='goal-units'>
-    { units.map(unit => <option value={ unit } key={ unit }> unit </option>) }
+    { units.map(unit => <option value={ unit } key={ unit }> { unit } </option>) }
   </select>;
 }
 
@@ -77,7 +78,7 @@ export const action = (context: IUserContext) => async ({ request }: ActionFunct
     const data = await request.formData();
     console.log(data)
     let addGoalPacket = new AddGoalPacket(data.get('userId') as string, data.get('goalType') as GoalType, parseInt(data.get('target') as string), data.get('units') as string, data.get('interval') as (keyof typeof Intervals));
-    console.log("after packet")
+    console.log('after packet')
     
     const response = await fetch(ENDPOINTS.Forms.AddGoal, {
       method: 'POST',
@@ -87,7 +88,7 @@ export const action = (context: IUserContext) => async ({ request }: ActionFunct
       },
       body: addGoalPacket.serialize(),
     });
-    console.log("after response")
+    console.log('after response')
     
     if (!response.ok) {
       const error: ErrorPacket = await response.json()
