@@ -32,10 +32,10 @@ const goalTypesOptionsElements =
     <option key={ type } className={ CSS.Form.Option } value={ type }>{ capitalize(type.toLowerCase()) }</option>)
 
 const GoalForm = () => {
-  const user = useContext(UserContext);
+  const userData = UserContext.getData()
   const [ goalUnits, setGoalUnits ] = useState<string | string[]>(GoalUnits[GoalType[goalTypesOptions[0] as keyof typeof GoalType]]);
   
-  if (!user.data)
+  if (!userData)
     console.log("No user data!")
   
   const authCookie = useAuthCookie().getCookie()
@@ -70,7 +70,7 @@ const GoalForm = () => {
           <div className="text-center">
               <button className={ styles.submitbox } type="submit">Submit</button>
           </div>
-          <input name='userId' type='hidden' value={ user.data?._id } />
+          <input name='userId' type='hidden' value={ userData?._id } />
           <input name='auth' type='hidden' value={ authCookie } />
         </Form>
       </div>

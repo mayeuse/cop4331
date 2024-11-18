@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { initUserContext, useAuthCookie, UserDataContext, useUserContext } from '@/client_ts/Contexts.ts';
+import { useAuthCookie, UserContext, UserDataContext } from '@/client_ts/Contexts.ts';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import LandingPage, { LandingBody, Team } from '@/pages/landing.tsx';
 import Register from '@/pages/register.tsx';
@@ -14,8 +14,7 @@ import { newGoalAction as goalAction } from '@/client_ts/actions.ts';
 import ResetPasswordBody from '@/pages/resetpassword.tsx';
 
 export const Root = (): React.JSX.Element => {
-  const UserContext = initUserContext()
-  const userContext = useUserContext()
+  const userContext = UserContext
   const authCookie = useAuthCookie()
   
   const ROUTER = createBrowserRouter([
@@ -79,15 +78,12 @@ export const Root = (): React.JSX.Element => {
     },
   ]);
   
-  const [ data, setData ] = useState<UserDataContext | null>(null!)
   
   return (
-    <UserContext.Provider value={ { data, setData } }>
       <CookiesProvider>
         <React.StrictMode>
           <RouterProvider router={ ROUTER } />
         </React.StrictMode>
       </CookiesProvider>
-    </UserContext.Provider>
   )
 }

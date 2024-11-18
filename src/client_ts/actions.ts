@@ -29,7 +29,7 @@ export const newGoalAction = (context: IUserContext) => async ({ request }: Acti
         throw error.message
     }
     
-    context.data!.goals[addGoalPacket.type] = addGoalPacket.toClientGoalData()
+    context.getData()!.goals[addGoalPacket.type] = addGoalPacket.toClientGoalData()
     
     return redirect('/dashboard/goals')
   }

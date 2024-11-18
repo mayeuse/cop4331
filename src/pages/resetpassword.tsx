@@ -14,7 +14,7 @@ const ResetPasswordBody = (): React.JSX.Element => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [ isModalVisible, setModalVisible ] = useState(false);
-  const userDataContext = useContext(UserContext);
+  const userDataContext = UserContext;
   const navigate = useNavigate();  // To handle navigation after logout
 
   // Extract the "user" query parameter from the URL

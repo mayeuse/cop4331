@@ -6,7 +6,7 @@ import { useAuthCookie, UserContext, UserDataContext } from '@/client_ts/Context
 
 function Dashboard(): React.JSX.Element {
   const [ isModalVisible, setModalVisible ] = useState(false);
-  const userDataContext = useContext(UserContext);
+  const userDataContext = UserContext;
   const {removeCookie} = useAuthCookie();  // Access the cookies
   const navigate = useNavigate();  // To handle navigation after logout
   
