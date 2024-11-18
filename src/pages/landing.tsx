@@ -8,7 +8,7 @@ const LandingPage = (): React.JSX.Element =>
         <div className="text-center">
             <div className="min-h-screen flex flex-col items-center">
                 <h1 className="text-5xl font-bold mt-8 text-red-600 text-center">
-                    Welcome to Appley's Training Regiment (Subject to Change)
+                    Welcome to Appley's Training Regiment
                 </h1>
                 <div className="mt-3">
                     <div className="flex border-b border-yellow-700">
@@ -74,52 +74,52 @@ export function LandingBody() {
 export function Team() {
     const people = [
         {
-            name: "Billy Bob Joe",
-            role: "Person",
+            name: "Caleb Brandt",
+            role: "Database",
             imageUrl:
-              "https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280",
+                "images/Caleb_Brandt.jpg",
         },
         {
-            name: "Billy Bob Joe",
-            role: "Person",
+            name: "Maya Eusebio",
+            role: "API",
             imageUrl:
-              "https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280",
+              "images/Maya_Eusebio.png",
         },
         {
-            name: "Billy Bob Joe",
-            role: "Person",
+            name: "Manas Korada",
+            role: "Mobile",
             imageUrl:
-              "https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280",
+              "images/Manas_Korada.png",
         },
         {
-            name: "Billy Bob Joe",
-            role: "Person",
+            name: "Gavin Mortensen",
+            role: "API",
             imageUrl:
-              "https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280",
+              "images/Gavin_Mortensen.jpg",
         },
         {
-            name: "Billy Bob Joe",
-            role: "Person",
+            name: "Roman Rosario",
+            role: "Project Manager",
             imageUrl:
-              "https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280",
+              "images/Roman_Rosario.png",
         },
         {
-            name: "Billy Bob Joe",
-            role: "Person",
+            name: "Justin Wu",
+            role: "Web-App",
             imageUrl:
-              "https://creatorset.com/cdn/shop/files/preview_images/Green_Screen_theia_elmo_staring_meme_1_530x@2x.png?v=1711572280",
+              "images/Justin_Wu.jpg",
         },
     ];
     
     return (
       <div className={ `${ styles.wrappercolor } py-24 sm:py-32 w-3/4 mx-auto my-8 rounded-lg` }>
           <div className="mx-auto grid max-w-7xl gap-20 px-6 lg:px-8 xl:grid-cols-3">
-              <div className="max-w-xl">
-                  <h2 className="text-pretty text-3xl font-semibold tracking-tight text-red-600 sm:text-4xl">
+              <div className="max-w-xl flex flex-col items-center justify-center">
+                  <h2 className="text-pretty text-5xl font-semibold tracking-tight text-red-600">
                       Our Team
                   </h2>
-                  <p className="mt-6 text-lg/8 text-rose-500">
-                      Something goes here I guess
+                  <p className="mt-6 text-center text-lg/8 text-rose-500">
+                      This is our group, we are people. That's about all you need to know about us.
                   </p>
               </div>
               <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2">

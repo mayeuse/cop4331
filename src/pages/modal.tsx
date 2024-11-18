@@ -12,8 +12,10 @@ const Modal = ({ message, onConfirm, onCancel }: ModalProps): React.JSX.Element 
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <p>{message}</p>
-        <button onClick={onConfirm}>Yes</button>
-        <button onClick={onCancel}>No</button>
+        <div className={styles.modalbuttons}>
+          <button className={styles.modbut} onClick={onConfirm}>Yes</button>
+          <button className={styles.modbut} onClick={onCancel}>No</button>
+        </div>
       </div>
     </div>
   );

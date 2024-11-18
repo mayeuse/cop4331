@@ -94,3 +94,27 @@
     min-width: 200px;
     color: #304524;
 }
+
+.modalbuttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;  /* Adds space between the buttons */
+    margin-top: 10px;  /* Adds space between the modal content and buttons */
+}
+
+.modbut
+{
+    background: #c9ce2d;
+    color: #304524;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modbut:hover 
+{
+    background: #304524;
+    color: #c9ce2d;
+}
