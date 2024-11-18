@@ -7,7 +7,7 @@ import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database
 import {
   AddExercisePacket,
   IResetPasswordPacket,
-  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket, UserDataRequest, IUserDataRequest,
+  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket, UserDataRequest, IUserDataRequest, ResetPasswordPacket,
 } from '@/typings/packets.ts';
 import { sendMail } from "@/utils/mailer";
 import { ObjectId } from "mongodb";
@@ -122,12 +122,13 @@ app.post('/api/v1/passwordReset', async (req, res, next) =>
   // outgoing: error, confirmation
 
   let error = ''
-  const { newPassword, confirmPassword } = req.body as IResetPasswordPacket;
+  // const { userId, newPassword, confirmPassword } = req.body as IResetPasswordPacket;
+  const payload: ResetPasswordPacket = req.body;
 
-  const userEmail = req.query.user?.toString();
+  // const userEmail = req.query.user?.toString();
 
-  if (newPassword === confirmPassword){
-    var updateResult = await Collections.UserData.updateOne({ email: userEmail }, { $set: { "password": newPassword}});
+  if (payload.newPassword === payload.confirmPassword){
+    var updateResult = await Collections.UserData.updateOne({ userId: ObjectId.createFromHexString(payload.userId) }, { $set: { "password": payload.newPassword}});
     if (!updateResult || updateResult.modifiedCount === null) {
       throw new Error('Update failed');
     }
