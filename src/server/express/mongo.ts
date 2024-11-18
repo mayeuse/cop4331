@@ -15,7 +15,7 @@ import { ArrayElement, KeysYieldingArray } from "@/typings/util.ts";
 
 dotenv.config();
 
-const client = new MongoClient(process.env.MONGO_URL!!, {
+const client = new MongoClient("mongodb+srv://cop4331:WeLoveCOP4331@cop4331team21.4fknr.mongodb.net/?retryWrites=true&w=majority&appName=COP4331Team21"!!, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,

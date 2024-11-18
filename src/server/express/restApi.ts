@@ -73,7 +73,7 @@ app.post(ENDPOINTS.Forms.Register, async (req, res, next) => {
   const results = await Collections.UserData.insert(new UserDataImpl(name, login, password, { email }));
   
   if (results != null) {
-    const verifyURL = `http://localhost:9000/login`;
+    const verifyURL = `http://appleystraining.pro:9001/login`;
     await sendMail(email, 'Verify your Email for Appley\'s Training', `Welcome to Appley's Training! Click this link to log in to your new account: ${verifyURL}`);
     error = 'verification email sent';
 
@@ -105,7 +105,7 @@ app.post('/api/v1/forgotPassword', async (req, res, next) =>
   }
   else
   {
-    const resetURL = `http://localhost:9000/reset-password?user=${email}`;
+    const resetURL = `http://appleystraining.pro:9001/reset-password?user=${email}`;
 
     await sendMail(email, 'Password Reset', `You requested a password reset. Click the link to reset your password: ${resetURL}`);
   
