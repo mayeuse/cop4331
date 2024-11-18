@@ -2,7 +2,6 @@ import { useCookies } from 'react-cookie';
 import { Primitive, Replaced } from '@/typings';
 import { UserDataSchema } from '@/typings/database';
 import type { ObjectId } from 'mongodb';
-import React, { useContext } from 'react';
 
 export type UserDataContext = Replaced<UserDataSchema, ObjectId, string, Primitive | Date>
 
@@ -28,8 +27,14 @@ class Lazy<T> {
 }
 
 export const UserContext: IUserContext = {
-  getData: () => localStorage['userData'], setData: (v) => {
-    localStorage['userData'] = v;
+  getData: () => {
+    const fromStorage = localStorage.getItem('userData')
+    if (fromStorage)
+      return JSON.parse(fromStorage)
+    else
+      return null;
+  }, setData: (v) => {
+    localStorage.setItem('userData', JSON.stringify(v));
   },
 }
 
