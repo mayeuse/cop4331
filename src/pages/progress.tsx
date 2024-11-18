@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// Assuming you have this hook
 import { ENDPOINTS } from "@/typings";  // Assuming ENDPOINTS is imported from your typings
 import styles from "./index.module.css";
 import { useAuthCookie } from '@/client_ts/Contexts.ts';
@@ -11,12 +10,21 @@ interface ExerciseLog {
   date: string;
 }
 
+interface StepGoal {
+  target: number;
+  units: string;
+  interval: string;
+}
+
+interface CalorieGoal {
+  target: number;
+  units: string;
+  interval: string;
+}
+
 interface Goal {
-  stepcount: {
-    target: number;
-    units: string;
-    interval: string;
-  };
+  stepcount?: StepGoal;
+  calorie?: CalorieGoal;
 }
 
 const ProgressBody = (): React.JSX.Element => {
@@ -27,7 +35,7 @@ const ProgressBody = (): React.JSX.Element => {
   const userId = getCookie(); // The user ID from cookies
 
   // console.log("Cookies:", cookies);  // Add this line to check all cookies
-  console.log("User ID:", userId);  // Check if the userId is being set correctly 
+  // console.log("User ID:", userId);  // Check if the userId is being set correctly
 
   const handleUserProgress = async () => {
     if (!userId) {
@@ -49,6 +57,7 @@ const ProgressBody = (): React.JSX.Element => {
       const data = await response.json();
       
       if (response.ok) {
+        console.log(data); //Shows data for user
         setExerciseLog(data.exerciseLog);
         setGoal(data.goals);
       } else {
@@ -74,18 +83,30 @@ const ProgressBody = (): React.JSX.Element => {
 
       {error && <div className="text-center text-red-500 mt-4">{error}</div>}
 
-      {goal && goal.stepcount ? (
+      {goal ? (
         <div className="mx-auto w-3/4 mt-6 p-4 border-2 border-green-500 rounded-lg shadow-md bg-amber-100">
           <h3 className="text-3xl text-center text-green-700">Goal</h3>
-          <p className="text-center text-xl mt-2">
-            Target: <span className="font-semibold">{goal.stepcount.target}</span>
-          </p>
-          <p className="text-center text-xl">
-            Units: <span className="font-semibold">{goal.stepcount.units}</span>
-          </p>
-          <p className="text-center text-xl">
-            Interval: <span className="font-semibold">{goal.stepcount.interval}</span>
-          </p>
+          {goal.stepcount ? (
+            <>
+              <p className="text-center text-xl mt-2">
+                Target Steps: <span className="font-semibold">{goal.stepcount.target} {goal.stepcount.units}</span>
+              </p>
+              <p className="text-center text-xl">
+                Interval: <span className="font-semibold">{goal.stepcount.interval}</span>
+              </p>
+            </>
+          ) : goal.calorie ? (
+            <>
+              <p className="text-center text-xl mt-2">
+                Target Calories: <span className="font-semibold">{goal.calorie.target} {goal.calorie.units}</span>
+              </p>
+              <p className="text-center text-xl">
+                Interval: <span className="font-semibold">{goal.calorie.interval}</span>
+              </p>
+            </>
+          ) : (
+            <p className="text-center text-xl mt-2 text-gray-500">No specific goal set</p>
+          )}
         </div>
       ) : (
         <div className="text-center text-xl mt-4 text-gray-500">No goal data available</div>

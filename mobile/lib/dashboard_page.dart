@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'log_exercise_page.dart';
 import 'add_goal_page.dart';
 import 'dash.dart';
+import 'progress.dart';
 
 class DashboardPage extends StatefulWidget {
   final String userId;
@@ -16,6 +17,7 @@ class _DashboardPageState extends State<DashboardPage> {
   int currentIndex = 0;
 
   late final List<Widget> pages;
+  final GlobalKey<ProgressPageState> progressKey = GlobalKey<ProgressPageState>();
 
   @override
   void initState() {
@@ -23,7 +25,7 @@ class _DashboardPageState extends State<DashboardPage> {
     // Initialize the pages list with the userId passed to the forms
     pages = [
       Dash(),
-      Center(child: Text('Progress Content')),
+      ProgressPage(key: progressKey, userId: widget.userId),
       AddGoalPage(userId: widget.userId),
       LogExercisePage(userId: widget.userId),
     ];
@@ -32,6 +34,10 @@ class _DashboardPageState extends State<DashboardPage> {
   void onTabTapped(int index) {
     setState(() {
       currentIndex = index;
+      if (index == 1) {
+        // Refresh data for the progress page
+        progressKey.currentState?.fetchUserData();
+      }
     });
   }
 

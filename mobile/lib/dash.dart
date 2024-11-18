@@ -9,8 +9,8 @@ class Dash extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [const Color(0xFFFBE68A), const Color(0xFFDAF89C)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
         ),
         child: Center(
