@@ -1,13 +1,13 @@
 import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import Modal from "./modal.tsx";
-import { USER_CONTEXT } from "@/index.tsx";
+import { UserContext } from "@/index.tsx";
 import { LoaderFunctionArgs, NavLink, Outlet } from "react-router-dom";
 
-const Dashboard = (): React.JSX.Element => {
+export default function(): React.JSX.Element {
   const [ isModalVisible, setModalVisible ] = useState(false);
   
-  const userDataContext = useContext(USER_CONTEXT);
+  const userDataContext = useContext(UserContext);
   
   function Logout() {
     return (
@@ -105,12 +105,11 @@ export function ProgressBody() //maybe import to own file later
   return (
     <div className="text-center text-rose-500">
       <h1 className="text-3xl font-bold mb-4">Welcome to your Progress!</h1>
-      <p className="text-lg">Progress Bar goes here?</p>
+      <p className="text-lg">Any progress is GOOD Progress!</p>
       <div className="mx-auto my-8 justify-center size-fit">
         <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2" />
       </div>
-      <h1 className="text-lg">Are you doing good? Hmmm?</h1>
-      <h1 className="text-lg">ARE YOU?!?!?!?!?!?</h1>
+      <h1 className="text-lg">YOU ARE MAKING PROGRESS RIGHT?!?!?!?!?!?</h1>
     </div>
   );
 }
@@ -129,23 +128,21 @@ export function GoalBody() //import to own file later
   );
 }
 
-export function ExerciseBody() //import to own file later
-{
-  return (
-    <div className="text-center text-rose-500">
-      <h1 className="text-3xl font-bold mb-4">Document your Exercise here!</h1>
-      <p className="text-lg">Exercise Log goes here?</p>
-      <div className="mx-auto my-8 justify-center size-fit">
-        <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2" />
-      </div>
-      <h1 className="text-lg">Be Honest, I know when you lie.</h1>
-    </div>
-  );
-}
+// export function ExerciseBody()
+// {
+//   return (
+//     <div className="text-center text-rose-500">
+//       <h1 className="text-3xl font-bold mb-4">Document your Exercise here!</h1>
+//       <p className="text-lg">Exercise Log goes here?</p>
+//       <div className="mx-auto my-8 justify-center size-fit">
+//         <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2" />
+//       </div>
+//       <h1 className="text-lg">Be Honest, I know when you lie.</h1>
+//     </div>
+//   );
+// }
 
-/** @type LoaderFunction */
 export function loader(args: LoaderFunctionArgs) {
 
 }
 
-export default Dashboard;

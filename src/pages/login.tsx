@@ -2,7 +2,9 @@ import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import ForgotPassBody from "./forgotpassword.tsx";
 import { ENDPOINTS, LoginPacket } from "@/typings";
-import { useAuthCookie, USER_CONTEXT } from "@/index.tsx";
+import { IUserContext, setAuthCookie, useAuthCookie, UserContext, UserDataContext } from '@/index.tsx';
+import { Collections } from '@/server/express/mongo.ts';
+import UserData = Collections.UserData;
 
 export default function(): React.JSX.Element {
   const [authCookie] = useAuthCookie()
@@ -11,7 +13,7 @@ export default function(): React.JSX.Element {
     return <div className={ styles.wrapper }>Already logged in!</div>;
   }
 
-  const userContext = useContext(USER_CONTEXT);
+  const userContext = useContext(UserContext);
   
   const [ username, setUsername ] = useState("");
   const [ password, setPassword ] = useState("");
@@ -32,7 +34,7 @@ export default function(): React.JSX.Element {
         body: new LoginPacket(username, password).serialize(),
       });
       
-      const data = await response.json();
+      const data: UserDataContext = await response.json();
       console.log("API Response:", data);
       
       if (response.ok && !data.error) {
@@ -40,6 +42,7 @@ export default function(): React.JSX.Element {
         setError("");
 
         userContext.data = data;
+        setAuthCookie(data.id)
         
         window.location.href = "dashboard"; // navigate to dashboard
       } else {

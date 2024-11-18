@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import { ENDPOINTS, AddExercisePacket } from "@/typings";
-import { USER_CONTEXT } from "@/index.tsx";
+import { UserContext } from "@/index.tsx";
 
 
 const ExerciseBody = (): React.JSX.Element => 
@@ -12,17 +12,17 @@ const ExerciseBody = (): React.JSX.Element =>
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    const userContext = useContext(USER_CONTEXT)
+    const user = useContext(UserContext);
 
     const handleAddExerciseSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         try {
-        if (userContext.data == null)
+        if (user.data == null)
         {
-            throw("Null String");
+            throw("Null String Oh Noes");
         }
-        const userId = userContext.data._id;
+        const userId = user.data._id;
         const payload = {
             userId,
             calories: Number(calories),
