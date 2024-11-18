@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:9000/api/v1'; //appleystraining.pro
+  static const String baseUrl = 'http://appleystraining.pro:9001/api/v1'; //appleystraining.pro
 
   // Function to register
   static Future<Map<String, dynamic>?> registerUser(
