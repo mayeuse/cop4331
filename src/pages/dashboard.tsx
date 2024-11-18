@@ -120,6 +120,7 @@ export function GoalBody() //import to own file later
     <div className="text-center text-rose-500">
       <h1 className="text-3xl font-bold mb-4">Insert your Weekly Goal here!</h1>
       <p className="text-lg">Goal Form goes here?</p>
+      <Outlet/>
       <div className="mx-auto my-8 justify-center size-fit">
         <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2" />
       </div>

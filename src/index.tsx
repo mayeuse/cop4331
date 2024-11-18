@@ -77,18 +77,22 @@ const App = (): React.JSX.Element => {
         {
           path: 'goals',
           element: <GoalBody />,
+          children: [
+            {
+              path: '',
+              element: <GoalForm />,
+              action: goalAction(userContext),
+            },
+          ]
         },
+        
         {
           path: 'exercise',
           element: <ExerciseBody />,
         },
       ],
     },
-    {
-      path: '/addGoal',
-      element: <GoalForm />,
-      action: goalAction(userContext),
-    },
+    
   ]);
   
   return (
