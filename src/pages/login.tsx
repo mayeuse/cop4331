@@ -47,7 +47,7 @@ export default function(): React.JSX.Element {
             </div>
             
             <div className="text-center">
-              <button className={ styles.submitbox } type="submit">Submit</button>
+              <button className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit">Submit</button>
             </div>
             
             { actionData?.error && <span className={ styles.error }>{ actionData.error }</span> }

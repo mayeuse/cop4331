@@ -27,7 +27,7 @@ const RegisterBody = (): React.JSX.Element =>
         const data = await response.json();
   
         if (response.ok) {
-          setSuccessMessage(`Registration successful! Please return to the login menu.`);
+          setSuccessMessage(`Please check your email for verification.`);
           setError('');
         } 
         else {
@@ -71,7 +71,7 @@ const RegisterBody = (): React.JSX.Element =>
           </div>
           
           <div className="text-center">
-              <button className={styles.submitbox} type="submit" id="submit_register">Submit</button>
+              <button className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit" id="submit_register">Submit</button>
           </div>
 
           {successMessage && <span className={styles.success}>{successMessage}</span>}
