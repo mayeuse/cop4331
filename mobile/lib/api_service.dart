@@ -201,6 +201,30 @@ class ApiService {
     }
   }
 
+  // Function to retrieve user data (exercise log & goals)
+  static Future<Map<String, dynamic>?> fetchUserData(String userId) async {
+    final url = Uri.parse('$baseUrl/retrieveuserdata');
+    
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'id': userId}),
+      );
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        print('API Error Response: ${response.body}');
+        return {'error': 'Failed to retrieve user data'};
+      }
+    } catch (e) {
+      print('Fetch User Data Error: $e');
+      return {'error': 'Failed to connect to the server'};
+    }
+  }
+
+
   // Function to fetch badges data
   static Future<List<dynamic>?> getUserBadges(String userId) async {
     final url = Uri.parse('$baseUrl/data/badges');
