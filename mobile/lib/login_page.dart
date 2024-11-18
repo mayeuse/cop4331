@@ -11,23 +11,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController loginController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String errorMessage = '';
   String successMessage = '';
 
   Future<void> handleLogin() async {
-    final username = usernameController.text;
+    final login = loginController.text;
     final password = passwordController.text;
 
-    if (username.isEmpty || password.isEmpty) {
+    if (login.isEmpty || password.isEmpty) {
       setState(() {
         errorMessage = 'Please fill in all fields';
       });
       return;
     }
 
-    final response = await ApiService.loginUser(username, password);
+    final response = await ApiService.loginUser(login, password);
     
     //if (mounted) {
       if (response != null && response['id'] != null) {
@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: usernameController,
+              controller: loginController,
               decoration: InputDecoration(labelText: 'Username'),
             ),
             TextField(
