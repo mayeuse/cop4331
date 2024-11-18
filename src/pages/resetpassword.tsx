@@ -48,6 +48,10 @@ const ResetPasswordBody = (): React.JSX.Element => {
       return;
     }
 
+    console.log(newPassword);
+    console.log(confirmPassword);
+    console.log(userEmail);
+
     try {
       const response = await fetch(`/api/v1/passwordReset`, {
         method: "POST",

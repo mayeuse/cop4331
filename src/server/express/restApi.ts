@@ -7,7 +7,7 @@ import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database
 import {
   AddExercisePacket,
   IResetPasswordPacket,
-  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket, UserDataRequest, IUserDataRequest, ResetPasswordPacket,
+  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket, UserDataRequest, IUserDataRequest,
 } from '@/typings/packets.ts';
 import { sendMail } from "@/utils/mailer";
 import { ObjectId } from "mongodb";
@@ -121,31 +121,40 @@ app.post('/api/v1/passwordReset', async (req, res, next) =>
   // incoming: new password, confirm new password
   // outgoing: error, confirmation
 
-  console.log('Request body:', req.body);  // Log the payload
+  console.log("Body:", req.body);
 
-  let error = ''
-  // const { userId, newPassword, confirmPassword } = req.body as IResetPasswordPacket;
-  const payload: ResetPasswordPacket = req.body;
+  let error = '';
+  const { newPassword, confirmPassword, userEmail } = req.body as IResetPasswordPacket;
 
-  // const userEmail = req.query.user?.toString();
-
-  if (payload.newPassword === payload.confirmPassword){
-    var updateResult = await Collections.UserData.updateOne({ userId: ObjectId.createFromHexString(payload.userId) }, { $set: { "password": payload.newPassword}});
-    if (!updateResult || updateResult.modifiedCount === null) {
-      throw new Error('Update failed');
-    }
-    else{
-      error = 'Password Update Successful'
-      var ret = {error: error};
-      res.status(200).json(ret);
-      res.send();
-    }
+  if (!userEmail || !newPassword || !confirmPassword) {
+    return res.status(400).json({ error: "Missing required fields." });
   }
-  else {
-    error = 'Bad request - Passwords do not match'
-    var ret = { error: error };
-    res.status(400).json(ret);
-    res.send();
+
+  console.log("Email", userEmail);
+
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ error: "Bad request - Passwords do not match" });
+  }
+
+  try {
+    const updateResult = await Collections.UserData.updateOne(
+      { email: userEmail },
+      { $set: { password: newPassword } }
+    );
+
+    if (!updateResult) {
+      return res.status(500).json({ error: "Password update failed." });
+    }
+    
+    if (updateResult.modifiedCount === 0) {
+      return res.status(200).json({ message: "Password is already up-to-date." });
+    }
+
+    console.log("Password updated successfully for:", userEmail);
+    res.status(200).json({ message: "Password updated successfully." });
+  } catch (err) {
+    console.error("Error updating password:", err);
+    res.status(500).json({ error: "An internal server error occurred." });
   }
 });
 
@@ -163,8 +172,6 @@ app.post(ENDPOINTS.Forms.AddExercise, async (req, res) => {
 });
 
 app.post(ENDPOINTS.Forms.AddGoal, async (req, res) => {
-  console.log('Request body:', req.body);  // Log the payload
-
   const payload: IAddGoalPacket = req.body;
   if (!payload.userId || !req.headers[AUTH_HEADER]) {
     return onInvalidPayload(res, "No authentication.");
