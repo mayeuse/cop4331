@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ENDPOINTS } from "@/typings";  // Assuming ENDPOINTS is imported from your typings
+import { ENDPOINTS } from "@/typings"; // Assuming ENDPOINTS is imported from your typings
 import styles from "./index.module.css";
 import { useAuthCookie } from '@/client_ts/Contexts.ts';
 
@@ -31,48 +31,51 @@ const ProgressBody = (): React.JSX.Element => {
   const [exerciseLog, setExerciseLog] = useState<ExerciseLog[]>([]);
   const [goal, setGoal] = useState<Goal | null>(null);
   const [error, setError] = useState<string>("");
-  const {getCookie} = useAuthCookie(); // Assuming this hook gives you cookies
-  const userId = getCookie(); // The user ID from cookies
+  const { getCookie } = useAuthCookie();
+  const userId = getCookie();
+
+  const formatDate = (dateString: string): string => {
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    return `${month}/${day}/${year}`;
+  };
+
+  const isFormattedDate = (dateString: string): boolean => {
+    const dateFormatRegex = /^\d{2}\/\d{2}\/\d{4}$/;
+    return dateFormatRegex.test(dateString);
+  };
 
   const handleUserProgress = async () => {
     if (!userId) {
       setError("User not logged in");
-      console.log("User not logged in");
       return;
     }
 
     try {
       const response = await fetch(ENDPOINTS.Data.RetrieveUserData, {
-        method: "POST",  // Send a POST request
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: userId }),  // Send the userId in the body
+        body: JSON.stringify({ id: userId }),
       });
 
-      // Parse the response as JSON
       const data = await response.json();
-      
+      //console.log("Backend Response:", data);
+
       if (response.ok) {
-        console.log(data); // Shows data for user
         setExerciseLog(data.exerciseLog);
         setGoal(data.goals);
       } else {
         setError(data.error || "Error fetching user progress");
-        console.error("Error fetching user progress:", data.error);
       }
     } catch (error) {
       setError("Error fetching user progress");
-      console.error("Error fetching user progress:", error);
     }
   };
 
-  // Run the handleUserProgress function when the component mounts
   useEffect(() => {
     handleUserProgress();
-  }, []);  // Empty dependency array ensures this runs once after the component mounts
-
-  // console.log('Goal:', goal);  // Add this to check if goal is being set correctly
+  }, []);
 
   return (
     <div className={styles.wrapper}>
@@ -91,7 +94,12 @@ const ProgressBody = (): React.JSX.Element => {
                 Target Steps: <span className="font-semibold">{goal.stepcount.target} {goal.stepcount.units}</span>
               </p>
               <p className="text-center text-xl">
-                Interval: <span className="font-semibold">{goal.stepcount.interval}</span>
+                Interval:{" "}
+                <span className="font-semibold">
+                  {isFormattedDate(goal.stepcount.interval)
+                    ? goal.stepcount.interval
+                    : formatDate(goal.stepcount.interval)}
+                </span>
               </p>
             </>
           )}
@@ -100,10 +108,15 @@ const ProgressBody = (): React.JSX.Element => {
           {goal.calorie && (
             <>
               <p className="text-center text-xl mt-2">
-                Target Calories: <span className="font-semibold">{goal.calorie.target} {goal.calorie.units}</span>
+              Target Calories: <span className="font-semibold">{goal.calorie.target} {goal.calorie.units}</span>
               </p>
               <p className="text-center text-xl">
-                Interval: <span className="font-semibold">{goal.calorie.interval}</span>
+                Interval:{" "}
+                <span className="font-semibold">
+                  {isFormattedDate(goal.calorie.interval)
+                    ? goal.calorie.interval
+                    : formatDate(goal.calorie.interval)}
+                </span>
               </p>
             </>
           )}
@@ -124,7 +137,9 @@ const ProgressBody = (): React.JSX.Element => {
             <li key={index} className="mx-auto w-3/4 bg-amber-100 p-4 rounded-lg shadow-lg border-2 border-green-500">
               <p className="text-xl font-semibold">Type: {entry.type}</p>
               <p className="text-lg">Calories: {entry.calories}</p>
-              <p className="text-lg">Date: {entry.date}</p>
+              <p className="text-lg">
+                Date: {isFormattedDate(entry.date) ? entry.date : formatDate(entry.date)}
+              </p>
             </li>
           ))}
         </ul>

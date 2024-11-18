@@ -37,8 +37,8 @@ export enum GoalType {
 }
 
 export const GoalUnits: Record<GoalType, string | string[]> = {
-    [GoalType.CALORIE]: 'kCal',
-    [GoalType.STEPCOUNT]: ['mi', 'km']
+    [GoalType.CALORIE]: 'cal',
+    [GoalType.STEPCOUNT]: 'steps'
 }
 
 export interface GoalData {
