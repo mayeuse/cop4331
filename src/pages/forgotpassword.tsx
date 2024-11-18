@@ -46,7 +46,7 @@ const ForgotPassBody = (): React.JSX.Element =>
                 </div>
 
                 <div className="text-center">
-                    <button className={styles.submitbox} type="submit">Send Reset</button>
+                    <button className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit">Send Reset</button>
                 </div>
 
                 {message && <span className={styles.success}>{message}</span>}

@@ -56,38 +56,48 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Login')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: loginController,
-              decoration: InputDecoration(labelText: 'Username'),
-            ),
-            TextField(
-              controller: passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: handleLogin,
-              child: Text('Login'),
-            ),
-            if (successMessage.isNotEmpty)
-              Text(successMessage, style: TextStyle(color: Colors.green)),
-            if (errorMessage.isNotEmpty)
-              Text(errorMessage, style: TextStyle(color: Colors.red)),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [const Color(0xFFFBE68A), const Color(0xFFDAF89C)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: loginController,
+                decoration: InputDecoration(labelText: 'Username'),
+              ),
+              TextField(
+                controller: passwordController,
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: handleLogin,
+                child: Text('Login'),
+              ),
+              if (successMessage.isNotEmpty)
+                Text(successMessage, style: TextStyle(color: Colors.green)),
+              if (errorMessage.isNotEmpty)
+                Text(errorMessage, style: TextStyle(color: Colors.red)),
 
-            // Add a "Forgot Password" button
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/forgotPassword');
-              },
-              child: Text('Forgot Password?'),
-            ),
-          ],
+              // Add a "Forgot Password" button
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/forgotPassword');
+                },
+                child: Text('Forgot Password?'),
+              ),
+            ],
+          ),
         ),
       ),
     );

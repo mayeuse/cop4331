@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Dash extends StatelessWidget {
+class HomeHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class Dash extends StatelessWidget {
               children: [
                 // Catchphrase text in red color
                 Text(
-                  'You are logged in. \nTime to break that body down!!!',
+                  'Welcome to the Appley\'s \nTraining Regime Mobile App!\nI am Appley, here to make you \nas MUCHO MACHO as me!',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.red,
