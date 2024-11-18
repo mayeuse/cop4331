@@ -19,6 +19,7 @@ export const newGoalAction = (context: IUserContext) => async ({ request }: Acti
       },
       body: addGoalPacket.serialize(),
     });
+    
     console.log('after response')
     
     if (!response.ok) {

@@ -125,16 +125,7 @@ export interface IResetPasswordPacket {
   userId: UserDataIdString,
   newPassword: string,
   confirmPassword: string,
-}
-
-export class ResetPasswordPacket extends Packet implements IResetPasswordPacket {
-  constructor(
-    public userId: UserDataIdString,
-    public newPassword: string,
-    public confirmPassword: string,
-  ) {
-    super();
-  }
+  userEmail: string
 }
 
 export interface IAddExercisePacket {

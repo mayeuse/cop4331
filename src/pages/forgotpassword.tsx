@@ -38,7 +38,7 @@ const ForgotPassBody = (): React.JSX.Element =>
     return (
         <div>
             <h2>Forgot Password</h2>
-            <form name="forgotpassword" onSubmit={handleForgotPassSubmit}>
+            <form id='forgotpasswordform' name="forgotpassword" onSubmit={handleForgotPassSubmit}>
                 <div className="w-auto text-center">
                 <input
                     className={styles.inputbox} type="email" name="email" value={email}
@@ -46,7 +46,7 @@ const ForgotPassBody = (): React.JSX.Element =>
                 </div>
 
                 <div className="text-center">
-                    <button className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit">Send Reset</button>
+                    <button id='forgotpassword-submitbutton' className={`${ styles.submitbox } w-1/4 py-1 rounded min-h-fit`} type="submit">Send Reset</button>
                 </div>
 
                 {message && <span className={styles.success}>{message}</span>}
