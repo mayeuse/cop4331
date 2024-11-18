@@ -200,7 +200,7 @@ app.get(ENDPOINTS.Data.Badges, async (req, res) => {
     res.status(500).send();
 });
 
-app.get(ENDPOINTS.Data.RetrieveUserData, async (req: Request, res: Response) => {
+app.post(ENDPOINTS.Data.RetrieveUserData, async (req: Request, res: Response) => {
   // use the id of logged in user to get the exercise log and goals
   // allows frontend to display this info in progress page
   try {
