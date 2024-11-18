@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import { UserContext } from "@/index.tsx";
 import { BadgeSchema } from "@/typings/database";
 import { askForBadgeData } from "@/utils/client/askforassets.ts";
+import { UserContext } from '@/client_ts/Contexts.ts';
 
-export const CSS = {
+const CSS = {
   Container: 'badge-list',
   Name: "badge-name",
   Entry: "badge-entry",

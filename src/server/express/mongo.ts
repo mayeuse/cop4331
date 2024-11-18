@@ -58,8 +58,9 @@ export namespace Collections {
     export async function updateGoal(userId: UserDataId, type: GoalType, goal: GoalData) {
       const x: Goals = {}
       // @ts-ignore
-      x[type] = goal
-      return Collections.UserData.updateOne({ _id: userId }, { $set: { goals: x } }); // TODO make sure this works for pushing the new value into the object
+      x[`goals.${type}`] = goal
+      
+      return Collections.UserData.updateOne({ _id: userId }, { $set: x }); // TODO make sure this works for pushing the new value into the object
     }
     
     export async function pushExercise(userId: UserDataId, exercise: ExerciseData) {

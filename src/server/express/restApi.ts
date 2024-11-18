@@ -7,11 +7,12 @@ import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database
 import {
   AddExercisePacket,
   IResetPasswordPacket,
-  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket, UserDataRequest,
+  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket, UserDataRequest, IUserDataRequest,
 } from '@/typings/packets.ts';
 import { sendMail } from "@/utils/mailer";
 import { ObjectId } from "mongodb";
 import { Intervals } from "@/typings";
+import * as assert from 'node:assert';
 
 
 
@@ -203,12 +204,13 @@ app.get(ENDPOINTS.Data.Badges, async (req, res) => {
 app.post(ENDPOINTS.Data.RetrieveUserData, async (req: Request, res: Response) => {
   // use the id of logged in user to get the exercise log and goals
   // allows frontend to display this info in progress page
+  console.log("received: " + JSON.stringify(req.body))
   try {
-    const payload: UserDataRequest = req.body;
+    const payload: IUserDataRequest = req.body;
     if (!payload) {
       return onInvalidPayload(res);
     }
-
+    console.log(payload)
     const userId = ObjectId.createFromHexString(payload.id);
     const user = await Collections.UserData.findOne({ _id: userId });
     if (!user) {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useAuthCookie } from "@/index.tsx";  // Assuming you have this hook
+// Assuming you have this hook
 import { ENDPOINTS } from "@/typings";  // Assuming ENDPOINTS is imported from your typings
 import styles from "./index.module.css";
+import { useAuthCookie } from '@/client_ts/Contexts.ts';
 
 // Define the structure for exercise log and goal
 interface ExerciseLog {
@@ -22,10 +23,10 @@ const ProgressBody = (): React.JSX.Element => {
   const [exerciseLog, setExerciseLog] = useState<ExerciseLog[]>([]);
   const [goal, setGoal] = useState<Goal | null>(null);
   const [error, setError] = useState<string>("");
-  const [cookies] = useAuthCookie(); // Assuming this hook gives you cookies
-  const userId = cookies["appley-auth"]; // The user ID from cookies
+  const {getCookie} = useAuthCookie(); // Assuming this hook gives you cookies
+  const userId = getCookie(); // The user ID from cookies
 
-  console.log("Cookies:", cookies);  // Add this line to check all cookies
+  // console.log("Cookies:", cookies);  // Add this line to check all cookies
   console.log("User ID:", userId);  // Check if the userId is being set correctly 
 
   const handleUserProgress = async () => {

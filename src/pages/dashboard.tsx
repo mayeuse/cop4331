@@ -1,15 +1,19 @@
-import React, { useContext, useState } from "react";
-import styles from "./index.module.css";
-import Modal from "./modal.tsx";
-import { UserContext, useAuthCookie } from "@/index.tsx";
-import { useNavigate } from 'react-router-dom';
-import { LoaderFunctionArgs, NavLink, Outlet } from "react-router-dom";
+import React, { useContext, useState } from 'react';
+import styles from './index.module.css';
+import Modal from './modal.tsx';
+import { NavLink, Outlet, useLoaderData, useNavigate } from 'react-router-dom';
+import { useAuthCookie, UserContext, UserDataContext } from '@/client_ts/Contexts.ts';
 
-export default function(): React.JSX.Element {
+function Dashboard(): React.JSX.Element {
   const [ isModalVisible, setModalVisible ] = useState(false);
   const userDataContext = useContext(UserContext);
-  const [cookies, setCookie] = useAuthCookie();  // Access the cookies
+  const {removeCookie} = useAuthCookie();  // Access the cookies
   const navigate = useNavigate();  // To handle navigation after logout
+  
+  const loaderData = useLoaderData(); // preload the user data
+  if (loaderData) {
+    userDataContext.setData(loaderData as UserDataContext);
+  }
   
   function Logout() {
     return (
@@ -28,7 +32,7 @@ export default function(): React.JSX.Element {
   
   const handleConfirmLogout = () => {
     userDataContext.setData(null); // remove user data
-    setCookie('appley-auth', '')
+    removeCookie()
     setModalVisible(false); // Close the modal after logout
     navigate('/');  // This will navigate to the landing page ("/")
   };
@@ -89,7 +93,9 @@ export default function(): React.JSX.Element {
       </div>
     </div>
   );
-};
+}
+
+export default Dashboard
 
 export function DashboardBody() {
   return (
@@ -146,8 +152,4 @@ export function GoalBody() //import to own file later
 //     </div>
 //   );
 // }
-
-export function loader(args: LoaderFunctionArgs) {
-
-}
 
