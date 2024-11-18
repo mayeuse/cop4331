@@ -42,7 +42,7 @@ export default function(): React.JSX.Element {
         setError("");
 
         userContext.data = data;
-        setCookie('appley-auth', data._id)
+        setCookie('appley-auth', data._id, { path: '/dashboard' });
         
         window.location.href = "dashboard"; // navigate to dashboard
       } else {

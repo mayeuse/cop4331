@@ -45,6 +45,15 @@
     text-shadow: 1px 1px 2px #d57885;
 }
 
+.wrapper h3
+{
+    padding-top: 10px;
+    font-size: 28px;
+    text-align: center;
+    color: #cb3032;
+    /* text-shadow: 1px 1px 2px #d57885; */
+}
+
 .wrappercolor
 {
     background: rgb(173, 109, 64, 0.3);

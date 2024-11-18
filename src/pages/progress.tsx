@@ -11,9 +11,11 @@ interface ExerciseLog {
 }
 
 interface Goal {
-  target: number;
-  units: string;
-  type: string;
+  stepcount: {
+    target: number;
+    units: string;
+    interval: string;
+  };
 }
 
 const ProgressBody = (): React.JSX.Element => {
@@ -22,6 +24,9 @@ const ProgressBody = (): React.JSX.Element => {
   const [error, setError] = useState<string>("");
   const [cookies] = useAuthCookie(); // Assuming this hook gives you cookies
   const userId = cookies["appley-auth"]; // The user ID from cookies
+
+  console.log("Cookies:", cookies);  // Add this line to check all cookies
+  console.log("User ID:", userId);  // Check if the userId is being set correctly 
 
   const handleUserProgress = async () => {
     if (!userId) {
@@ -60,34 +65,45 @@ const ProgressBody = (): React.JSX.Element => {
     handleUserProgress();
   }, []);  // Empty dependency array ensures this runs once after the component mounts
 
+  //console.log('Goal:', goal);  // Add this to check if goal is being set correctly
+
   return (
     <div className={styles.wrapper}>
-      <h2>Your Progress</h2>
+      <h2 className="text-center text-4xl text-red-700">Your Progress</h2>
 
-      {error && <div className="error">{error}</div>}
+      {error && <div className="text-center text-red-500 mt-4">{error}</div>}
 
-      {goal && (
-        <div>
-          <h3>Goal:</h3>
-          <p>Target: {goal.target}</p>
-          <p>Units: {goal.units}</p>
-          <p>Type: {goal.type}</p>
+      {goal && goal.stepcount ? (
+        <div className="mx-auto w-3/4 mt-6 p-4 border-2 border-green-500 rounded-lg shadow-md bg-amber-100">
+          <h3 className="text-3xl text-center text-green-700">Goal</h3>
+          <p className="text-center text-xl mt-2">
+            Target: <span className="font-semibold">{goal.stepcount.target}</span>
+          </p>
+          <p className="text-center text-xl">
+            Units: <span className="font-semibold">{goal.stepcount.units}</span>
+          </p>
+          <p className="text-center text-xl">
+            Interval: <span className="font-semibold">{goal.stepcount.interval}</span>
+          </p>
         </div>
+      ) : (
+        <div className="text-center text-xl mt-4 text-gray-500">No goal data available</div>
       )}
 
-      <h3>Exercise Log:</h3>
+
+      <h3 className="text-3xl text-center text-red-700 mt-6">Exercise Log</h3>
       {exerciseLog.length > 0 ? (
-        <ul>
+        <ul className="space-y-4 mt-4">
           {exerciseLog.map((entry, index) => (
-            <li key={index}>
-              <p>Type: {entry.type}</p>
-              <p>Calories: {entry.calories}</p>
-              <p>Date: {entry.date}</p>
+            <li key={index} className="mx-auto w-3/4 bg-amber-100 p-4 rounded-lg shadow-lg border-2 border-green-500">
+              <p className="text-xl font-semibold">Type: {entry.type}</p>
+              <p className="text-lg">Calories: {entry.calories}</p>
+              <p className="text-lg">Date: {entry.date}</p>
             </li>
           ))}
         </ul>
       ) : (
-        <div>No exercise data available</div>
+        <div className="text-center text-xl mt-4 text-gray-500">No exercise data available</div>
       )}
     </div>
   );
