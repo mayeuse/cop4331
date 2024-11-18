@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import { ENDPOINTS, AddExercisePacket } from "@/typings";
-import { UserContext } from "@/index.tsx";
-
+import {  useAuthCookie, UserContext } from "@/index.tsx";
 
 const ExerciseBody = (): React.JSX.Element => 
 {
@@ -12,17 +11,18 @@ const ExerciseBody = (): React.JSX.Element =>
     const [error, setError] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
 
-    const user = useContext(UserContext);
+    const [cookies] = useAuthCookie();
+    const user = cookies["appley-auth"];  
 
     const handleAddExerciseSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         try {
-        if (user.data == null)
+        if (user == null)
         {
             throw("Null String Oh Noes");
         }
-        const userId = user.data._id;
+        const userId = user;
         const payload = {
             userId,
             calories: Number(calories),

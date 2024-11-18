@@ -9,9 +9,9 @@ import UserData = Collections.UserData;
 export default function(): React.JSX.Element {
   const [cookies, setCookie ] = useAuthCookie()
   
-  if (cookies["appley-auth"]) {
-    return <div className={ styles.wrapper }>Already logged in!</div>;
-  }
+  // if (cookies["appley-auth"]) {
+  //   return <div className={ styles.wrapper }>Already logged in!</div>;
+  // }
 
   const userContext = useContext(UserContext);
   
