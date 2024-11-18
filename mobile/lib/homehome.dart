@@ -21,7 +21,7 @@ class HomeHome extends StatelessWidget {
               children: [
                 // Catchphrase text in red color
                 Text(
-                  'Welcome to the Appley\'s \nTraining Regime Mobile App!\nI am Appley, here to make you \nas MUCHO MACHO as me!',
+                  'Welcome to the Appley\'s \nTraining Regiment Mobile App!\nI am Appley, here to make you \nas MUCHO MACHO as me!',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.red,

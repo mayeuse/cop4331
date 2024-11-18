@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Appley\'s Training Regime'),
+        title: Text('Appley\'s Training Regiment'),
       ),
       body: Column(
         children: [
