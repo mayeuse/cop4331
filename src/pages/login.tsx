@@ -7,9 +7,9 @@ import { Collections } from '@/server/express/mongo.ts';
 import UserData = Collections.UserData;
 
 export default function(): React.JSX.Element {
-  const [authCookie] = useAuthCookie()
+  const [cookies, setCookie ] = useAuthCookie()
   
-  if (authCookie["appley-auth"]) {
+  if (cookies["appley-auth"]) {
     return <div className={ styles.wrapper }>Already logged in!</div>;
   }
 
@@ -42,7 +42,7 @@ export default function(): React.JSX.Element {
         setError("");
 
         userContext.data = data;
-        setAuthCookie(data.id)
+        setCookie('appley-auth', data._id)
         
         window.location.href = "dashboard"; // navigate to dashboard
       } else {

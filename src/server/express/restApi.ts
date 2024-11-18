@@ -45,6 +45,7 @@ app.post(ENDPOINTS.Forms.Login, async (req, res, next) => {
   
   if (results.length !== 0) {
     res.status(200).json(results[0])
+    return;
   }
   
   let id = "";
@@ -58,7 +59,7 @@ app.post(ENDPOINTS.Forms.Login, async (req, res, next) => {
     const ret = { id: "", name: "", error: "User not found." };
     res.status(400).json(ret);
   }
-  res.send();
+  // res.send();
 });
 
 app.post(ENDPOINTS.Forms.Register, async (req, res, next) => {
