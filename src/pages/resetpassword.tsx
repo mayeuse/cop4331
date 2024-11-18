@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import styles from "./index.module.css"; // Import your styles
 import Modal from "./modal.tsx";
 import { UserContext, useAuthCookie } from "@/client_ts/Contexts.ts";
 import { useNavigate } from 'react-router-dom';
 
 const ResetPasswordBody = (): React.JSX.Element => {
-  const {getCookie} = useAuthCookie();
+  const {getCookie, removeCookie} = useAuthCookie();
   const userId = getCookie(); // Retrieve the user ID from the cookie
 
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -15,7 +15,6 @@ const ResetPasswordBody = (): React.JSX.Element => {
   const [error, setError] = useState("");
   const [ isModalVisible, setModalVisible ] = useState(false);
   const userDataContext = useContext(UserContext);
-  const [cookies, setCookie] = useAuthCookie();  // Access the cookies
   const navigate = useNavigate();  // To handle navigation after logout
 
   // Extract the "user" query parameter from the URL
@@ -85,7 +84,7 @@ const ResetPasswordBody = (): React.JSX.Element => {
   
   const handleConfirmBackout = () => {
     userDataContext.setData(null); // remove user data
-    setCookie('appley-auth', '')
+    removeCookie()
     setModalVisible(false); // Close the modal after logout
     navigate('/');  // This will navigate to the landing page ("/")
   };
