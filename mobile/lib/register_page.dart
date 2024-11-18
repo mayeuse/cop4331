@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
     // Updated check to handle API response correctly
     if (response != null && response['id'] != null && response['id'] != '') {
       setState(() {
-        successMessage = 'Registration successful! Please login.';
+        successMessage = 'Registration successful! Please verify email and login.';
         errorMessage = '';
       });
 
@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
       await Future.delayed(Duration(milliseconds: 100));
 
       // Navigate to the login page
-      Navigator.pushReplacementNamed(context, '/login');
+      //Navigator.pushReplacementNamed(context, '/login');
     } else {
       setState(() {
         successMessage = '';
