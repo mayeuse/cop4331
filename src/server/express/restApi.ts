@@ -13,6 +13,7 @@ import { sendMail } from "@/utils/mailer";
 import { ObjectId } from "mongodb";
 import { Intervals } from "@/typings";
 import * as assert from 'node:assert';
+import path from 'path';
 
 
 
@@ -124,16 +125,18 @@ app.post('/api/v1/passwordReset', async (req, res, next) =>
   console.log("Body:", req.body);
 
   let error = '';
-  const { newPassword, confirmPassword, userEmail } = req.body as IResetPasswordPacket;
+  const { newPassword, confirmPassword, userEmail} = req.body as IResetPasswordPacket;
 
   if (!userEmail || !newPassword || !confirmPassword) {
-    return res.status(400).json({ error: "Missing required fields." });
+    res.status(400).json({ error: "Missing required fields." });
+    return
   }
 
   console.log("Email", userEmail);
 
   if (newPassword !== confirmPassword) {
-    return res.status(400).json({ error: "Bad request - Passwords do not match" });
+    res.status(400).json({ error: "Bad request - Passwords do not match" });
+    return;
   }
 
   try {
@@ -143,11 +146,13 @@ app.post('/api/v1/passwordReset', async (req, res, next) =>
     );
 
     if (!updateResult) {
-      return res.status(500).json({ error: "Password update failed." });
+      res.status(500).json({ error: "Password update failed." });
+      return;
     }
     
     if (updateResult.modifiedCount === 0) {
-      return res.status(200).json({ message: "Password is already up-to-date." });
+       res.status(200).json({ message: "Password is already up-to-date." });
+      return
     }
 
     console.log("Password updated successfully for:", userEmail);
@@ -246,5 +251,12 @@ app.post(ENDPOINTS.Data.RetrieveUserData, async (req: Request, res: Response) =>
 
 app.use(express.static("./.local/vite/dist"));
 
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../../vite/dist/index.html'), function (err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+})
 
 export default app;
