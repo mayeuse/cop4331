@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'api_service.dart';
+import 'package:intl/intl.dart';
 
 class ProgressPage extends StatefulWidget {
   final String userId;
@@ -35,6 +36,16 @@ class ProgressPageState extends State<ProgressPage> {
       setState(() {
         message = response?['error'] ?? 'Error fetching data';
       });
+    }
+  }
+
+  // Function to format date string
+  String formatDateString(String dateString) {
+    try {
+      DateTime parsedDate = DateTime.parse(dateString);
+      return DateFormat('MM/dd/yyyy').format(parsedDate);
+    } catch (e) {
+      return dateString; // Return the original string if parsing fails
     }
   }
 
@@ -81,7 +92,7 @@ class ProgressPageState extends State<ProgressPage> {
                         children: [
                           Text('Type: ${goal.key}', style: TextStyle(fontWeight: FontWeight.bold)),
                           Text('Target: ${goal.value['target']} ${goal.value['units']}'),
-                          Text('Interval: ${goal.value['interval']}'),
+                          Text('Interval: ${formatDateString(goal.value['interval'])}'),
                         ],
                       ),
                     );
