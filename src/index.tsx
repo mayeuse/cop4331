@@ -12,7 +12,8 @@ import Login from '@/pages/login';
 import LandingPage, { LandingBody, Team } from '@/pages/landing.tsx';
 import ProgressBody from '@/pages/progress';
 import ExerciseBody from '@/pages/addexercise';
-import Dashboard, { DashboardBody, GoalBody,  } from '@/pages/dashboard.tsx';
+import Dashboard, { DashboardBody, GoalBody, } from '@/pages/dashboard.tsx';
+import ResetPasswordBody from '@/pages/resetpassword';
 import { CookiesProvider, useCookies } from 'react-cookie';
 import GoalForm, { action as goalAction } from '@/pages/forms/newgoal.tsx';
 
@@ -93,7 +94,10 @@ const App = (): React.JSX.Element => {
         },
       ],
     },
-    
+    {
+      path: '/reset',
+      element: <ResetPasswordBody />,
+    },
   ]);
   
   return (
