@@ -55,15 +55,10 @@ export const Root = (): React.JSX.Element => {
           element: <ProgressBody />,
         },
         {
+          index: true,
           path: 'goals',
-          element: <GoalBody />,
-          children: [
-            {
-              index: true,
-              element: <GoalForm />,
-              action: goalAction(userContext),
-            },
-          ],
+          element: <GoalForm />,
+          action: goalAction(userContext),
         },
         
         {
