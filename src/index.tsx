@@ -45,7 +45,7 @@ const App = (): React.JSX.Element => {
       element: <LandingPage />,
       children: [
         {
-          path: '',
+          index: true,
           element: <LandingBody />,
         },
         {
@@ -67,7 +67,7 @@ const App = (): React.JSX.Element => {
       element: <Dashboard />,
       children: [
         {
-          path: '',
+          index: true,
           element: <DashboardBody />,
         },
         {
@@ -79,7 +79,7 @@ const App = (): React.JSX.Element => {
           element: <GoalBody />,
           children: [
             {
-              path: '',
+              index: true, // TODO make this a modal
               element: <GoalForm />,
               action: goalAction(userContext),
             },
