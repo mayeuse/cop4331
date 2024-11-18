@@ -12,7 +12,7 @@ class AddGoalPage extends StatefulWidget {
 
 class _AddGoalPageState extends State<AddGoalPage> {
   final TextEditingController targetController = TextEditingController();
-  final TextEditingController unitsController = TextEditingController();
+  //final TextEditingController unitsController = TextEditingController();
 
   String selectedGoalType = 'calorie';
   String selectedInterval = 'WEEKLY';
@@ -23,9 +23,9 @@ class _AddGoalPageState extends State<AddGoalPage> {
 
   Future<void> handleAddGoal() async {
     final int target = int.tryParse(targetController.text) ?? 0;
-    final String units = unitsController.text;
+    //final String units = unitsController.text;
 
-    if (target <= 0 || units.isEmpty) {
+    if (target <= 0 /*|| units.isEmpty*/) {
       setState(() {
         message = 'Please fill all fields correctly';
       });
@@ -36,7 +36,7 @@ class _AddGoalPageState extends State<AddGoalPage> {
       userId: widget.userId,
       type: selectedGoalType,
       target: target,
-      units: units,
+      //units: units,
       interval: selectedInterval,
     );
 
@@ -81,12 +81,12 @@ class _AddGoalPageState extends State<AddGoalPage> {
             ),
             SizedBox(height: 10),
 
-            // Input for Units
+            /*// Input for Units
             TextField(
               controller: unitsController,
               decoration: InputDecoration(labelText: 'Units (e.g., reps, steps)'),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 10),*/
 
             // Dropdown for Interval
             DropdownButtonFormField<String>(

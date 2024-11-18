@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:9000/api/v1';
+  static const String baseUrl = 'http://localhost:9000/api/v1'; //appleystraining.pro
 
   // Function to register
   static Future<Map<String, dynamic>?> registerUser(
@@ -153,7 +153,7 @@ class ApiService {
     required String userId,
     required String type,
     required int target,
-    required String units,
+    //required String units,
     required String interval,
   }) async {
     final url = Uri.parse('$baseUrl/addgoal');
@@ -184,7 +184,7 @@ class ApiService {
           'userId': userId,
           'type': type,
           'target': target,
-          'units': units,
+          //'units': units,
           'interval': interval,
         }),
       );

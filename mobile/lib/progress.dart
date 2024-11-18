@@ -53,6 +53,7 @@ class ProgressPageState extends State<ProgressPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [const Color(0xFFFBE68A), const Color(0xFFDAF89C)],
