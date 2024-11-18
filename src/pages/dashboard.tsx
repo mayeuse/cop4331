@@ -1,13 +1,15 @@
 import React, { useContext, useState } from "react";
 import styles from "./index.module.css";
 import Modal from "./modal.tsx";
-import { UserContext } from "@/index.tsx";
+import { UserContext, useAuthCookie } from "@/index.tsx";
+import { useNavigate } from 'react-router-dom';
 import { LoaderFunctionArgs, NavLink, Outlet } from "react-router-dom";
 
 export default function(): React.JSX.Element {
   const [ isModalVisible, setModalVisible ] = useState(false);
-  
   const userDataContext = useContext(UserContext);
+  const [cookies, setCookie] = useAuthCookie();  // Access the cookies
+  const navigate = useNavigate();  // To handle navigation after logout
   
   function Logout() {
     return (
@@ -25,8 +27,10 @@ export default function(): React.JSX.Element {
   };
   
   const handleConfirmLogout = () => {
-    userDataContext.data = null; // remove user data
+    userDataContext.setData(null); // remove user data
+    setCookie('appley-auth', '')
     setModalVisible(false); // Close the modal after logout
+    navigate('/');  // This will navigate to the landing page ("/")
   };
   
   const handleCancelLogout = () => {
@@ -120,6 +124,7 @@ export function GoalBody() //import to own file later
     <div className="text-center text-rose-500">
       <h1 className="text-3xl font-bold mb-4">Insert your Weekly Goal here!</h1>
       <p className="text-lg">Goal Form goes here?</p>
+      <Outlet/>
       <div className="mx-auto my-8 justify-center size-fit">
         <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2" />
       </div>

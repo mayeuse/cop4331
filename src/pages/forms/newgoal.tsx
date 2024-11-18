@@ -13,6 +13,8 @@ export const CSS = {
     Type: 'goals-type',
     Option: 'goals-option',
     Target: 'goals-target-section',
+    Units: 'goals-unit-span',
+    UnitElements: 'goals-unit-element',
   },
 };
 
@@ -45,11 +47,11 @@ const GoalForm = () => {
         Target:
         <span className={ CSS.Form.Target }>
           <input name='target' type='number' />
-          <span>
+          <span className={CSS.Form.Units}>
             {
               Array.isArray(goalUnits)
                 ? unitOptions(goalUnits)
-                : <input name='units' type='text' value={ goalUnits } readOnly />
+                : <input name='units' type='text' className={CSS.Form.UnitElements} value={ goalUnits } readOnly />
             }
           </span>
         </span>
@@ -68,7 +70,7 @@ const GoalForm = () => {
 
 function unitOptions(units: string[]): React.JSX.Element {
   return <select name='units' className='goal-units'>
-    { units.map(unit => <option value={ unit } key={ unit }> { unit } </option>) }
+    { units.map(unit => <option className={CSS.Form.UnitElements} value={ unit } key={ unit }> { unit } </option>) }
   </select>;
 }
 
