@@ -105,7 +105,6 @@ export function DashboardBody() {
       <div className="mx-auto my-8 justify-center size-fit">
         <img src="/images/Appley.png" alt="Appley" className="mx-auto my-8 w-1/2 h-1/2" />
       </div>
-      <h1 className="text-lg">你的肌肉是我的</h1>
     </div>
   );
 }

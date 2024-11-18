@@ -121,7 +121,7 @@ const GoalForm = () => {
   return (
     <div className={styles.wrapper}>
       <div>
-        <h2>Add Weekly Goal</h2>
+        <h2>Add Goal</h2>
         <form id="goal-form" onSubmit={handleSubmit}>
           <div className="w-3/4 text-center mx-auto">
             <label htmlFor="goalType">Goal Type:</label>
