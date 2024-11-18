@@ -60,7 +60,7 @@ export const Root = (): React.JSX.Element => {
           element: <GoalBody />,
           children: [
             {
-              index: true, // TODO make this a modal
+              index: true,
               element: <GoalForm />,
               action: goalAction(userContext),
             },

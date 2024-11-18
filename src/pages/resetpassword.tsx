@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useAuthCookie } from "@/index"; // Assuming this is the correct import for your cookie hook
+import { useAuthCookie } from "@/client_ts/Contexts"; // Assuming this is the correct import for your cookie hook
 
 const ResetPasswordBody = (): React.JSX.Element => {
-  const [cookies] = useAuthCookie();
-  const userId = cookies["appley-auth"]; // Retrieve the user ID from the cookie
+  const {getCookie} = useAuthCookie();
+  const userId = getCookie(); // Retrieve the user ID from the cookie
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
