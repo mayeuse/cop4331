@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 import 'team_page.dart';
+import 'homehome.dart';
 //import 'package:tailwind_cli/tailwind_cli.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _HomePageState extends State<HomePage> {
 
   // List of pages to show below the buttons
   final List<Widget> pages = [
-    Center(child: Text('Welcome to the Home Page')),
+    HomeHome(),
     RegisterPage(),
     LoginPage(),
     TeamPage(),
