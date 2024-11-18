@@ -1,6 +1,7 @@
 export const ENDPOINTS = {
   Data: {
-    Badges: '/api/v1/data/badges'
+    Badges: '/api/v1/data/badges',
+    RetrieveUserData: '/api/v1/retrieveuserdata'
   },
   Assets: {
     Badges: {

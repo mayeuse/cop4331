@@ -1,4 +1,4 @@
-import express, { Application, Response } from "express";
+import express, { Application, Response, Request } from "express";
 import cors from "cors";
 import { Collections } from "./mongo";
 import { AUTH_HEADER, ENDPOINTS } from '@/typings/constants';
@@ -7,7 +7,7 @@ import { ExerciseDataImpl, GoalDataImpl, UserDataImpl } from "@/typings/database
 import {
   AddExercisePacket,
   IResetPasswordPacket,
-  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket,
+  IAddGoalPacket, ILoginPacket, IRegisterPacket, ErrorPacket, UserDataRequest,
 } from '@/typings/packets.ts';
 import { sendMail } from "@/utils/mailer";
 import { ObjectId } from "mongodb";
@@ -200,6 +200,29 @@ app.get(ENDPOINTS.Data.Badges, async (req, res) => {
     res.status(500).send();
 });
 
+app.get(ENDPOINTS.Data.RetrieveUserData, async (req: Request, res: Response) => {
+  // use the id of logged in user to get the exercise log and goals
+  // allows frontend to display this info in progress page
+  try {
+    const payload: UserDataRequest = req.body;
+    if (!payload) {
+      return onInvalidPayload(res);
+    }
+
+    const userId = ObjectId.createFromHexString(payload.id);
+    const user = await Collections.UserData.findOne({ _id: userId });
+    if (!user) {
+      res.status(400).json({ error: "User not found" });
+      return;
+    }
+
+    const { exerciseLog, goals } = user;
+    res.status(200).json({ exerciseLog, goals });
+  } catch (error) {
+    console.error("Error retrieving user data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 app.use(express.static("./.local/vite/dist"));
 

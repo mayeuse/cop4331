@@ -195,3 +195,11 @@ export interface ErrorPacket {
   code: number,
   message: string
 }
+
+export class UserDataRequest extends Packet {
+  constructor(
+    public id: UserDataIdString,
+  ) {
+    super()
+  }
+}
