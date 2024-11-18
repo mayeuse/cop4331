@@ -6,7 +6,7 @@ class ApiService {
 
   // Function to register
   static Future<Map<String, dynamic>?> registerUser(
-      String name, String email, String username, String password) async {
+      String name, String email, String login, String password) async {
     final url = Uri.parse('$baseUrl/register');
 
     try {
@@ -16,7 +16,7 @@ class ApiService {
         body: jsonEncode({
           'name': name,
           'email': email,
-          'login': username,
+          'login': login,
           'password': password,
         }),
       );
@@ -56,14 +56,14 @@ class ApiService {
   }
 
   // Function to login
-  static Future<Map<String, dynamic>?> loginUser(String username, String password) async {
+  static Future<Map<String, dynamic>?> loginUser(String login, String password) async {
     final url = Uri.parse('$baseUrl/login');
     try {
       final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
-          'login': username, 
+          'login': login, 
           'password': password
           }),
       );
@@ -76,9 +76,9 @@ class ApiService {
         print('Login Response: $responseBody');
 
         // Ensure 'id' and 'name' are returned
-        if (responseBody.containsKey('id') && responseBody.containsKey('name')) {
+        if (responseBody.containsKey('_id') && responseBody.containsKey('name')) {
           return {
-            'id': responseBody['id'].toString(),
+            'id': responseBody['_id'].toString(),
             'name': responseBody['name'],
             'error': null
           };
@@ -156,7 +156,7 @@ class ApiService {
     required String units,
     required String interval,
   }) async {
-    final url = Uri.parse('$baseUrl/goals');
+    final url = Uri.parse('$baseUrl/addgoal');
 
     // Map the interval to match the expected string format
     /*String mappedInterval = '';
@@ -177,7 +177,9 @@ class ApiService {
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json',
+                  'authentication': 'authentication',
+        },
         body: jsonEncode({
           'userId': userId,
           'type': type,
