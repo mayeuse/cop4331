@@ -51,77 +51,87 @@ class _AddGoalPageState extends State<AddGoalPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Add New Goal')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Dropdown for Goal Type
-            DropdownButtonFormField<String>(
-              value: selectedGoalType,
-              decoration: InputDecoration(labelText: 'Goal Type'),
-              items: goalTypes.map((type) {
-                return DropdownMenuItem<String>(
-                  value: type,
-                  child: Text(type == 'calorie' ? 'Calories' : 'Step Count'),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedGoalType = value!;
-                });
-              },
-            ),
-            SizedBox(height: 10),
-
-            // Input for Target
-            TextField(
-              controller: targetController,
-              decoration: InputDecoration(labelText: 'Target (number)'),
-              keyboardType: TextInputType.number,
-            ),
-            SizedBox(height: 10),
-
-            /*// Input for Units
-            TextField(
-              controller: unitsController,
-              decoration: InputDecoration(labelText: 'Units (e.g., reps, steps)'),
-            ),
-            SizedBox(height: 10),*/
-
-            // Dropdown for Interval
-            DropdownButtonFormField<String>(
-              value: selectedInterval,
-              decoration: InputDecoration(labelText: 'Interval'),
-              items: intervals.map((interval) {
-                return DropdownMenuItem<String>(
-                  value: interval,
-                  child: Text(interval),
-                );
-              }).toList(),
-              onChanged: (value) {
-                setState(() {
-                  selectedInterval = value!;
-                });
-              },
-            ),
-            SizedBox(height: 20),
-
-            // Submit Button
-            ElevatedButton(
-              onPressed: handleAddGoal,
-              child: Text('Add Goal'),
-            ),
-
-            // Message Display
-            if (message.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Text(
-                  message,
-                  style: TextStyle(color: message.contains('successfully') ? Colors.green : Colors.red),
-                ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [const Color(0xFFFBE68A), const Color(0xFFDAF89C)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Dropdown for Goal Type
+              DropdownButtonFormField<String>(
+                value: selectedGoalType,
+                decoration: InputDecoration(labelText: 'Goal Type'),
+                items: goalTypes.map((type) {
+                  return DropdownMenuItem<String>(
+                    value: type,
+                    child: Text(type == 'calorie' ? 'Calories' : 'Step Count'),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedGoalType = value!;
+                  });
+                },
               ),
-          ],
+              SizedBox(height: 10),
+
+              // Input for Target
+              TextField(
+                controller: targetController,
+                decoration: InputDecoration(labelText: 'Target (number)'),
+                keyboardType: TextInputType.number,
+              ),
+              SizedBox(height: 10),
+
+              /*// Input for Units
+              TextField(
+                controller: unitsController,
+                decoration: InputDecoration(labelText: 'Units (e.g., reps, steps)'),
+              ),
+              SizedBox(height: 10),*/
+
+              // Dropdown for Interval
+              DropdownButtonFormField<String>(
+                value: selectedInterval,
+                decoration: InputDecoration(labelText: 'Interval'),
+                items: intervals.map((interval) {
+                  return DropdownMenuItem<String>(
+                    value: interval,
+                    child: Text(interval),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedInterval = value!;
+                  });
+                },
+              ),
+              SizedBox(height: 20),
+
+              // Submit Button
+              ElevatedButton(
+                onPressed: handleAddGoal,
+                child: Text('Add Goal'),
+              ),
+
+              // Message Display
+              if (message.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    message,
+                    style: TextStyle(color: message.contains('successfully') ? Colors.green : Colors.red),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

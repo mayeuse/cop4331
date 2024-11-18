@@ -65,44 +65,54 @@ class _LogExercisePageState extends State<LogExercisePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Log Exercise')),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(
-              controller: typeController,
-              decoration: InputDecoration(labelText: 'Exercise Type'),
-            ),
-            TextField(
-              controller: caloriesController,
-              decoration: InputDecoration(labelText: 'Calories Burned'),
-              keyboardType: TextInputType.number,
-            ),
-            TextField(
-              controller: dateController,
-              decoration: InputDecoration(
-                labelText: 'Date (MM/DD/YYYY)',
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.calendar_today),
-                  onPressed: () => selectDate(context),
-                ),
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [const Color(0xFFFBE68A), const Color(0xFFDAF89C)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              TextField(
+                controller: typeController,
+                decoration: InputDecoration(labelText: 'Exercise Type'),
               ),
-              keyboardType: TextInputType.datetime,
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: handleSubmit,
-              child: Text('Log Exercise'),
-            ),
-            if (message.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0),
-                child: Text(
-                  message,
-                  style: TextStyle(color: message.contains('successfully') ? Colors.green : Colors.red),
-                ),
+              TextField(
+                controller: caloriesController,
+                decoration: InputDecoration(labelText: 'Calories Burned'),
+                keyboardType: TextInputType.number,
               ),
-          ],
+              TextField(
+                controller: dateController,
+                decoration: InputDecoration(
+                  labelText: 'Date (MM/DD/YYYY)',
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.calendar_today),
+                    onPressed: () => selectDate(context),
+                  ),
+                ),
+                keyboardType: TextInputType.datetime,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: handleSubmit,
+                child: Text('Log Exercise'),
+              ),
+              if (message.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20.0),
+                  child: Text(
+                    message,
+                    style: TextStyle(color: message.contains('successfully') ? Colors.green : Colors.red),
+                  ),
+                ),
+            ],
+          ),
         ),
       ),
     );

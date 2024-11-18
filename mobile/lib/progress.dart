@@ -93,7 +93,7 @@ class ProgressPageState extends State<ProgressPage> {
                         children: [
                           Text('Type: ${goal.key}', style: TextStyle(fontWeight: FontWeight.bold)),
                           Text('Target: ${goal.value['target']} ${goal.value['units']}'),
-                          Text('Interval: ${formatDateString(goal.value['interval'])}'),
+                          Text('Deadline: ${formatDateString(goal.value['interval'])}'),
                         ],
                       ),
                     );
