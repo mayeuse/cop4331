@@ -65,15 +65,22 @@ app.post(ENDPOINTS.Forms.Login, async (req, res, next) => {
 app.post(ENDPOINTS.Forms.Register, async (req, res, next) => {
   // incoming: name, email, login, password
   // outgoing: id, error
+  let error = ''
   const { name, email, login, password } = req.body as IRegisterPacket;
   
   
   const results = await Collections.UserData.insert(new UserDataImpl(name, login, password, { email }));
+  
   if (results != null) {
-    const ret = { id: results.insertedId.toHexString(), error: "" };
+    const verifyURL = `http://localhost:9000/login`;
+    await sendMail(email, 'Verify your Email for Appley\'s Training', `Welcome to Appley's Training! Click this link to log in to your new account: ${verifyURL}`);
+    error = 'verification email sent';
+
+    const ret = { id: results.insertedId.toHexString(), error: error };
     res.status(200).json(ret);
   } else {
-    const ret = { id: "", error: "User not appended." };
+    error = "User not appended.";
+    const ret = { id: "", error: error };
     res.status(400).json(ret);
   }
   //res.send();
